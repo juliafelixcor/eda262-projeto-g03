@@ -175,7 +175,7 @@ A execução deve retornar as informações da conta AWS autenticada.
 
 ### Evidência
 
-> **Adicionar aqui imagem da execução de `aws sts get-caller-identity`.**
+> <img width="535" height="118" alt="image" src="https://github.com/user-attachments/assets/0795f721-d525-4a88-985d-c93fe3236ed0" />
 
 ---
 
@@ -247,7 +247,7 @@ terraform workspace show
 
 ### Evidência
 
-> **Adicionar aqui imagem mostrando o workspace `dev` selecionado.**
+> <img width="757" height="52" alt="image" src="https://github.com/user-attachments/assets/a0a1301c-5892-43a0-b182-a298cddb3fbc" />
 
 ---
 
@@ -576,7 +576,7 @@ custo = volume escaneado em TB × preço do Athena por TB
 
 ### Evidência
 
-> **Adicionar aqui imagem contendo `DataScannedInBytes`.**
+> <img width="821" height="377" alt="image" src="https://github.com/user-attachments/assets/cea12f33-2baa-47f5-8537-99f159f2b472" />
 
 ---
 
