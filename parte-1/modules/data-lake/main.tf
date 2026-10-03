@@ -37,7 +37,7 @@ resource "aws_glue_catalog_table" "flights" {
   }
 
   storage_descriptor {
-    location      = "s3://${aws_s3_bucket.trusted.bucket}/"
+    location = "s3://${aws_s3_bucket.trusted.bucket}/data/"
     input_format  = "org.apache.hadoop.mapred.TextInputFormat"
     output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
 
