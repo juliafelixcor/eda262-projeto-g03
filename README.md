@@ -268,7 +268,7 @@ Success! The configuration is valid.
 
 ### Evidência
 
-> **Adicionar aqui imagem do `terraform validate`.**
+> <img width="690" height="60" alt="image" src="https://github.com/user-attachments/assets/7369296d-d5f3-41f9-a623-dd95a525e939" />
 
 ---
 
@@ -328,7 +328,7 @@ projeto = engenharia-de-dados
 
 ### Evidência
 
-> **Adicionar aqui imagem do `terraform apply` concluído.**
+> <img width="650" height="197" alt="image" src="https://github.com/user-attachments/assets/5e5b58b0-c24c-4a9e-95e3-c2203e15d014" />
 
 ---
 
@@ -351,7 +351,7 @@ trusted_bucket_name   = "eda262-g03-lake-trusted"
 
 ### Evidência
 
-> **Adicionar aqui imagem do `terraform output`.**
+> <img width="708" height="130" alt="image" src="https://github.com/user-attachments/assets/58b4f44a-f32d-4ffd-82cd-9cf5176f21ce" />
 
 ---
 
@@ -410,7 +410,7 @@ aws s3 ls s3://eda262-g03-lake-trusted/data/
 
 ### Evidência
 
-> **Adicionar aqui imagem do upload do CSV e do `aws s3 ls`.**
+> <img width="645" height="707" alt="image" src="https://github.com/user-attachments/assets/4a388e69-a9d3-4f8a-b00d-f559ccb99a9d" />
 
 ---
 
@@ -472,7 +472,7 @@ O valor corresponde à quantidade esperada de registros do dataset.
 
 ### Evidência
 
-> **Adicionar aqui imagem do resultado `300153`.**
+> <img width="613" height="275" alt="image" src="https://github.com/user-attachments/assets/867fa7cb-0a9e-4849-8a1b-bd094cf05b58" />
 
 ---
 
@@ -544,7 +544,7 @@ Além disso, algumas combinações possuem quantidade significativamente menor d
 
 ### Evidência
 
-> **Adicionar aqui imagem da tabela completa retornada pelo Athena.**
+> <img width="597" height="673" alt="image" src="https://github.com/user-attachments/assets/fb3189d3-6e1b-427c-b302-25f8f96d98ac" />
 
 ---
 
