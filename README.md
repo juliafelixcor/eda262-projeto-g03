@@ -639,7 +639,8 @@ bash verificacao/verifica.sh
 
 ### Evidência
 
-> **Adicionar aqui imagem da execução completa do `verifica.sh`.**
+<img width="1477" height="842" alt="image" src="https://github.com/user-attachments/assets/2ac46a21-ce5e-40fd-a80e-355049ece9da" />
+
 
 ---
 
