@@ -735,7 +735,8 @@ Após a execução, deve ser confirmado que os recursos gerenciados pelo Terrafo
 
 ### Evidência
 
-> **Adicionar aqui imagem do `terraform destroy` concluído.**
+<img width="772" height="197" alt="image" src="https://github.com/user-attachments/assets/a99c1ec8-e3d7-4a10-adb9-f817704db6c6" />
+
 
 ---
 
