@@ -74,7 +74,7 @@ O Terraform utiliza um backend remoto com:
 
 ### Imagem da arquitetura
 
-> **Adicionar aqui a imagem/diagrama da arquitetura.**
+![Diagrama da arquitetura](https://github.com/user-attachments/assets/4df4d29a-6633-4d95-ba2a-35f3e8dfdeb3)
 
 ---
 
