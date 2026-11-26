@@ -1,0 +1,5 @@
+# Scripts bash precisam de LF mesmo em checkout no Windows
+*.sh  text eol=lf
+*.sql text eol=lf
+*.tf  text eol=lf
+*.gz  binary
