@@ -24,3 +24,12 @@ variable "bucket_state" {
   type        = string
   default     = ""
 }
+
+variable "tabela_lock" {
+  description = <<-EOT
+    Nome da tabela DynamoDB de lock. Vazio = eda262-<grupo>-terraform-locks.
+    Permite testar o bootstrap numa conta onde o backend padrão já existe.
+  EOT
+  type        = string
+  default     = ""
+}

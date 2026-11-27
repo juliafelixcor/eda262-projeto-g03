@@ -30,7 +30,7 @@ números medidos, estão em [`DECISOES.md`](DECISOES.md).
 
 ## Status do projeto
 
-Atualizado em 26/11/2026. Entrega da Parte 2: **30/11/2026 (Aula 30)**.
+Atualizado em 27/11/2026. Entrega da Parte 2: **30/11/2026 (Aula 30)**.
 
 ### Já feito
 
@@ -43,24 +43,25 @@ Atualizado em 26/11/2026. Entrega da Parte 2: **30/11/2026 (Aula 30)**.
 **Parte 2 (AV2) — implementada e verificada na conta do grupo**
 - [x] Três camadas raw / trusted / refined, uma database do Glue por camada
 - [x] trusted e refined em Parquet (Snappy) particionado: `source_city` e `class`
-- [x] Meta de custo declarada (≤ 1 MiB por consulta de negócio) e cumprida: 1,43 KB escaneados
+- [x] Meta de custo declarada (≤ 1 MiB por consulta de negócio) e cumprida: 1.435 B escaneados
 - [x] Ingestão idempotente em Athena SQL, com backfill de partição (`ingestao.sh --particao`)
 - [x] Permissão por camada via Lake Formation (personas analista e cientista), testada com consultas reais
-- [x] Recursos da Parte 1 reaproveitados (bucket trusted e workgroup) via `terraform import`
 - [x] `DECISOES.md` fechado: grão, chaves, partição, formato e custo, cada um com número medido
-- [x] `verifica.sh` da Parte 2: **100/100** em 26/11/2026
+- [x] `verifica.sh` da Parte 2: **100/100** em 27/11/2026 ([`verifica.log`](evidencias/parte-2/logs/verifica.log))
+- [x] Ciclo completo do zero em 27/11: destroy → apply (44 recursos) → ingestão ×2 → backfill → `verifica.sh` 100/100 → destroy final (44 recursos, pós-destroy 100/100)
+- [x] Bug do destroy encontrado (3 databases órfãs), corrigido e provado — `DECISOES.md`, seção 9
+- [x] Evidências em texto no lugar de prints: logs + medições com QueryExecutionId (`evidencias/parte-2/`)
+- [x] Fonte do dataset citada (Kaggle, versão 1, licença ODbL/DbCL)
+- [x] Scripts compatíveis com macOS, Linux e Windows (Git Bash); bootstrap do backend em Terraform
 - [x] Dataset versionado em `dados/` (CSV gzip) para subir em conta limpa
 
 ### Falta fazer
 
-- [ ] Conta do grupo: o backend foi criado na mão (AWS CLI); importar no bootstrap (`terraform -chdir=parte-2/bootstrap import aws_s3_bucket.state eda262-g03-terraform-state` e `... import aws_dynamodb_table.lock eda262-g03-terraform-locks`) ou testar o bootstrap só em conta limpa
-- [x] Ciclo completo do zero em 27/11: destroy → pós-destroy 100/100 → apply (44 recursos) → ingestão ×2 → backfill → `verifica.sh` 100/100 (logs em `evidencias/parte-2/logs/`)
-- [x] Evidências em texto no lugar de prints: logs + medições com QueryExecutionId (`evidencias/parte-2/`)
-- [ ] Destroy final com o código corrigido (`destroy.log` + `pos-destroy.log`), depois da apresentação ou da demo
-- [x] Fonte do dataset citada (Kaggle, versão 1, licença ODbL/DbCL) no README e no `DECISOES.md`
+- [ ] Testar o bootstrap do backend (apply + destroy com nomes de teste, logs em `evidencias/parte-2/logs/`)
+- [ ] Rodar o `verifica.sh` com o critério 5b (teste de sujeira) e registrar o log
 - [ ] Apresentação `apresentacao-parte-2-g03.pdf` (5 min, diretriz de design da CESAR School)
 - [ ] Ensaiar a defesa individual: cada integrante precisa saber explicar qualquer decisão do `DECISOES.md`
-- [ ] Merge na `main` e tag `av2-entrega` (a tag `av1-entrega` também não foi criada)
+- [ ] Merge na `main`, tags `av1-entrega` (commit `b54260b`) e `av2-entrega`
 - [ ] Submissão no Google Classroom pelo representante (link do repositório + PDF)
 - [ ] Opcional (bônus): ingestão near real-time com Kinesis Data Firehose
 
@@ -121,7 +122,7 @@ eda262-projeto-g03/
 │       ├── athena.sh              funções compartilhadas
 │       ├── coletar-evidencias.sh  roda as medições do DECISOES.md e grava a prova
 │       ├── registrar.sh           grava a saída de um comando em evidencias/parte-2/logs/
-│       └── migrar-da-parte-1.sh   migração única de state (só na conta do grupo)
+│       └── migrar-da-parte-1.sh   histórico: migração de state Parte 1 → 2 (não é usado em conta limpa)
 └── verificacao/
     ├── verifica.sh            aceite da Parte 2 (PASSA/FALHA por critério)
     └── verifica-parte-1.sh    aceite da Parte 1
@@ -258,6 +259,9 @@ Análise completa e custo monetário em [`DECISOES.md`](DECISOES.md), seções 7
 
 ## 8. Verificação
 
+Rode **depois** do deploy (seção 5) **e** da carga completa (seção 6). Sem
+dados nas camadas, os critérios 5 a 7 falham.
+
 ```bash
 bash verificacao/verifica.sh
 ```
@@ -269,7 +273,8 @@ bash verificacao/verifica.sh
 | 2 | 4 buckets existem e têm as 3 tags | 10 |
 | 3 | 3 databases/tabelas; trusted e refined em Parquet particionado; sem Crawler | 15 |
 | 4 | buckets registrados no Lake Formation + matriz de acesso testada com consultas reais de cada persona | 15 |
-| 5 | trusted sem duplicatas e refined fechando com a trusted | 10 |
+| 5a | trusted sem duplicatas e refined fechando com a trusted | 5 |
+| 5b | regras de limpeza testadas com um lote sujo de 14 linhas ([`limpeza_sujeira_valores.sql`](parte-2/sql/testes/limpeza_sujeira_valores.sql)): só as 2 válidas passam | 5 |
 | 6 | backfill real de `source_city=Delhi` sem alterar a contagem | 15 |
 | 7 | consulta de negócio ≤ meta de custo e refined = trusted | 15 |
 | 8 | `DECISOES.md` com grão, chave, partição, formato, custo, idempotência e acesso | 10 |
@@ -342,17 +347,16 @@ não impedem o destroy.
 
 ## 10. Continuidade com a Parte 1 (conta do grupo)
 
-Na conta do grupo, a Parte 2 reaproveitou os recursos da Parte 1 em vez de
-recriá-los: o bucket `eda262-g03-lake-trusted` (que virou a camada trusted) e o
-workgroup `eda262-g03-athena` passaram para o state da Parte 2 via
-`terraform import`, executado uma única vez por:
+**Em uma conta limpa esta seção não se aplica**: siga as seções 4 a 6.
 
-```bash
-bash parte-2/scripts/migrar-da-parte-1.sh
-```
+Histórico: em 26/11, a Parte 2 foi construída sobre a infraestrutura da Parte 1.
+O bucket `eda262-g03-lake-trusted` e o workgroup `eda262-g03-athena` passaram
+para o state da Parte 2 via `terraform import`
+(`parte-2/scripts/migrar-da-parte-1.sh`), e a database `eda262_g03_flights`
+foi substituída por `eda262_g03_trusted`, porque tinha o grant padrão
+`IAM_ALLOWED_PRINCIPALS`, incompatível com o controle por camada.
 
-A database `eda262_g03_flights` foi substituída por `eda262_g03_trusted` porque
-tinha o grant padrão `IAM_ALLOWED_PRINCIPALS`, incompatível com o controle por
-camada (detalhes em [`DECISOES.md`](DECISOES.md), seção 10).
-
-**Em uma conta limpa esse passo não existe** — basta seguir as seções 4 a 6.
+Em 27/11, para provar que a Parte 2 sobe do zero, **tudo foi destruído e
+recriado só pelo Terraform**, sem nenhum `import`. Os logs estão em
+[`evidencias/parte-2/logs/`](evidencias/parte-2/logs/) (`destroy-inicial*`,
+`apply`, `verifica`, `destroy`). O script de migração fica só como registro.

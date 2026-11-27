@@ -39,7 +39,7 @@ provider "aws" {
 
 locals {
   bucket_state = coalesce(var.bucket_state, "eda262-${var.grupo}-terraform-state")
-  tabela_lock  = "eda262-${var.grupo}-terraform-locks"
+  tabela_lock  = coalesce(var.tabela_lock, "eda262-${var.grupo}-terraform-locks")
 }
 
 # ------------------------------------------------------------ state

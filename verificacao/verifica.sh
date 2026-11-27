@@ -278,9 +278,26 @@ athena_exec "SELECT COUNT(*) FROM $TABELA_RAW" && RAW_TOTAL="$(athena_valor)" ||
 info "raw=$RAW_TOTAL  trusted=$T_TOTAL (id distintos=$T_DIST, partições=$T_PART)  refined(soma)=$R_TOTAL"
 
 if [ "${T_TOTAL:-0}" -gt 0 ] && [ "$T_TOTAL" = "$T_DIST" ] && [ "$T_TOTAL" = "$R_TOTAL" ] && [ "${T_PART:-0}" -ge 2 ]; then
-  pass "5" 10 "trusted sem duplicatas, $T_PART partições, refined fecha com a trusted."
+  pass "5a" 5 "trusted sem duplicatas, $T_PART partições, refined fecha com a trusted."
 else
-  fail "5" 10 "camadas vazias ou inconsistentes (rodou parte-2/scripts/ingestao.sh?)."
+  fail "5a" 5 "camadas vazias ou inconsistentes (rodou parte-2/scripts/ingestao.sh?)."
+fi
+
+# 5b — as regras de limpeza rejeitam sujeira de verdade.
+# O dataset de origem é limpo (0 rejeições), então as regras são exercitadas
+# com um lote sujo versionado: parte-2/sql/testes/limpeza_sujeira_valores.sql
+# (14 linhas; esperado: só os ids 1 e 2 passam, e já normalizados).
+if SQL_LIMPEZA="$(sql_teste_limpeza)" && athena_exec "$SQL_LIMPEZA"; then
+  IFS=$'\t' read -r L_APROV L_IDS L_NORM < <(athena_linhas)
+  info "lote sujo: 14 linhas -> $L_APROV aprovadas (ids: $L_IDS), normalizadas: $L_NORM | QueryExecutionId: $ATHENA_ID"
+else
+  L_APROV=""; L_IDS=""; L_NORM=""
+  info "Athena: ${ATHENA_ERRO:-não foi possível montar o SQL do teste}"
+fi
+if [ "$L_APROV" = "2" ] && [ "$L_IDS" = "1,2" ] && [ "$L_NORM" = "2" ]; then
+  pass "5b" 5 "regras de limpeza: 12 de 14 linhas sujas barradas (duplicata, tipos, faixas, domínios), 2 aprovadas e normalizadas."
+else
+  fail "5b" 5 "regras de limpeza não se comportaram como esperado (esperado: 2 aprovadas, ids 1,2)."
 fi
 linha
 

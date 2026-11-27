@@ -30,7 +30,7 @@ Para reproduzir: `bash parte-2/scripts/coletar-evidencias.sh --parte1-csv`.
 | Custo | meta ≤ 1 MiB escaneado na consulta de negócio | medido: **1.435 bytes** (0,14% da meta) | `10`, `logs/verifica.log` |
 | Idempotência | sobrescrita por partição (DROP + rm + INSERT) | 2 cargas completas seguidas: 300.153 → 300.153; backfill de Delhi: 61.343 → 61.343 | `logs/ingestao*.log`, `logs/backfill.log` |
 | Acesso | 1 database por camada + Lake Formation | analista negado na trusted/raw ("Insufficient Lake Formation permission(s)") e liberado na refined | `logs/verifica.log` |
-| Destroy | sem recurso órfão | 1º destroy deixou 3 databases órfãs; causa corrigida; pós-destroy 100/100 | `logs/destroy-inicial*.log`, `logs/pos-destroy-inicial*.log` |
+| Destroy | sem recurso órfão | 1º destroy deixou 3 databases órfãs; causa corrigida; destroy final: 44/44 recursos, pós-destroy 100/100 | `logs/destroy-inicial*.log`, `logs/destroy.log`, `logs/pos-destroy.log` |
 
 Os números da coluna "Prova" são os prefixos dos arquivos em
 `evidencias/parte-2/medicoes/` (ex.: `05` = `05_chave_natural_colisoes.csv`).
@@ -313,7 +313,15 @@ trusted). A medição
 aplica cada regra isoladamente às 300.153 linhas da raw: **0 rejeições em
 todas as 13 regras**. Duplicatas exatas: 0 —
 [`04_raw_duplicatas_exatas.csv`](evidencias/parte-2/medicoes/04_raw_duplicatas_exatas.csv).
-O dataset de origem já vem limpo. As regras ficam como contrato da camada:
+O dataset de origem já vem limpo. Para provar que as regras barram
+sujeira, o critério 5b do `verifica.sh` roda o **mesmo** SQL de carga da
+trusted sobre um lote de 14 linhas sujas, versionado em
+[`parte-2/sql/testes/limpeza_sujeira_valores.sql`](parte-2/sql/testes/limpeza_sujeira_valores.sql).
+O lote tem duplicata exata, id não numérico, preço negativo e em texto,
+duração zero e de 60 h, `days_left` = 0, classe, período e `stops` fora do
+domínio, origem igual ao destino, companhia vazia e espaços/caixa trocada. O
+esperado é que só as 2 linhas válidas passem, já normalizadas. As regras ficam
+como contrato da camada:
 qualquer carga futura com sujeira é barrada na trusted, e a diferença
 raw − trusted aparece no resumo da ingestão.
 
@@ -374,28 +382,40 @@ O primeiro destroy da Parte 2 **falhou** e deixou as 3 databases do Glue
 - **Subida do zero com o código corrigido**: 44 recursos criados
   ([`logs/apply.log`](evidencias/parte-2/logs/apply.log)), `verifica.sh` 100/100
   ([`logs/verifica.log`](evidencias/parte-2/logs/verifica.log)).
+- **Destroy final com o código corrigido**: os 44 recursos destruídos numa
+  única execução, sem erro
+  ([`logs/destroy.log`](evidencias/parte-2/logs/destroy.log)); pós-destroy
+  100/100 ([`logs/pos-destroy.log`](evidencias/parte-2/logs/pos-destroy.log)).
 
 ---
 
 ## 10. Continuidade Parte 1 → Parte 2
 
-A Parte 2 é a Parte 1 estendida. Na conta do grupo, os recursos que continuam
-iguais **não foram recriados**: passaram do state da Parte 1 para o da Parte 2
-com `terraform import` (`parte-2/scripts/migrar-da-parte-1.sh`).
+A Parte 2 é a Parte 1 estendida.
+
+**26/11 — migração.** Os recursos que continuavam iguais passaram do state da
+Parte 1 para o da Parte 2 com `terraform import`
+(`parte-2/scripts/migrar-da-parte-1.sh`):
 
 | Recurso da Parte 1 | Na Parte 2 |
 |---|---|
-| bucket `eda262-g03-lake-trusted` (+ versionamento) | reaproveitado como camada trusted |
-| workgroup `eda262-g03-athena` | reaproveitado; resultados movidos para bucket próprio, limite de 100 MB por consulta |
+| bucket `eda262-g03-lake-trusted` (+ versionamento) | vira a camada trusted, agora com `force_destroy` |
+| workgroup `eda262-g03-athena` | mantido; resultados movidos para bucket próprio, limite de 100 MB por consulta |
 | database `eda262_g03_flights` + tabela `flights` (CSV) | **substituídas** por `eda262_g03_trusted.flights` (Parquet) |
 | backend S3 + DynamoDB, workspace `dev` | mantidos (state em `parte-2/terraform.tfstate`) |
 
 A database antiga não foi reaproveitada porque tinha o grant
-`IAM_ALLOWED_PRINCIPALS: ALL` (e o mesmo como padrão para novas tabelas): com
+`IAM_ALLOWED_PRINCIPALS: ALL` (e o mesmo como padrão para novas tabelas). Com
 ela, a trusted ficaria aberta a qualquer usuário IAM e o controle por camada
-não funcionaria. Database e tabela são só metadados — recriar não tem custo.
+não funcionaria. Database e tabela são só metadados: recriar não tem custo.
 
-Na conta do avaliador nada disso é necessário: `parte-2/` sobe tudo do zero.
+**27/11 — prova de conta limpa.** A infraestrutura migrada foi destruída e
+recriada **só pelo Terraform**, sem `import`: 44 recursos criados
+([`logs/apply.log`](evidencias/parte-2/logs/apply.log)) e 44 destruídos no
+destroy final ([`logs/destroy.log`](evidencias/parte-2/logs/destroy.log),
+pós-destroy 100/100 em [`logs/pos-destroy.log`](evidencias/parte-2/logs/pos-destroy.log)).
+Desde então, a migração é só histórico, e a conta do grupo se comporta como a
+do avaliador.
 
 ---
 

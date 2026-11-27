@@ -59,6 +59,28 @@ aws_() { aws --region "$REGIAO" "$@" | tr -d '\r'; }
 # Lê um arquivo SQL de parte-2/sql removendo linhas de comentário.
 sql_arquivo() { sed -e '/^[[:space:]]*--/d' "$SQL_DIR/$1"; }
 
+# Monta o teste das regras de limpeza: o MESMO SQL de carga da trusted
+# (trusted_carga_particao.sql), sem o INSERT e lendo o lote sujo de
+# sql/testes/limpeza_sujeira_valores.sql no lugar da tabela raw.
+# Devolve: aprovadas | ids aprovados | aprovadas já normalizadas.
+sql_teste_limpeza() {
+  local colunas valores carga montado
+  colunas='"index", airline, flight, source_city, departure_time, stops, arrival_time, destination_city, "class", duration, days_left, price'
+  valores="$(sql_arquivo testes/limpeza_sujeira_valores.sql)"
+  carga="$(sql_arquivo trusted_carga_particao.sql | sed -e '/^INSERT INTO/d' -e 's/{{CIDADE}}/Delhi/g')"
+  montado="${carga//FROM eda262_g03_raw.flights/FROM ($valores) AS raw($colunas)}"
+  # Se o SQL de carga mudar e a troca não acontecer, o teste não pode passar
+  # por engano lendo a tabela real.
+  [ "$montado" != "$carga" ] || return 1
+  printf '%s\n' "SELECT
+    COUNT(*) AS aprovadas,
+    array_join(array_sort(array_agg(CAST(id_oferta AS VARCHAR))), ',') AS ids,
+    count_if(airline = 'Vistara' AND flight IN ('UK-1', 'UK-2') AND stops = 'zero') AS normalizadas
+FROM (
+$montado
+) t"
+}
+
 # ------------------------------------------------------------ Athena
 ATHENA_ID=""
 ATHENA_BYTES=0
