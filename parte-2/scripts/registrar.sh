@@ -32,7 +32,9 @@ LOG="$LOG_DIR/$NOME.log"
 REGIAO="${AWS_REGION:-${AWS_DEFAULT_REGION:-us-east-1}}"
 CONTA="$(aws --region "$REGIAO" sts get-caller-identity --query Account --output text 2>/dev/null | tr -d '\r')"
 COMMIT="$(git -C "$RAIZ" rev-parse HEAD 2>/dev/null || echo desconhecido)"
-[ -n "$(git -C "$RAIZ" status --porcelain 2>/dev/null)" ] && COMMIT="$COMMIT (com alterações não commitadas)"
+# A própria pasta evidencias/ não conta como alteração de código.
+[ -n "$(git -C "$RAIZ" status --porcelain -- . ':(exclude)evidencias' 2>/dev/null)" ] \
+  && COMMIT="$COMMIT (com alterações não commitadas)"
 
 {
   echo "# evidência: $NOME"
