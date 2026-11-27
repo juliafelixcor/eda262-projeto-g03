@@ -6,6 +6,18 @@ disciplina de Engenharia de Dados (CESAR School, 2026.2).
 > **Pergunta de negócio:** o valor das passagens é influenciado pelo horário de
 > embarque e desembarque?
 
+**Fonte do dataset:** [Airlines Flights Data](https://www.kaggle.com/datasets/rohitgrewal/airlines-flights-data),
+publicado no Kaggle por *Data Science Lovers* (`rohitgrewal`), versão 1
+(29/07/2025). Licença: **Open Database License (ODbL)** para a base e
+**Database Contents License (DbCL)** para o conteúdo. Ofertas de passagens
+aéreas entre cidades da Índia, coletadas pelo autor por raspagem de um site
+de reservas. O autor não diz qual site.
+- Uma cópia está versionada em [`dados/airlines_flights_data.csv.gz`](dados/),
+  sob a mesma licença, com esta atribuição.
+- O CSV descompactado tem **24.946.485 bytes**, exatamente o tamanho informado
+  pela API do Kaggle. Ou seja, o arquivo não foi alterado.
+- 300.153 linhas.
+
 | Parte | Pasta | O que entrega |
 |---|---|---|
 | Parte 1 (AV1) | [`parte-1/`](parte-1/) — guia em [`parte-1/README.md`](parte-1/README.md) | bucket, Glue Data Catalog e Athena; consulta respondida com custo medido |
@@ -45,7 +57,7 @@ Atualizado em 26/11/2026. Entrega da Parte 2: **30/11/2026 (Aula 30)**.
 - [x] Ciclo completo do zero em 27/11: destroy → pós-destroy 100/100 → apply (44 recursos) → ingestão ×2 → backfill → `verifica.sh` 100/100 (logs em `evidencias/parte-2/logs/`)
 - [x] Evidências em texto no lugar de prints: logs + medições com QueryExecutionId (`evidencias/parte-2/`)
 - [ ] Destroy final com o código corrigido (`destroy.log` + `pos-destroy.log`), depois da apresentação ou da demo
-- [ ] Citar a fonte do dataset (URL, licença, data do download) no README e no `DECISOES.md`
+- [x] Fonte do dataset citada (Kaggle, versão 1, licença ODbL/DbCL) no README e no `DECISOES.md`
 - [ ] Apresentação `apresentacao-parte-2-g03.pdf` (5 min, diretriz de design da CESAR School)
 - [ ] Ensaiar a defesa individual: cada integrante precisa saber explicar qualquer decisão do `DECISOES.md`
 - [ ] Merge na `main` e tag `av2-entrega` (a tag `av1-entrega` também não foi criada)

@@ -43,6 +43,15 @@ Dataset de passagens aéreas (companhia, voo, origem, destino, período de
 partida e chegada, escalas, classe, duração, antecedência e preço) —
 **300.153 registros**, 24,95 MB em CSV.
 
+**Fonte:** [Airlines Flights Data](https://www.kaggle.com/datasets/rohitgrewal/airlines-flights-data),
+Kaggle, *Data Science Lovers* (`rohitgrewal`), versão 1 de 29/07/2025, licença
+ODbL (base) / DbCL (conteúdo). São voos entre cidades da Índia, raspados de um
+site de reservas que o autor não identifica.
+
+Integridade: o CSV descompactado tem **24.946.485 bytes**
+([`contexto.txt`](evidencias/parte-2/medicoes/contexto.txt)), igual ao
+`totalBytes` informado pela API do Kaggle para a versão 1.
+
 **Pergunta:** o valor das passagens é influenciado pelo horário de embarque e
 desembarque?
 
