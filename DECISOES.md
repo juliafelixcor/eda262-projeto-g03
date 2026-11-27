@@ -401,7 +401,8 @@ O primeiro destroy da Parte 2 **falhou** e deixou as 3 databases do Glue
   embora o Terraform tivesse confirmado a exclusão (`Destruction complete`).
   É a propagação da exclusão no S3. O `verifica.sh --pos-destroy` passou a
   esperar até ~60 s antes de acusar um bucket; um órfão de verdade continua
-  sendo reprovado.
+  sendo reprovado. Rodado de novo com essa versão: **100/100**, nada restante
+  ([`logs/pos-destroy-rodada2b.log`](evidencias/parte-2/logs/pos-destroy-rodada2b.log)).
 
 ---
 
