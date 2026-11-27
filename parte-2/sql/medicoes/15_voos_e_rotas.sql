@@ -1,5 +1,4 @@
--- Números de apoio para os slides: voos, companhias e rotas distintos.
--- (se algum desses números for citado na apresentação, a prova é esta)
+-- Voos, companhias e rotas distintos (números de apoio para a apresentação).
 SELECT
     COUNT(DISTINCT flight)                                   AS voos_distintos,
     COUNT(DISTINCT airline)                                  AS companhias,

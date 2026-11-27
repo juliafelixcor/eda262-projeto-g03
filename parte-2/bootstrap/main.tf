@@ -1,15 +1,15 @@
 # ============================================================
-# Bootstrap do backend remoto (rodar UMA vez por conta, antes do
+# Bootstrap do backend remoto (rodar uma vez por conta, antes do
 # terraform init de parte-2/).
 #
 # Cria o bucket do state e a tabela de lock que parte-2/backend.tf usa.
-# Usa state LOCAL de propósito: o backend remoto ainda não existe quando
-# este código roda (problema do ovo e da galinha).
+# Usa state local, porque o backend remoto ainda não existe quando este
+# código roda.
 #
 #   terraform -chdir=parte-2/bootstrap init
 #   terraform -chdir=parte-2/bootstrap apply
 #
-# Destroy: só DEPOIS do destroy de parte-2/ (senão o state da stack se perde).
+# Destroy só depois do destroy de parte-2/, senão o state da stack se perde.
 #   terraform -chdir=parte-2/bootstrap destroy
 # ============================================================
 
@@ -27,7 +27,7 @@ terraform {
 provider "aws" {
   region = var.aws_region
 
-  # Mesmas tags obrigatórias da stack principal.
+  # Mesmas tags da stack principal.
   default_tags {
     tags = {
       turma   = "eda262"
@@ -47,8 +47,8 @@ locals {
 resource "aws_s3_bucket" "state" {
   bucket = local.bucket_state
 
-  # O bucket é versionado; sem isso o destroy falha com "bucket not empty"
-  # por causa das versões antigas do state (erro apontado na Parte 1).
+  # Versionado: sem force_destroy, as versões antigas do state impediriam
+  # o destroy ("bucket not empty").
   force_destroy = true
 }
 

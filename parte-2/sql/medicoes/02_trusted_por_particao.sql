@@ -1,5 +1,5 @@
--- Prova: registros por partição source_city (Delhi 61.343 ... Chennai 38.700;
--- maior / menor = 1,6x). (DECISOES.md: seção 5)
+-- Registros por partição source_city: equilíbrio entre partições
+-- (DECISOES.md, seção 5).
 SELECT
     source_city,
     COUNT(*)                            AS registros,

@@ -1,7 +1,6 @@
--- Prova: quantas linhas da raw cada regra de limpeza da trusted rejeitaria.
--- Mesma tipagem e mesmas regras de trusted_carga_particao.sql; cada coluna
--- conta a regra isoladamente (uma linha pode falhar em mais de uma).
--- (DECISOES.md: seção 8, "Regras de limpeza")
+-- Quantas linhas da raw cada regra de limpeza da trusted rejeitaria.
+-- Mesma tipagem e regras de trusted_carga_particao.sql; cada coluna conta
+-- uma regra isoladamente (DECISOES.md, seção 8).
 WITH tipado AS (
     SELECT
         TRY_CAST(TRIM("index") AS BIGINT)    AS id_oferta,

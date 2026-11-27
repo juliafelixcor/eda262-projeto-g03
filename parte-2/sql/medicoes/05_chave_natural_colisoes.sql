@@ -1,6 +1,5 @@
--- Prova: a chave natural candidata (10 atributos, sem o preço) se repete em
--- 1.555 combinações com preços diferentes -> não serve como chave, e o grão
--- é "1 oferta" (id_oferta). (DECISOES.md: seções 3 e 4)
+-- Repetições da chave natural candidata (10 atributos, sem o preço) e
+-- quantas delas têm preços diferentes (DECISOES.md, seções 3 e 4).
 WITH repetidas AS (
     SELECT COUNT(*) AS n, COUNT(DISTINCT price) AS precos_distintos
     FROM eda262_g03_trusted.flights

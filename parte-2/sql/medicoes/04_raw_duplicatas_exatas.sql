@@ -1,5 +1,5 @@
--- Prova: 0 duplicatas exatas na raw (todos os 11 atributos de negócio
--- iguais, após o mesmo TRIM/normalização da trusted). (DECISOES.md: seções 3 e 4)
+-- Duplicatas exatas na raw: os 11 atributos de negócio iguais, após a
+-- mesma normalização da trusted (DECISOES.md, seções 3 e 4).
 WITH normalizado AS (
     SELECT
         TRIM(airline) AS airline, UPPER(TRIM(flight)) AS flight,

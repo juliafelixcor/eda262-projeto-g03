@@ -1,5 +1,5 @@
 -- Lote de teste com sujeira plausível para as regras raw -> trusted.
--- O verifica.sh (critério 5b) roda o MESMO trusted_carga_particao.sql da
+-- O verifica.sh (critério 5b) roda o próprio trusted_carga_particao.sql da
 -- ingestão, trocando só a fonte (a tabela raw) por estas linhas.
 -- Tudo em texto, como na raw. Resultado esperado: só os ids 1 e 2 passam,
 -- e a linha 2 sai normalizada (Vistara / UK-2 / zero).

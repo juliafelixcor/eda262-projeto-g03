@@ -1,6 +1,5 @@
--- Prova: Late_Night tem 1.306 linhas (0,4%) -> partição por departure_time
--- geraria partição minúscula. Também mostra a fatia de Business por período.
--- (DECISOES.md: seção 5, alternativas descartadas)
+-- Linhas e fatia de Business por período de partida. Mostra o tamanho que
+-- teria uma partição por departure_time (DECISOES.md, seção 5).
 SELECT
     departure_time,
     COUNT(*)                                                   AS linhas,

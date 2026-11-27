@@ -41,15 +41,10 @@ resource "aws_lakeformation_resource" "camada" {
 # Engenheiro (quem roda Terraform + ingestão): acesso total às 3 camadas
 # ------------------------------------------------------------
 
-# Permissão do engenheiro nas DATABASES: NÃO é declarada aqui, de propósito.
-#
-# Quem cria a database (o Terraform, com as credenciais do engenheiro)
-# recebe do Lake Formation ALL com grant option automaticamente. Uma versão
-# anterior declarava esse mesmo grant como recurso; no destroy, o Terraform
-# revogava o grant ANTES de apagar as databases (o grant depende delas) e o
-# DeleteDatabase falhava com "Insufficient Lake Formation permission(s):
-# Required Drop" — as 3 databases ficavam órfãs.
-# Evidência: evidencias/parte-2/logs/destroy-inicial.log
+# Nas databases o engenheiro não precisa de grant declarado: quem cria a
+# database já recebe ALL do Lake Formation. Declarar o grant aqui faria o
+# destroy revogá-lo antes de apagar as databases (o grant depende delas),
+# e o DeleteDatabase falharia por falta de DROP.
 
 resource "aws_lakeformation_permissions" "engenheiro_tabelas" {
   for_each = local.camadas

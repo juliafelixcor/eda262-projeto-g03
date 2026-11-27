@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# Roda um comando e grava a saída como evidência versionada, em texto
-# (não print): evidencias/parte-2/logs/<nome>.log
+# Roda um comando e grava a saída em evidencias/parte-2/logs/<nome>.log
 #
 #   bash parte-2/scripts/registrar.sh <nome> <comando> [argumentos...]
 #
@@ -32,7 +31,7 @@ LOG="$LOG_DIR/$NOME.log"
 REGIAO="${AWS_REGION:-${AWS_DEFAULT_REGION:-us-east-1}}"
 CONTA="$(aws --region "$REGIAO" sts get-caller-identity --query Account --output text 2>/dev/null | tr -d '\r')"
 COMMIT="$(git -C "$RAIZ" rev-parse HEAD 2>/dev/null || echo desconhecido)"
-# A própria pasta evidencias/ não conta como alteração de código.
+# Alterações só em evidencias/ não contam como código alterado.
 [ -n "$(git -C "$RAIZ" status --porcelain -- . ':(exclude)evidencias' 2>/dev/null)" ] \
   && COMMIT="$COMMIT (com alterações não commitadas)"
 

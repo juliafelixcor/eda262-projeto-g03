@@ -29,8 +29,6 @@ WORKSPACE="${WORKSPACE:-dev}"
 CONTA_ID="$(aws sts get-caller-identity --query Account --output text | tr -d '\r')"
 
 # origem (Parte 1) | destino (Parte 2) | id para o import
-# Lista simples em vez de "declare -A": array associativo não existe no
-# bash 3.2 (padrão do macOS).
 MAPA=(
   'module.data_lake.aws_s3_bucket.trusted|module.data_lake.aws_s3_bucket.camada["trusted"]|eda262-g03-lake-trusted'
   'module.data_lake.aws_s3_bucket_versioning.trusted|module.data_lake.aws_s3_bucket_versioning.camada["trusted"]|eda262-g03-lake-trusted'

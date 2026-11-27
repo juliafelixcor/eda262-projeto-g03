@@ -61,10 +61,9 @@ if [ "$MODO" = "pos-destroy" ]; then
 
   sobras=""
 
-  # A exclusão de bucket no S3 leva alguns segundos para propagar: logo após
-  # o destroy, o head-bucket ainda pode responder que o bucket existe
-  # (visto em evidencias/parte-2/logs/pos-destroy-rodada2.log, 9 s depois do
-  # destroy). Só conta como órfão se continuar existindo após ~60 s.
+  # Logo após o destroy, o head-bucket pode responder por alguns segundos
+  # que um bucket já excluído ainda existe. Só conta como órfão se continuar
+  # existindo depois de ~60 s.
   bucket_persiste() {
     local tentativa
     for tentativa in 1 2 3 4 5 6 7; do
@@ -296,10 +295,9 @@ else
   fail "5a" 5 "camadas vazias ou inconsistentes (rodou parte-2/scripts/ingestao.sh?)."
 fi
 
-# 5b — as regras de limpeza rejeitam sujeira de verdade.
-# O dataset de origem é limpo (0 rejeições), então as regras são exercitadas
-# com um lote sujo versionado: parte-2/sql/testes/limpeza_sujeira_valores.sql
-# (14 linhas; esperado: só os ids 1 e 2 passam, e já normalizados).
+# 5b — como o dataset de origem não tem sujeira, as regras de limpeza são
+# testadas com o lote de parte-2/sql/testes/limpeza_sujeira_valores.sql:
+# das 14 linhas, só os ids 1 e 2 devem passar, já normalizados.
 if SQL_LIMPEZA="$(sql_teste_limpeza)" && athena_exec "$SQL_LIMPEZA"; then
   IFS=$'\t' read -r L_APROV L_IDS L_NORM < <(athena_linhas)
   info "lote sujo: 14 linhas -> $L_APROV aprovadas (ids: $L_IDS), normalizadas: $L_NORM | QueryExecutionId: $ATHENA_ID"

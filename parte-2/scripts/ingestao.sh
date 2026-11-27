@@ -92,12 +92,11 @@ if [ -z "$PARTICAO" ]; then
   etapa "2/4 partições encontradas na raw"
   athena_exec "SELECT DISTINCT TRIM(source_city) FROM $TABELA_RAW WHERE TRIM(source_city) <> '' ORDER BY 1" \
     || falhou "falha ao listar cidades na raw"
-  # while-read em vez de mapfile: mapfile não existe no bash 3.2 (padrão do macOS).
+  # while-read em vez de mapfile, que não existe no bash 3.2 do macOS.
   CIDADES=()
   while IFS= read -r cidade; do
     [ -n "$cidade" ] && CIDADES+=("$cidade")
   done < <(athena_linhas)
-  # Array vazio + set -u quebra no bash 3.2; além disso, raw sem cidades é erro.
   [ "${#CIDADES[@]}" -gt 0 ] || falhou "nenhuma cidade encontrada na raw (a tabela raw está vazia?)"
   ok "${#CIDADES[@]} partições: ${CIDADES[*]}"
 else

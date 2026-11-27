@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ============================================================
-# Coleta das evidências da Parte 2: roda cada medição citada no
-# DECISOES.md e grava a prova no repositório.
+# Roda as medições citadas no DECISOES.md e grava os resultados em
+# evidencias/parte-2/medicoes/.
 #
 #   bash parte-2/scripts/coletar-evidencias.sh               medições
 #   bash parte-2/scripts/coletar-evidencias.sh --parte1-csv  + reprodução
@@ -16,8 +16,8 @@
 #   <medicao>.csv      resultado da consulta, baixado do Athena
 #   tamanhos-s3.txt    tamanho em disco de cada camada (aws s3 ls)
 #
-# O SQL de cada medição fica em parte-2/sql/ (medicoes/ e as consultas
-# de negócio) — o número, a consulta e o resultado ficam versionados.
+# O SQL de cada medição está em parte-2/sql/medicoes/ (e, para as consultas
+# de negócio, em parte-2/sql/).
 # ============================================================
 
 set -uo pipefail
@@ -59,7 +59,7 @@ MEDICOES=(
 # Custo cobrado pelo Athena: US$ 5,00 por TB, arredondado para cima ao MB,
 # mínimo de 10 MB por consulta (MB e TB decimais, como no DECISOES.md).
 custo_usd() {
-  # LC_ALL=C: ponto decimal (em pt_BR o awk usaria vírgula e quebraria o CSV)
+  # LC_ALL=C para o awk usar ponto decimal mesmo em locale pt_BR
   LC_ALL=C awk -v b="${1:-0}" 'BEGIN {
     mb = int((b + 999999) / 1000000); if (mb < 10) mb = 10;
     printf "%.6f", mb * 5 / 1000000 }'

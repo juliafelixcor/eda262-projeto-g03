@@ -1,7 +1,6 @@
--- Reprodução da Parte 1 para medir o custo do CSV sem compressão.
--- Tabela TEMPORÁRIA criada e removida pelo coletar-evidencias.sh
--- (--parte1-csv), com o mesmo schema da tabela da Parte 1.
--- {{LOCAL}} é substituído pelo prefixo S3 temporário.
+-- Tabela temporária com o schema da Parte 1, sobre o CSV sem compressão.
+-- Criada e removida pelo coletar-evidencias.sh --parte1-csv; {{LOCAL}} é o
+-- prefixo S3 temporário.
 CREATE EXTERNAL TABLE IF NOT EXISTS eda262_g03_raw.medicao_parte1_csv (
     `index`          bigint,
     airline          string,

@@ -1,6 +1,5 @@
--- Prova: a consulta de negócio da Parte 1 (parte-1/README.md), no CSV sem
--- compressão, escaneia 24.946.485 bytes. Roda na tabela temporária criada
--- por 90_parte1_csv_ddl.sql. (DECISOES.md: seções 6 e 7)
+-- Consulta de negócio da Parte 1 (parte-1/README.md) sobre o CSV sem
+-- compressão, para comparar o custo com a Parte 2 (DECISOES.md, seções 6 e 7).
 SELECT
     departure_time,
     arrival_time,
