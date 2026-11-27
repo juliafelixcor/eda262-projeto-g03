@@ -1,0 +1,54 @@
+# evidência: verifica
+# início (UTC): 2026-11-27 20:24:43
+# conta AWS:    325583868777   região: us-east-1
+# commit:       211e3afddcc4bcbee9e9bf48727ed693498b0bc6
+# comando:      bash verificacao/verifica.sh
+# ------------------------------------------------------------
+Projeto Engenharia de Dados — Parte 2 — Grupo g03 (conta 325583868777, us-east-1)
+----------------------------------------------------------------
+Critério 0 — módulo + backend remoto + workspace
+OK     [0] módulo, backend S3 + DynamoDB; workspace atual: dev
+----------------------------------------------------------------
+Critério 1 — terraform plan limpo
+PASSA  [1]  (10%)  No changes — infraestrutura igual ao código.
+----------------------------------------------------------------
+Critério 2 — buckets raw / trusted / refined e tags
+PASSA  [2a]  (5%)  4 buckets existem (3 camadas + resultados do Athena).
+PASSA  [2b]  (5%)  tags turma/grupo/projeto presentes em todos.
+----------------------------------------------------------------
+Critério 3 — Glue Data Catalog
+PASSA  [3a]  (5%)  3 databases/tabelas: eda262_g03_raw.flights, eda262_g03_trusted.flights, eda262_g03_refined.preco_por_periodo.
+PASSA  [3b]  (5%)  trusted e refined em Parquet, particionadas por source_city / class.
+PASSA  [3c]  (5%)  schemas declarados no Terraform (nenhum Crawler do grupo).
+----------------------------------------------------------------
+Critério 4 — Lake Formation
+PASSA  [4a]  (5%)  3 buckets das camadas registrados no Lake Formation.
+        analista  -> eda262_g03_refined.preco_por_periodo permitido (ok)
+        analista  -> eda262_g03_trusted.flights           negado (ok)
+        analista  -> eda262_g03_raw.flights               negado (ok)
+        cientista -> eda262_g03_refined.preco_por_periodo permitido (ok)
+        cientista -> eda262_g03_trusted.flights           permitido (ok)
+        cientista -> eda262_g03_raw.flights               negado (ok)
+PASSA  [4b]  (10%)  acesso por camada aplicado pelo Lake Formation (consultas reais com cada persona).
+----------------------------------------------------------------
+Critério 5 — dados carregados e consistentes
+        raw=300153  trusted=300153 (id distintos=300153, partições=6)  refined(soma)=300153
+PASSA  [5]  (10%)  trusted sem duplicatas, 6 partições, refined fecha com a trusted.
+----------------------------------------------------------------
+Critério 6 — idempotência e backfill (source_city=Delhi)
+        rodando: bash parte-2/scripts/ingestao.sh --particao Delhi (log em /var/folders/fp/hpxztl0n367dhhtc1skbbtw00000gn/T/tmp.NtPMsPeWRx/backfill.log)
+        total antes=300153 depois=300153 | ingerido_em da partição: 2026-11-27 20:19:34.171 -> 2026-11-27 20:26:03.204
+PASSA  [6]  (15%)  partição reprocessada sem duplicar registros.
+----------------------------------------------------------------
+Critério 7 — meta de custo da consulta de negócio (≤ 1,05 MB)
+        refined: 1,43 KB  |  trusted (Parquet): 605,19 KB  |  Parte 1 (CSV): 24,95 MB
+        QueryExecutionId (refined): 75bd61e8-5d24-4c7c-9886-30a62edf6178
+PASSA  [7]  (15%)  meta cumprida (1,43 KB ≤ 1,05 MB) e refined = trusted.
+----------------------------------------------------------------
+Critério 8 — DECISOES.md
+PASSA  [8]  (10%)  decisões de grão, chaves, partição, formato, custo, idempotência e acesso documentadas.
+----------------------------------------------------------------
+Resultado automático: 100 / 100
+        Depois do terraform destroy: bash verificacao/verifica.sh --pos-destroy
+# ------------------------------------------------------------
+# fim (UTC):    2026-11-27 20:26:55   duração: 132s   código de saída: 0

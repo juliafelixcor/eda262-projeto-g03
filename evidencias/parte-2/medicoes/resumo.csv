@@ -1,0 +1,17 @@
+medicao,query_execution_id,estado,bytes_escaneados,tempo_motor_ms,custo_cobrado_usd,arquivo_sql,arquivo_resultado
+01_contagem_camadas,8a3b7fa2-5df4-4c82-be1a-e107d88d3d99,SUCCEEDED,3077977,1649,0.000050,parte-2/sql/medicoes/01_contagem_camadas.sql,evidencias/parte-2/medicoes/01_contagem_camadas.csv
+02_trusted_por_particao,b61fc887-3510-4430-996f-71323b72ef5c,SUCCEEDED,360,1067,0.000050,parte-2/sql/medicoes/02_trusted_por_particao.sql,evidencias/parte-2/medicoes/02_trusted_por_particao.csv
+03_raw_rejeicao_por_regra,a1f3cdc3-0518-4899-b0f5-cf4149dc904c,SUCCEEDED,1871576,2224,0.000050,parte-2/sql/medicoes/03_raw_rejeicao_por_regra.sql,evidencias/parte-2/medicoes/03_raw_rejeicao_por_regra.csv
+04_raw_duplicatas_exatas,1727c3d3-fe85-4219-96b0-90d16768d1ea,SUCCEEDED,1871576,1761,0.000050,parte-2/sql/medicoes/04_raw_duplicatas_exatas.sql,evidencias/parte-2/medicoes/04_raw_duplicatas_exatas.csv
+05_chave_natural_colisoes,9b0a1cbb-8d2a-4069-a7db-82117ecd881a,SUCCEEDED,1457766,1837,0.000050,parte-2/sql/medicoes/05_chave_natural_colisoes.sql,evidencias/parte-2/medicoes/05_chave_natural_colisoes.csv
+06_distribuicao_departure_time,fefe1c24-3bb1-4739-972d-1ce6e809d90d,SUCCEEDED,114541,1437,0.000050,parte-2/sql/medicoes/06_distribuicao_departure_time.sql,evidencias/parte-2/medicoes/06_distribuicao_departure_time.csv
+07_refined_linhas_por_classe,9de128c3-c795-4847-b7d2-a0a5df685990,SUCCEEDED,402,862,0.000050,parte-2/sql/medicoes/07_refined_linhas_por_classe.sql,evidencias/parte-2/medicoes/07_refined_linhas_por_classe.csv
+08_pruning_sem_filtro,6293d79e-f735-498f-9c4f-43102a6e3806,SUCCEEDED,377543,1116,0.000050,parte-2/sql/medicoes/08_pruning_sem_filtro.sql,evidencias/parte-2/medicoes/08_pruning_sem_filtro.csv
+09_pruning_delhi,93d1ecfc-2d4c-4519-ad7f-9e38ca5b4425,SUCCEEDED,78694,877,0.000050,parte-2/sql/medicoes/09_pruning_delhi.sql,evidencias/parte-2/medicoes/09_pruning_delhi.csv
+10_negocio_refined,8cbcc0cb-51b4-4614-b36c-90f51aebc04e,SUCCEEDED,1435,1003,0.000050,parte-2/sql/consulta_negocio_refined.sql,evidencias/parte-2/medicoes/10_negocio_refined.csv
+11_negocio_trusted,c5957c2a-c03f-4106-9c0f-cf7284b98043,SUCCEEDED,605338,958,0.000050,parte-2/sql/consulta_negocio_trusted.sql,evidencias/parte-2/medicoes/11_negocio_trusted.csv
+12_negocio_refined_so_economy,1495769f-5b05-4093-8161-8347ba8fe952,SUCCEEDED,913,835,0.000050,parte-2/sql/consulta_negocio_por_classe.sql,evidencias/parte-2/medicoes/12_negocio_refined_so_economy.csv
+13_razao_por_classe,e76d94ab-4cb9-4206-bf3d-af4445ba8e56,SUCCEEDED,959,873,0.000050,parte-2/sql/medicoes/13_razao_por_classe.sql,evidencias/parte-2/medicoes/13_razao_por_classe.csv
+14_count_trusted_metadados,a7e7d8ab-d870-4e8a-93b2-fd0fe8634c00,SUCCEEDED,0,880,0.000050,parte-2/sql/medicoes/14_count_trusted_metadados.sql,evidencias/parte-2/medicoes/14_count_trusted_metadados.csv
+15_voos_e_rotas,03391c16-15ea-427f-b382-619dd723851f,SUCCEEDED,427294,1394,0.000050,parte-2/sql/medicoes/15_voos_e_rotas.sql,evidencias/parte-2/medicoes/15_voos_e_rotas.csv
+90_parte1_csv,b382986b-5cb8-4109-9f48-d732ba97bd12,SUCCEEDED,24946485,1107,0.000125,parte-2/sql/medicoes/90_parte1_csv_consulta.sql,evidencias/parte-2/medicoes/90_parte1_csv.csv

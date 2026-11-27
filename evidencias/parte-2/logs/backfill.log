@@ -1,0 +1,32 @@
+# evidência: backfill
+# início (UTC): 2026-11-27 20:19:25
+# conta AWS:    325583868777   região: us-east-1
+# commit:       211e3afddcc4bcbee9e9bf48727ed693498b0bc6
+# comando:      bash parte-2/scripts/ingestao.sh --particao Delhi
+# ------------------------------------------------------------
+Ingestão do Data Lake — grupo g03  (região us-east-1)
+
+== 1-2/4 backfill da partição source_city=Delhi (a raw já está carregada)
+        registros na partição antes do backfill: 61343
+
+== 3/4 trusted — Parquet particionado por source_city
+  ok  trusted source_city=Delhi  (1,87 MB escaneados na raw)
+
+== 4/4 refined — agregado por class x períodos
+  ok  refined preco_por_periodo  (605,97 KB escaneados na trusted)
+
+== Resumo
+        partição source_city=Delhi: antes=61343 depois=61343
+  ok  backfill idempotente (nenhum registro duplicado)
+        raw:     300153 linhas
+        trusted: 300153 linhas, 300153 id_oferta distintos  (descartadas na limpeza: 0)
+        refined: soma de qtd_passagens = 300153
+          source_city=Bangalore    52061 linhas  ingerido_em=2026-11-27 20:18:06.852
+          source_city=Chennai      38700 linhas  ingerido_em=2026-11-27 20:18:15.082
+          source_city=Delhi        61343 linhas  ingerido_em=2026-11-27 20:19:34.171
+          source_city=Hyderabad    40806 linhas  ingerido_em=2026-11-27 20:18:32.165
+          source_city=Kolkata      46347 linhas  ingerido_em=2026-11-27 20:18:38.828
+          source_city=Mumbai       60896 linhas  ingerido_em=2026-11-27 20:18:46.793
+  ok  ingestão concluída — total escaneado nesta execução: 5,56 MB
+# ------------------------------------------------------------
+# fim (UTC):    2026-11-27 20:20:09   duração: 44s   código de saída: 0

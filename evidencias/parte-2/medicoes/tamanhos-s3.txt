@@ -1,0 +1,25 @@
+# aws s3 ls --recursive --summarize — 2026-11-27 20:23:58 UTC
+
+## s3://eda262-g03-lake-raw/flights/
+2026-11-27 17:17:57    1871576 flights/airlines_flights_data.csv.gz
+
+Total Objects: 1
+   Total Size: 1871576
+
+## s3://eda262-g03-lake-trusted/flights/
+2026-11-27 17:18:10     470628 flights/source_city=Bangalore/20261127_201806_00277_es38b_5c585052-f82d-4834-afe8-1435d26a8940
+2026-11-27 17:18:18     350566 flights/source_city=Chennai/20261127_201815_00043_2ydfc_d83d50b1-f626-47ad-9d58-a3eba55c70ba
+2026-11-27 17:19:37     564247 flights/source_city=Delhi/20261127_201934_00043_finp7_38a9e473-9f92-4aee-b622-6eb78d83cef5
+2026-11-27 17:18:35     365577 flights/source_city=Hyderabad/20261127_201832_00196_b36j8_a7e1c31b-b880-4d83-8165-221627c9b01b
+2026-11-27 17:18:41     419659 flights/source_city=Kolkata/20261127_201838_00061_i8n43_30a4398b-0b07-4969-98d7-69ab97b14302
+2026-11-27 17:18:50     552149 flights/source_city=Mumbai/20261127_201846_00214_bvu4y_d1f201c9-09f7-4678-90c9-15327294af7d
+
+Total Objects: 6
+   Total Size: 2722826
+
+## s3://eda262-g03-lake-refined/preco_por_periodo/
+2026-11-27 17:19:48       2700 preco_por_periodo/class=Business/20261127_201945_00034_4n7zw_45256b6f-5c3a-43ba-a7a5-f9c8784f198e
+2026-11-27 17:19:48       2698 preco_por_periodo/class=Economy/20261127_201945_00034_4n7zw_d216b6bf-0109-4eff-80a5-b97177c95d0b
+
+Total Objects: 2
+   Total Size: 5398

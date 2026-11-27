@@ -1,0 +1,39 @@
+# evidência: coleta
+# início (UTC): 2026-11-27 20:22:12
+# conta AWS:    325583868777   região: us-east-1
+# commit:       211e3afddcc4bcbee9e9bf48727ed693498b0bc6
+# comando:      bash parte-2/scripts/coletar-evidencias.sh --parte1-csv
+# ------------------------------------------------------------
+Coleta de evidências — grupo g03 (região us-east-1)
+
+== Medições no Athena
+  ok  01_contagem_camadas                   3077977 B  3,08 MB
+  ok  02_trusted_por_particao                   360 B  360 B
+  ok  03_raw_rejeicao_por_regra             1871576 B  1,87 MB
+  ok  04_raw_duplicatas_exatas              1871576 B  1,87 MB
+  ok  05_chave_natural_colisoes             1457766 B  1,46 MB
+  ok  06_distribuicao_departure_time         114541 B  114,54 KB
+  ok  07_refined_linhas_por_classe              402 B  402 B
+  ok  08_pruning_sem_filtro                  377543 B  377,54 KB
+  ok  09_pruning_delhi                        78694 B  78,69 KB
+  ok  10_negocio_refined                       1435 B  1,44 KB
+  ok  11_negocio_trusted                     605338 B  605,34 KB
+  ok  12_negocio_refined_so_economy             913 B  913 B
+  ok  13_razao_por_classe                       959 B  959 B
+  ok  14_count_trusted_metadados                  0 B  0 B
+  ok  15_voos_e_rotas                        427294 B  427,29 KB
+
+== Reprodução do custo da Parte 1 (CSV sem compressão)
+        CSV sem compressão: 24946485 bytes
+  ok  90_parte1_csv                        24946485 B  24,95 MB
+
+== Tamanho das camadas no S3
+        ## s3://eda262-g03-lake-raw/flights/  1871576 bytes
+        ## s3://eda262-g03-lake-trusted/flights/  2722826 bytes
+        ## s3://eda262-g03-lake-refined/preco_por_periodo/  5398 bytes
+
+== Resumo
+        arquivos em evidencias/parte-2/medicoes/ (19 arquivos)
+  ok  todas as medições registradas — total escaneado: 34,83 MB
+# ------------------------------------------------------------
+# fim (UTC):    2026-11-27 20:24:01   duração: 109s   código de saída: 0

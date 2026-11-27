@@ -42,8 +42,10 @@ Atualizado em 26/11/2026. Entrega da Parte 2: **30/11/2026 (Aula 30)**.
 ### Falta fazer
 
 - [ ] Conta do grupo: o backend foi criado na mão (AWS CLI); importar no bootstrap (`terraform -chdir=parte-2/bootstrap import aws_s3_bucket.state eda262-g03-terraform-state` e `... import aws_dynamodb_table.lock eda262-g03-terraform-locks`) ou testar o bootstrap só em conta limpa
-- [ ] Ensaiar o ciclo completo do zero: `terraform destroy` → `verifica.sh --pos-destroy` → `apply` → `ingestao.sh` → `verifica.sh`
-- [ ] Prints de evidência no README (execução do `verifica.sh`, `terraform destroy` e pós-destroy — seções 8 e 9)
+- [x] Ciclo completo do zero em 27/11: destroy → pós-destroy 100/100 → apply (44 recursos) → ingestão ×2 → backfill → `verifica.sh` 100/100 (logs em `evidencias/parte-2/logs/`)
+- [x] Evidências em texto no lugar de prints: logs + medições com QueryExecutionId (`evidencias/parte-2/`)
+- [ ] Destroy final com o código corrigido (`destroy.log` + `pos-destroy.log`), depois da apresentação ou da demo
+- [ ] Citar a fonte do dataset (URL, licença, data do download) no README e no `DECISOES.md`
 - [ ] Apresentação `apresentacao-parte-2-g03.pdf` (5 min, diretriz de design da CESAR School)
 - [ ] Ensaiar a defesa individual: cada integrante precisa saber explicar qualquer decisão do `DECISOES.md`
 - [ ] Merge na `main` e tag `av2-entrega` (a tag `av1-entrega` também não foi criada)
@@ -174,7 +176,7 @@ terraform plan
 terraform apply
 ```
 
-Em conta limpa, o apply cria 47 recursos. Saída esperada (`terraform output`):
+Em conta limpa, o apply cria 44 recursos ([`evidencias/parte-2/logs/apply.log`](evidencias/parte-2/logs/apply.log)). Saída esperada (`terraform output`):
 
 ```text
 athena_results_bucket_name = "eda262-g03-athena-results"
@@ -229,11 +231,14 @@ ORDER BY preco_medio DESC;
 
 | Camada consultada | Bytes escaneados | Resultado (topo) |
 |---|---|---|
-| refined | **1.429 B** | Night → Evening, 9.209 ofertas, 31.425,82 |
-| trusted (Parquet) | 606.056 B | idem |
-| Parte 1 (CSV) | 24.946.485 B | idem |
+| refined | **1.435 B** | Night → Evening, 9.209 ofertas, 31.425,82 |
+| trusted (Parquet) | 605.338 B | idem |
+| Parte 1 (CSV, remedido) | 24.946.485 B | idem |
 
-**Meta de custo declarada: ≤ 1 MiB por consulta de negócio — cumprida (1.429 B).**
+Medido em 27/11/2026: [`evidencias/parte-2/medicoes/resumo.csv`](evidencias/parte-2/medicoes/resumo.csv)
+(resultados em `10_negocio_refined.csv`, `11_negocio_trusted.csv` e `90_parte1_csv.csv`).
+
+**Meta de custo declarada: ≤ 1 MiB por consulta de negócio — cumprida (1.435 B).**
 Análise completa e custo monetário em [`DECISOES.md`](DECISOES.md), seções 7 e 11.
 
 ---

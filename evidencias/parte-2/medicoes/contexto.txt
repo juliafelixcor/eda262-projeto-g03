@@ -1,0 +1,9 @@
+Coleta de evidências — Parte 2
+data (UTC):        2026-11-27 20:22:13
+conta AWS:         325583868777
+região:            us-east-1
+workgroup Athena:  eda262-g03-athena
+commit do código:  211e3afddcc4bcbee9e9bf48727ed693498b0bc6
+código alterado:   não
+workspace:         dev
+tamanho do CSV sem compressão (bytes): 24946485

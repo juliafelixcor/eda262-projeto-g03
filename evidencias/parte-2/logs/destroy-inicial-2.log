@@ -1,0 +1,137 @@
+# evidência: destroy-inicial-2
+# início (UTC): 2026-11-27 20:13:39
+# conta AWS:    325583868777   região: us-east-1
+# commit:       211e3afddcc4bcbee9e9bf48727ed693498b0bc6
+# comando:      terraform -chdir=parte-2 destroy -no-color
+# ------------------------------------------------------------
+
+Warning: Deprecated Parameter
+
+The parameter "dynamodb_table" is deprecated. Use parameter "use_lockfile"
+instead.
+Acquiring state lock. This may take a few moments...
+module.data_lake.data.aws_caller_identity.atual: Reading...
+module.data_lake.data.aws_lakeformation_data_lake_settings.atual: Reading...
+module.data_lake.data.aws_caller_identity.atual: Read complete after 0s [id=325583868777]
+module.data_lake.data.aws_iam_session_context.atual: Reading...
+module.data_lake.data.aws_iam_session_context.atual: Read complete after 0s [id=arn:aws:iam::325583868777:user/eda-grupo03]
+module.data_lake.data.aws_lakeformation_data_lake_settings.atual: Read complete after 0s [id=1152817244]
+module.data_lake.aws_lakeformation_data_lake_settings.this: Refreshing state... [id=3242948791]
+module.data_lake.aws_glue_catalog_database.camada["refined"]: Refreshing state... [id=325583868777:eda262_g03_refined]
+module.data_lake.aws_glue_catalog_database.camada["trusted"]: Refreshing state... [id=325583868777:eda262_g03_trusted]
+module.data_lake.aws_glue_catalog_database.camada["raw"]: Refreshing state... [id=325583868777:eda262_g03_raw]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # module.data_lake.aws_glue_catalog_database.camada["raw"] will be destroyed
+  - resource "aws_glue_catalog_database" "camada" {
+      - arn          = "arn:aws:glue:us-east-1:325583868777:database/eda262_g03_raw" -> null
+      - catalog_id   = "325583868777" -> null
+      - description  = "Camada raw do Data Lake de passagens aereas (g03)" -> null
+      - id           = "325583868777:eda262_g03_raw" -> null
+      - name         = "eda262_g03_raw" -> null
+      - parameters   = {} -> null
+      - tags         = {} -> null
+      - tags_all     = {
+          - "grupo"   = "g03"
+          - "projeto" = "engenharia-de-dados"
+          - "turma"   = "eda262"
+        } -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.data_lake.aws_glue_catalog_database.camada["refined"] will be destroyed
+  - resource "aws_glue_catalog_database" "camada" {
+      - arn          = "arn:aws:glue:us-east-1:325583868777:database/eda262_g03_refined" -> null
+      - catalog_id   = "325583868777" -> null
+      - description  = "Camada refined do Data Lake de passagens aereas (g03)" -> null
+      - id           = "325583868777:eda262_g03_refined" -> null
+      - name         = "eda262_g03_refined" -> null
+      - parameters   = {} -> null
+      - tags         = {} -> null
+      - tags_all     = {
+          - "grupo"   = "g03"
+          - "projeto" = "engenharia-de-dados"
+          - "turma"   = "eda262"
+        } -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.data_lake.aws_glue_catalog_database.camada["trusted"] will be destroyed
+  - resource "aws_glue_catalog_database" "camada" {
+      - arn          = "arn:aws:glue:us-east-1:325583868777:database/eda262_g03_trusted" -> null
+      - catalog_id   = "325583868777" -> null
+      - description  = "Camada trusted do Data Lake de passagens aereas (g03)" -> null
+      - id           = "325583868777:eda262_g03_trusted" -> null
+      - name         = "eda262_g03_trusted" -> null
+      - parameters   = {} -> null
+      - tags         = {} -> null
+      - tags_all     = {
+          - "grupo"   = "g03"
+          - "projeto" = "engenharia-de-dados"
+          - "turma"   = "eda262"
+        } -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.data_lake.aws_lakeformation_data_lake_settings.this will be destroyed
+  - resource "aws_lakeformation_data_lake_settings" "this" {
+      - admins                                = [
+          - "arn:aws:iam::325583868777:user/eda-grupo03",
+        ] -> null
+      - allow_external_data_filtering         = false -> null
+      - allow_full_table_external_data_access = false -> null
+      - authorized_session_tag_value_list     = [] -> null
+      - external_data_filtering_allow_list    = [] -> null
+      - id                                    = "3242948791" -> null
+      - parameters                            = {
+          - "CROSS_ACCOUNT_VERSION" = "1"
+          - "SET_CONTEXT"           = "TRUE"
+        } -> null
+      - read_only_admins                      = [] -> null
+      - trusted_resource_owners               = [] -> null
+    }
+
+Plan: 0 to add, 0 to change, 4 to destroy.
+
+Changes to Outputs:
+  - athena_results_bucket_name = "eda262-g03-athena-results" -> null
+  - athena_workgroup_name      = "eda262-g03-athena" -> null
+  - buckets                    = {
+      - raw     = "eda262-g03-lake-raw"
+      - refined = "eda262-g03-lake-refined"
+      - trusted = "eda262-g03-lake-trusted"
+    } -> null
+  - glue_databases             = {
+      - raw     = "eda262_g03_raw"
+      - refined = "eda262_g03_refined"
+      - trusted = "eda262_g03_trusted"
+    } -> null
+  - glue_tables                = {
+      - raw     = "eda262_g03_raw.flights"
+      - refined = "eda262_g03_refined.preco_por_periodo"
+      - trusted = "eda262_g03_trusted.flights"
+    } -> null
+  - lakeformation_admin_arn    = "arn:aws:iam::325583868777:user/eda-grupo03" -> null
+
+Do you really want to destroy all resources in workspace "dev"?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value: 
+module.data_lake.aws_glue_catalog_database.camada["raw"]: Destroying... [id=325583868777:eda262_g03_raw]
+module.data_lake.aws_glue_catalog_database.camada["refined"]: Destroying... [id=325583868777:eda262_g03_refined]
+module.data_lake.aws_glue_catalog_database.camada["trusted"]: Destroying... [id=325583868777:eda262_g03_trusted]
+module.data_lake.aws_glue_catalog_database.camada["refined"]: Destruction complete after 1s
+module.data_lake.aws_glue_catalog_database.camada["raw"]: Destruction complete after 1s
+module.data_lake.aws_glue_catalog_database.camada["trusted"]: Destruction complete after 1s
+module.data_lake.aws_lakeformation_data_lake_settings.this: Destroying... [id=3242948791]
+module.data_lake.aws_lakeformation_data_lake_settings.this: Destruction complete after 0s
+
+Destroy complete! Resources: 4 destroyed.
+# ------------------------------------------------------------
+# fim (UTC):    2026-11-27 20:13:52   duração: 13s   código de saída: 0

@@ -1,0 +1,13 @@
+# evidência: pos-destroy-inicial-3
+# início (UTC): 2026-11-27 20:13:59
+# conta AWS:    325583868777   região: us-east-1
+# commit:       211e3afddcc4bcbee9e9bf48727ed693498b0bc6
+# comando:      bash verificacao/verifica.sh --pos-destroy
+# ------------------------------------------------------------
+Pós-destroy — nada do grupo g03 pode sobrar (conta 325583868777)
+----------------------------------------------------------------
+PASSA  [D]  (100%)  destroy limpo: nenhum bucket, database, workgroup, role ou registro do Lake Formation restante.
+----------------------------------------------------------------
+Resultado pós-destroy: 100 / 100
+# ------------------------------------------------------------
+# fim (UTC):    2026-11-27 20:14:09   duração: 10s   código de saída: 0

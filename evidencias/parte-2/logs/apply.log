@@ -1,0 +1,1407 @@
+# evidência: apply
+# início (UTC): 2026-11-27 20:15:12
+# conta AWS:    325583868777   região: us-east-1
+# commit:       211e3afddcc4bcbee9e9bf48727ed693498b0bc6
+# comando:      terraform -chdir=parte-2 apply -no-color
+# ------------------------------------------------------------
+
+Warning: Deprecated Parameter
+
+The parameter "dynamodb_table" is deprecated. Use parameter "use_lockfile"
+instead.
+Acquiring state lock. This may take a few moments...
+module.data_lake.data.aws_caller_identity.atual: Reading...
+module.data_lake.data.aws_lakeformation_data_lake_settings.atual: Reading...
+module.data_lake.data.aws_caller_identity.atual: Read complete after 0s [id=325583868777]
+module.data_lake.data.aws_iam_session_context.atual: Reading...
+module.data_lake.data.aws_iam_session_context.atual: Read complete after 0s [id=arn:aws:iam::325583868777:user/eda-grupo03]
+module.data_lake.data.aws_lakeformation_data_lake_settings.atual: Read complete after 0s [id=1152817244]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # module.data_lake.aws_athena_named_query.negocio_refined will be created
+  + resource "aws_athena_named_query" "negocio_refined" {
+      + database    = "eda262_g03_refined"
+      + description = "Preco medio por periodo de partida/chegada (camada refined)"
+      + id          = (known after apply)
+      + name        = "eda262-g03-negocio-refined"
+      + query       = <<-EOT
+            -- Pergunta de negócio: o valor das passagens é influenciado pelo
+            -- horário de embarque e desembarque?
+            -- Média ponderada recomposta a partir da refined (soma_preco / qtd),
+            -- portanto o resultado é idêntico ao AVG(price) da Parte 1.
+            SELECT
+                departure_time,
+                arrival_time,
+                SUM(qtd_passagens)                                        AS quantidade_passagens,
+                ROUND(CAST(SUM(soma_preco) AS DOUBLE) / SUM(qtd_passagens), 2) AS preco_medio
+            FROM eda262_g03_refined.preco_por_periodo
+            GROUP BY departure_time, arrival_time
+            ORDER BY preco_medio DESC
+        EOT
+      + workgroup   = (known after apply)
+    }
+
+  # module.data_lake.aws_athena_named_query.negocio_trusted will be created
+  + resource "aws_athena_named_query" "negocio_trusted" {
+      + database    = "eda262_g03_trusted"
+      + description = "Mesma pergunta calculada direto na trusted (comparacao de custo)"
+      + id          = (known after apply)
+      + name        = "eda262-g03-negocio-trusted"
+      + query       = <<-EOT
+            -- Mesma pergunta calculada direto na trusted (Parquet), para comparar o
+            -- volume escaneado com a refined e com o CSV da Parte 1.
+            SELECT
+                departure_time,
+                arrival_time,
+                COUNT(*)             AS quantidade_passagens,
+                ROUND(AVG(price), 2) AS preco_medio
+            FROM eda262_g03_trusted.flights
+            GROUP BY departure_time, arrival_time
+            ORDER BY preco_medio DESC
+        EOT
+      + workgroup   = (known after apply)
+    }
+
+  # module.data_lake.aws_athena_workgroup.this will be created
+  + resource "aws_athena_workgroup" "this" {
+      + arn           = (known after apply)
+      + force_destroy = true
+      + id            = (known after apply)
+      + name          = "eda262-g03-athena"
+      + state         = "ENABLED"
+      + tags_all      = {
+          + "grupo"   = "g03"
+          + "projeto" = "engenharia-de-dados"
+          + "turma"   = "eda262"
+        }
+
+      + configuration {
+          + bytes_scanned_cutoff_per_query     = 104857600
+          + enforce_workgroup_configuration    = true
+          + publish_cloudwatch_metrics_enabled = true
+          + requester_pays_enabled             = false
+
+          + result_configuration {
+              + output_location = "s3://eda262-g03-athena-results/"
+
+              + encryption_configuration {
+                  + encryption_option = "SSE_S3"
+                }
+            }
+        }
+    }
+
+  # module.data_lake.aws_glue_catalog_database.camada["raw"] will be created
+  + resource "aws_glue_catalog_database" "camada" {
+      + arn          = (known after apply)
+      + catalog_id   = (known after apply)
+      + description  = "Camada raw do Data Lake de passagens aereas (g03)"
+      + id           = (known after apply)
+      + location_uri = (known after apply)
+      + name         = "eda262_g03_raw"
+      + tags_all     = {
+          + "grupo"   = "g03"
+          + "projeto" = "engenharia-de-dados"
+          + "turma"   = "eda262"
+        }
+
+      + create_table_default_permission (known after apply)
+    }
+
+  # module.data_lake.aws_glue_catalog_database.camada["refined"] will be created
+  + resource "aws_glue_catalog_database" "camada" {
+      + arn          = (known after apply)
+      + catalog_id   = (known after apply)
+      + description  = "Camada refined do Data Lake de passagens aereas (g03)"
+      + id           = (known after apply)
+      + location_uri = (known after apply)
+      + name         = "eda262_g03_refined"
+      + tags_all     = {
+          + "grupo"   = "g03"
+          + "projeto" = "engenharia-de-dados"
+          + "turma"   = "eda262"
+        }
+
+      + create_table_default_permission (known after apply)
+    }
+
+  # module.data_lake.aws_glue_catalog_database.camada["trusted"] will be created
+  + resource "aws_glue_catalog_database" "camada" {
+      + arn          = (known after apply)
+      + catalog_id   = (known after apply)
+      + description  = "Camada trusted do Data Lake de passagens aereas (g03)"
+      + id           = (known after apply)
+      + location_uri = (known after apply)
+      + name         = "eda262_g03_trusted"
+      + tags_all     = {
+          + "grupo"   = "g03"
+          + "projeto" = "engenharia-de-dados"
+          + "turma"   = "eda262"
+        }
+
+      + create_table_default_permission (known after apply)
+    }
+
+  # module.data_lake.aws_glue_catalog_table.raw_flights will be created
+  + resource "aws_glue_catalog_table" "raw_flights" {
+      + arn           = (known after apply)
+      + catalog_id    = (known after apply)
+      + database_name = "eda262_g03_raw"
+      + description   = "Arquivo bruto (CSV gzip) como recebido da fonte"
+      + id            = (known after apply)
+      + name          = "flights"
+      + parameters    = {
+          + "EXTERNAL"               = "TRUE"
+          + "classification"         = "csv"
+          + "compressionType"        = "gzip"
+          + "skip.header.line.count" = "1"
+        }
+      + table_type    = "EXTERNAL_TABLE"
+
+      + partition_index (known after apply)
+
+      + storage_descriptor {
+          + input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+          + location      = "s3://eda262-g03-lake-raw/flights/"
+          + output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+          + columns {
+              + name = "index"
+              + type = "string"
+            }
+          + columns {
+              + name = "airline"
+              + type = "string"
+            }
+          + columns {
+              + name = "flight"
+              + type = "string"
+            }
+          + columns {
+              + name = "source_city"
+              + type = "string"
+            }
+          + columns {
+              + name = "departure_time"
+              + type = "string"
+            }
+          + columns {
+              + name = "stops"
+              + type = "string"
+            }
+          + columns {
+              + name = "arrival_time"
+              + type = "string"
+            }
+          + columns {
+              + name = "destination_city"
+              + type = "string"
+            }
+          + columns {
+              + name = "class"
+              + type = "string"
+            }
+          + columns {
+              + name = "duration"
+              + type = "string"
+            }
+          + columns {
+              + name = "days_left"
+              + type = "string"
+            }
+          + columns {
+              + name = "price"
+              + type = "string"
+            }
+
+          + ser_de_info {
+              + parameters            = {
+                  + "escapeChar"    = "\\"
+                  + "quoteChar"     = "\""
+                  + "separatorChar" = ","
+                }
+              + serialization_library = "org.apache.hadoop.hive.serde2.OpenCSVSerde"
+            }
+        }
+    }
+
+  # module.data_lake.aws_glue_catalog_table.refined_preco_por_periodo will be created
+  + resource "aws_glue_catalog_table" "refined_preco_por_periodo" {
+      + arn           = (known after apply)
+      + catalog_id    = (known after apply)
+      + database_name = "eda262_g03_refined"
+      + description   = "Preco por combinacao de periodos; grao = class x departure_time x arrival_time"
+      + id            = (known after apply)
+      + name          = "preco_por_periodo"
+      + parameters    = {
+          + "EXTERNAL"            = "TRUE"
+          + "classification"      = "parquet"
+          + "parquet.compression" = "SNAPPY"
+        }
+      + table_type    = "EXTERNAL_TABLE"
+
+      + partition_index (known after apply)
+
+      + partition_keys {
+          + name = "class"
+          + type = "string"
+        }
+
+      + storage_descriptor {
+          + input_format  = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat"
+          + location      = "s3://eda262-g03-lake-refined/preco_por_periodo/"
+          + output_format = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat"
+
+          + columns {
+              + name    = "departure_time"
+              + type    = "string"
+                # (1 unchanged attribute hidden)
+            }
+          + columns {
+              + name    = "arrival_time"
+              + type    = "string"
+                # (1 unchanged attribute hidden)
+            }
+          + columns {
+              + name    = "qtd_passagens"
+              + type    = "bigint"
+                # (1 unchanged attribute hidden)
+            }
+          + columns {
+              + comment = "permite recompor a media ponderada entre classes"
+              + name    = "soma_preco"
+              + type    = "bigint"
+            }
+          + columns {
+              + name    = "preco_medio"
+              + type    = "double"
+                # (1 unchanged attribute hidden)
+            }
+          + columns {
+              + comment = "approx_percentile 0.5"
+              + name    = "preco_mediano"
+              + type    = "int"
+            }
+          + columns {
+              + name    = "preco_min"
+              + type    = "int"
+                # (1 unchanged attribute hidden)
+            }
+          + columns {
+              + name    = "preco_max"
+              + type    = "int"
+                # (1 unchanged attribute hidden)
+            }
+          + columns {
+              + name    = "atualizado_em"
+              + type    = "timestamp"
+                # (1 unchanged attribute hidden)
+            }
+
+          + ser_de_info {
+              + serialization_library = "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe"
+            }
+        }
+    }
+
+  # module.data_lake.aws_glue_catalog_table.trusted_flights will be created
+  + resource "aws_glue_catalog_table" "trusted_flights" {
+      + arn           = (known after apply)
+      + catalog_id    = (known after apply)
+      + database_name = "eda262_g03_trusted"
+      + description   = "Ofertas de passagem limpas e tipadas; grao = 1 oferta (id_oferta)"
+      + id            = (known after apply)
+      + name          = "flights"
+      + parameters    = {
+          + "EXTERNAL"            = "TRUE"
+          + "classification"      = "parquet"
+          + "parquet.compression" = "SNAPPY"
+        }
+      + table_type    = "EXTERNAL_TABLE"
+
+      + partition_index (known after apply)
+
+      + partition_keys {
+          + comment = "cidade de origem; unidade de ingestao e de backfill"
+          + name    = "source_city"
+          + type    = "string"
+        }
+
+      + storage_descriptor {
+          + input_format  = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat"
+          + location      = "s3://eda262-g03-lake-trusted/flights/"
+          + output_format = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat"
+
+          + columns {
+              + comment = "index do CSV original (unico por oferta)"
+              + name    = "id_oferta"
+              + type    = "bigint"
+            }
+          + columns {
+              + name    = "airline"
+              + type    = "string"
+                # (1 unchanged attribute hidden)
+            }
+          + columns {
+              + name    = "flight"
+              + type    = "string"
+                # (1 unchanged attribute hidden)
+            }
+          + columns {
+              + comment = "periodo de partida"
+              + name    = "departure_time"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "zero / one / two_or_more"
+              + name    = "stops"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "0, 1 ou 2 (2 = duas ou mais)"
+              + name    = "qtd_escalas"
+              + type    = "int"
+            }
+          + columns {
+              + comment = "periodo de chegada"
+              + name    = "arrival_time"
+              + type    = "string"
+            }
+          + columns {
+              + name    = "destination_city"
+              + type    = "string"
+                # (1 unchanged attribute hidden)
+            }
+          + columns {
+              + comment = "Economy / Business"
+              + name    = "class"
+              + type    = "string"
+            }
+          + columns {
+              + comment = "duracao em horas"
+              + name    = "duration"
+              + type    = "double"
+            }
+          + columns {
+              + comment = "dias de antecedencia da compra"
+              + name    = "days_left"
+              + type    = "int"
+            }
+          + columns {
+              + comment = "preco da passagem"
+              + name    = "price"
+              + type    = "int"
+            }
+          + columns {
+              + comment = "momento da (re)carga da particao"
+              + name    = "ingerido_em"
+              + type    = "timestamp"
+            }
+
+          + ser_de_info {
+              + serialization_library = "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe"
+            }
+        }
+    }
+
+  # module.data_lake.aws_iam_role.lakeformation_acesso will be created
+  + resource "aws_iam_role" "lakeformation_acesso" {
+      + arn                   = (known after apply)
+      + assume_role_policy    = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action    = "sts:AssumeRole"
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + Service = "lakeformation.amazonaws.com"
+                        }
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + create_date           = (known after apply)
+      + description           = "Acesso do Lake Formation aos buckets raw/trusted/refined"
+      + force_detach_policies = false
+      + id                    = (known after apply)
+      + managed_policy_arns   = (known after apply)
+      + max_session_duration  = 3600
+      + name                  = "eda262-g03-lakeformation-acesso"
+      + name_prefix           = (known after apply)
+      + path                  = "/"
+      + tags_all              = {
+          + "grupo"   = "g03"
+          + "projeto" = "engenharia-de-dados"
+          + "turma"   = "eda262"
+        }
+      + unique_id             = (known after apply)
+
+      + inline_policy (known after apply)
+    }
+
+  # module.data_lake.aws_iam_role.persona["analista"] will be created
+  + resource "aws_iam_role" "persona" {
+      + arn                   = (known after apply)
+      + assume_role_policy    = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action    = "sts:AssumeRole"
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + AWS = "arn:aws:iam::325583868777:root"
+                        }
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + create_date           = (known after apply)
+      + description           = "Consome apenas a camada refined (agregados de negocio)"
+      + force_detach_policies = false
+      + id                    = (known after apply)
+      + managed_policy_arns   = (known after apply)
+      + max_session_duration  = 3600
+      + name                  = "eda262-g03-analista"
+      + name_prefix           = (known after apply)
+      + path                  = "/"
+      + tags_all              = {
+          + "grupo"   = "g03"
+          + "projeto" = "engenharia-de-dados"
+          + "turma"   = "eda262"
+        }
+      + unique_id             = (known after apply)
+
+      + inline_policy (known after apply)
+    }
+
+  # module.data_lake.aws_iam_role.persona["cientista"] will be created
+  + resource "aws_iam_role" "persona" {
+      + arn                   = (known after apply)
+      + assume_role_policy    = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action    = "sts:AssumeRole"
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + AWS = "arn:aws:iam::325583868777:root"
+                        }
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + create_date           = (known after apply)
+      + description           = "Consome as camadas trusted e refined"
+      + force_detach_policies = false
+      + id                    = (known after apply)
+      + managed_policy_arns   = (known after apply)
+      + max_session_duration  = 3600
+      + name                  = "eda262-g03-cientista"
+      + name_prefix           = (known after apply)
+      + path                  = "/"
+      + tags_all              = {
+          + "grupo"   = "g03"
+          + "projeto" = "engenharia-de-dados"
+          + "turma"   = "eda262"
+        }
+      + unique_id             = (known after apply)
+
+      + inline_policy (known after apply)
+    }
+
+  # module.data_lake.aws_iam_role_policy.lakeformation_acesso will be created
+  + resource "aws_iam_role_policy" "lakeformation_acesso" {
+      + id          = (known after apply)
+      + name        = "s3-camadas"
+      + name_prefix = (known after apply)
+      + policy      = (known after apply)
+      + role        = (known after apply)
+    }
+
+  # module.data_lake.aws_iam_role_policy.persona_consulta["analista"] will be created
+  + resource "aws_iam_role_policy" "persona_consulta" {
+      + id          = (known after apply)
+      + name        = "consulta-athena"
+      + name_prefix = (known after apply)
+      + policy      = (known after apply)
+      + role        = (known after apply)
+    }
+
+  # module.data_lake.aws_iam_role_policy.persona_consulta["cientista"] will be created
+  + resource "aws_iam_role_policy" "persona_consulta" {
+      + id          = (known after apply)
+      + name        = "consulta-athena"
+      + name_prefix = (known after apply)
+      + policy      = (known after apply)
+      + role        = (known after apply)
+    }
+
+  # module.data_lake.aws_lakeformation_data_lake_settings.this will be created
+  + resource "aws_lakeformation_data_lake_settings" "this" {
+      + admins                             = [
+          + "arn:aws:iam::325583868777:user/eda-grupo03",
+        ]
+      + authorized_session_tag_value_list  = (known after apply)
+      + external_data_filtering_allow_list = (known after apply)
+      + id                                 = (known after apply)
+      + parameters                         = (known after apply)
+      + read_only_admins                   = (known after apply)
+      + trusted_resource_owners            = (known after apply)
+
+      + create_database_default_permissions (known after apply)
+
+      + create_table_default_permissions (known after apply)
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.engenheiro_local["raw"] will be created
+  + resource "aws_lakeformation_permissions" "engenheiro_local" {
+      + catalog_resource              = false
+      + id                            = (known after apply)
+      + permissions                   = [
+          + "DATA_LOCATION_ACCESS",
+        ]
+      + permissions_with_grant_option = (known after apply)
+      + principal                     = "arn:aws:iam::325583868777:user/eda-grupo03"
+
+      + data_location {
+          + arn        = (known after apply)
+          + catalog_id = (known after apply)
+        }
+
+      + database (known after apply)
+
+      + lf_tag (known after apply)
+
+      + lf_tag_policy (known after apply)
+
+      + table (known after apply)
+
+      + table_with_columns (known after apply)
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.engenheiro_local["refined"] will be created
+  + resource "aws_lakeformation_permissions" "engenheiro_local" {
+      + catalog_resource              = false
+      + id                            = (known after apply)
+      + permissions                   = [
+          + "DATA_LOCATION_ACCESS",
+        ]
+      + permissions_with_grant_option = (known after apply)
+      + principal                     = "arn:aws:iam::325583868777:user/eda-grupo03"
+
+      + data_location {
+          + arn        = (known after apply)
+          + catalog_id = (known after apply)
+        }
+
+      + database (known after apply)
+
+      + lf_tag (known after apply)
+
+      + lf_tag_policy (known after apply)
+
+      + table (known after apply)
+
+      + table_with_columns (known after apply)
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.engenheiro_local["trusted"] will be created
+  + resource "aws_lakeformation_permissions" "engenheiro_local" {
+      + catalog_resource              = false
+      + id                            = (known after apply)
+      + permissions                   = [
+          + "DATA_LOCATION_ACCESS",
+        ]
+      + permissions_with_grant_option = (known after apply)
+      + principal                     = "arn:aws:iam::325583868777:user/eda-grupo03"
+
+      + data_location {
+          + arn        = (known after apply)
+          + catalog_id = (known after apply)
+        }
+
+      + database (known after apply)
+
+      + lf_tag (known after apply)
+
+      + lf_tag_policy (known after apply)
+
+      + table (known after apply)
+
+      + table_with_columns (known after apply)
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["raw"] will be created
+  + resource "aws_lakeformation_permissions" "engenheiro_tabelas" {
+      + catalog_resource              = false
+      + id                            = (known after apply)
+      + permissions                   = [
+          + "ALTER",
+          + "DELETE",
+          + "DESCRIBE",
+          + "DROP",
+          + "INSERT",
+          + "SELECT",
+        ]
+      + permissions_with_grant_option = (known after apply)
+      + principal                     = "arn:aws:iam::325583868777:user/eda-grupo03"
+
+      + data_location (known after apply)
+
+      + database (known after apply)
+
+      + lf_tag (known after apply)
+
+      + lf_tag_policy (known after apply)
+
+      + table {
+          + catalog_id    = (known after apply)
+          + database_name = "eda262_g03_raw"
+          + name          = (known after apply)
+          + wildcard      = true
+        }
+
+      + table_with_columns (known after apply)
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["refined"] will be created
+  + resource "aws_lakeformation_permissions" "engenheiro_tabelas" {
+      + catalog_resource              = false
+      + id                            = (known after apply)
+      + permissions                   = [
+          + "ALTER",
+          + "DELETE",
+          + "DESCRIBE",
+          + "DROP",
+          + "INSERT",
+          + "SELECT",
+        ]
+      + permissions_with_grant_option = (known after apply)
+      + principal                     = "arn:aws:iam::325583868777:user/eda-grupo03"
+
+      + data_location (known after apply)
+
+      + database (known after apply)
+
+      + lf_tag (known after apply)
+
+      + lf_tag_policy (known after apply)
+
+      + table {
+          + catalog_id    = (known after apply)
+          + database_name = "eda262_g03_refined"
+          + name          = (known after apply)
+          + wildcard      = true
+        }
+
+      + table_with_columns (known after apply)
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["trusted"] will be created
+  + resource "aws_lakeformation_permissions" "engenheiro_tabelas" {
+      + catalog_resource              = false
+      + id                            = (known after apply)
+      + permissions                   = [
+          + "ALTER",
+          + "DELETE",
+          + "DESCRIBE",
+          + "DROP",
+          + "INSERT",
+          + "SELECT",
+        ]
+      + permissions_with_grant_option = (known after apply)
+      + principal                     = "arn:aws:iam::325583868777:user/eda-grupo03"
+
+      + data_location (known after apply)
+
+      + database (known after apply)
+
+      + lf_tag (known after apply)
+
+      + lf_tag_policy (known after apply)
+
+      + table {
+          + catalog_id    = (known after apply)
+          + database_name = "eda262_g03_trusted"
+          + name          = (known after apply)
+          + wildcard      = true
+        }
+
+      + table_with_columns (known after apply)
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.leitor_database["refined-analista"] will be created
+  + resource "aws_lakeformation_permissions" "leitor_database" {
+      + catalog_resource              = false
+      + id                            = (known after apply)
+      + permissions                   = [
+          + "DESCRIBE",
+        ]
+      + permissions_with_grant_option = (known after apply)
+      + principal                     = (known after apply)
+
+      + data_location (known after apply)
+
+      + database {
+          + catalog_id = (known after apply)
+          + name       = "eda262_g03_refined"
+        }
+
+      + lf_tag (known after apply)
+
+      + lf_tag_policy (known after apply)
+
+      + table (known after apply)
+
+      + table_with_columns (known after apply)
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.leitor_database["refined-cientista"] will be created
+  + resource "aws_lakeformation_permissions" "leitor_database" {
+      + catalog_resource              = false
+      + id                            = (known after apply)
+      + permissions                   = [
+          + "DESCRIBE",
+        ]
+      + permissions_with_grant_option = (known after apply)
+      + principal                     = (known after apply)
+
+      + data_location (known after apply)
+
+      + database {
+          + catalog_id = (known after apply)
+          + name       = "eda262_g03_refined"
+        }
+
+      + lf_tag (known after apply)
+
+      + lf_tag_policy (known after apply)
+
+      + table (known after apply)
+
+      + table_with_columns (known after apply)
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.leitor_database["trusted-cientista"] will be created
+  + resource "aws_lakeformation_permissions" "leitor_database" {
+      + catalog_resource              = false
+      + id                            = (known after apply)
+      + permissions                   = [
+          + "DESCRIBE",
+        ]
+      + permissions_with_grant_option = (known after apply)
+      + principal                     = (known after apply)
+
+      + data_location (known after apply)
+
+      + database {
+          + catalog_id = (known after apply)
+          + name       = "eda262_g03_trusted"
+        }
+
+      + lf_tag (known after apply)
+
+      + lf_tag_policy (known after apply)
+
+      + table (known after apply)
+
+      + table_with_columns (known after apply)
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.leitor_tabelas["refined-analista"] will be created
+  + resource "aws_lakeformation_permissions" "leitor_tabelas" {
+      + catalog_resource              = false
+      + id                            = (known after apply)
+      + permissions                   = [
+          + "DESCRIBE",
+          + "SELECT",
+        ]
+      + permissions_with_grant_option = (known after apply)
+      + principal                     = (known after apply)
+
+      + data_location (known after apply)
+
+      + database (known after apply)
+
+      + lf_tag (known after apply)
+
+      + lf_tag_policy (known after apply)
+
+      + table {
+          + catalog_id    = (known after apply)
+          + database_name = "eda262_g03_refined"
+          + name          = (known after apply)
+          + wildcard      = true
+        }
+
+      + table_with_columns (known after apply)
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.leitor_tabelas["refined-cientista"] will be created
+  + resource "aws_lakeformation_permissions" "leitor_tabelas" {
+      + catalog_resource              = false
+      + id                            = (known after apply)
+      + permissions                   = [
+          + "DESCRIBE",
+          + "SELECT",
+        ]
+      + permissions_with_grant_option = (known after apply)
+      + principal                     = (known after apply)
+
+      + data_location (known after apply)
+
+      + database (known after apply)
+
+      + lf_tag (known after apply)
+
+      + lf_tag_policy (known after apply)
+
+      + table {
+          + catalog_id    = (known after apply)
+          + database_name = "eda262_g03_refined"
+          + name          = (known after apply)
+          + wildcard      = true
+        }
+
+      + table_with_columns (known after apply)
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.leitor_tabelas["trusted-cientista"] will be created
+  + resource "aws_lakeformation_permissions" "leitor_tabelas" {
+      + catalog_resource              = false
+      + id                            = (known after apply)
+      + permissions                   = [
+          + "DESCRIBE",
+          + "SELECT",
+        ]
+      + permissions_with_grant_option = (known after apply)
+      + principal                     = (known after apply)
+
+      + data_location (known after apply)
+
+      + database (known after apply)
+
+      + lf_tag (known after apply)
+
+      + lf_tag_policy (known after apply)
+
+      + table {
+          + catalog_id    = (known after apply)
+          + database_name = "eda262_g03_trusted"
+          + name          = (known after apply)
+          + wildcard      = true
+        }
+
+      + table_with_columns (known after apply)
+    }
+
+  # module.data_lake.aws_lakeformation_resource.camada["raw"] will be created
+  + resource "aws_lakeformation_resource" "camada" {
+      + arn                   = (known after apply)
+      + hybrid_access_enabled = (known after apply)
+      + id                    = (known after apply)
+      + last_modified         = (known after apply)
+      + role_arn              = (known after apply)
+      + with_federation       = (known after apply)
+    }
+
+  # module.data_lake.aws_lakeformation_resource.camada["refined"] will be created
+  + resource "aws_lakeformation_resource" "camada" {
+      + arn                   = (known after apply)
+      + hybrid_access_enabled = (known after apply)
+      + id                    = (known after apply)
+      + last_modified         = (known after apply)
+      + role_arn              = (known after apply)
+      + with_federation       = (known after apply)
+    }
+
+  # module.data_lake.aws_lakeformation_resource.camada["trusted"] will be created
+  + resource "aws_lakeformation_resource" "camada" {
+      + arn                   = (known after apply)
+      + hybrid_access_enabled = (known after apply)
+      + id                    = (known after apply)
+      + last_modified         = (known after apply)
+      + role_arn              = (known after apply)
+      + with_federation       = (known after apply)
+    }
+
+  # module.data_lake.aws_s3_bucket.athena_results will be created
+  + resource "aws_s3_bucket" "athena_results" {
+      + acceleration_status         = (known after apply)
+      + acl                         = (known after apply)
+      + arn                         = (known after apply)
+      + bucket                      = "eda262-g03-athena-results"
+      + bucket_domain_name          = (known after apply)
+      + bucket_prefix               = (known after apply)
+      + bucket_regional_domain_name = (known after apply)
+      + force_destroy               = true
+      + hosted_zone_id              = (known after apply)
+      + id                          = (known after apply)
+      + object_lock_enabled         = (known after apply)
+      + policy                      = (known after apply)
+      + region                      = (known after apply)
+      + request_payer               = (known after apply)
+      + tags_all                    = {
+          + "grupo"   = "g03"
+          + "projeto" = "engenharia-de-dados"
+          + "turma"   = "eda262"
+        }
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+
+      + cors_rule (known after apply)
+
+      + grant (known after apply)
+
+      + lifecycle_rule (known after apply)
+
+      + logging (known after apply)
+
+      + object_lock_configuration (known after apply)
+
+      + replication_configuration (known after apply)
+
+      + server_side_encryption_configuration (known after apply)
+
+      + versioning (known after apply)
+
+      + website (known after apply)
+    }
+
+  # module.data_lake.aws_s3_bucket.camada["raw"] will be created
+  + resource "aws_s3_bucket" "camada" {
+      + acceleration_status         = (known after apply)
+      + acl                         = (known after apply)
+      + arn                         = (known after apply)
+      + bucket                      = "eda262-g03-lake-raw"
+      + bucket_domain_name          = (known after apply)
+      + bucket_prefix               = (known after apply)
+      + bucket_regional_domain_name = (known after apply)
+      + force_destroy               = true
+      + hosted_zone_id              = (known after apply)
+      + id                          = (known after apply)
+      + object_lock_enabled         = (known after apply)
+      + policy                      = (known after apply)
+      + region                      = (known after apply)
+      + request_payer               = (known after apply)
+      + tags                        = {
+          + "camada" = "raw"
+        }
+      + tags_all                    = {
+          + "camada"  = "raw"
+          + "grupo"   = "g03"
+          + "projeto" = "engenharia-de-dados"
+          + "turma"   = "eda262"
+        }
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+
+      + cors_rule (known after apply)
+
+      + grant (known after apply)
+
+      + lifecycle_rule (known after apply)
+
+      + logging (known after apply)
+
+      + object_lock_configuration (known after apply)
+
+      + replication_configuration (known after apply)
+
+      + server_side_encryption_configuration (known after apply)
+
+      + versioning (known after apply)
+
+      + website (known after apply)
+    }
+
+  # module.data_lake.aws_s3_bucket.camada["refined"] will be created
+  + resource "aws_s3_bucket" "camada" {
+      + acceleration_status         = (known after apply)
+      + acl                         = (known after apply)
+      + arn                         = (known after apply)
+      + bucket                      = "eda262-g03-lake-refined"
+      + bucket_domain_name          = (known after apply)
+      + bucket_prefix               = (known after apply)
+      + bucket_regional_domain_name = (known after apply)
+      + force_destroy               = true
+      + hosted_zone_id              = (known after apply)
+      + id                          = (known after apply)
+      + object_lock_enabled         = (known after apply)
+      + policy                      = (known after apply)
+      + region                      = (known after apply)
+      + request_payer               = (known after apply)
+      + tags                        = {
+          + "camada" = "refined"
+        }
+      + tags_all                    = {
+          + "camada"  = "refined"
+          + "grupo"   = "g03"
+          + "projeto" = "engenharia-de-dados"
+          + "turma"   = "eda262"
+        }
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+
+      + cors_rule (known after apply)
+
+      + grant (known after apply)
+
+      + lifecycle_rule (known after apply)
+
+      + logging (known after apply)
+
+      + object_lock_configuration (known after apply)
+
+      + replication_configuration (known after apply)
+
+      + server_side_encryption_configuration (known after apply)
+
+      + versioning (known after apply)
+
+      + website (known after apply)
+    }
+
+  # module.data_lake.aws_s3_bucket.camada["trusted"] will be created
+  + resource "aws_s3_bucket" "camada" {
+      + acceleration_status         = (known after apply)
+      + acl                         = (known after apply)
+      + arn                         = (known after apply)
+      + bucket                      = "eda262-g03-lake-trusted"
+      + bucket_domain_name          = (known after apply)
+      + bucket_prefix               = (known after apply)
+      + bucket_regional_domain_name = (known after apply)
+      + force_destroy               = true
+      + hosted_zone_id              = (known after apply)
+      + id                          = (known after apply)
+      + object_lock_enabled         = (known after apply)
+      + policy                      = (known after apply)
+      + region                      = (known after apply)
+      + request_payer               = (known after apply)
+      + tags                        = {
+          + "camada" = "trusted"
+        }
+      + tags_all                    = {
+          + "camada"  = "trusted"
+          + "grupo"   = "g03"
+          + "projeto" = "engenharia-de-dados"
+          + "turma"   = "eda262"
+        }
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+
+      + cors_rule (known after apply)
+
+      + grant (known after apply)
+
+      + lifecycle_rule (known after apply)
+
+      + logging (known after apply)
+
+      + object_lock_configuration (known after apply)
+
+      + replication_configuration (known after apply)
+
+      + server_side_encryption_configuration (known after apply)
+
+      + versioning (known after apply)
+
+      + website (known after apply)
+    }
+
+  # module.data_lake.aws_s3_bucket_lifecycle_configuration.athena_results will be created
+  + resource "aws_s3_bucket_lifecycle_configuration" "athena_results" {
+      + bucket                                 = (known after apply)
+      + expected_bucket_owner                  = (known after apply)
+      + id                                     = (known after apply)
+      + transition_default_minimum_object_size = "all_storage_classes_128K"
+
+      + rule {
+          + id     = "expira-resultados"
+          + status = "Enabled"
+            # (1 unchanged attribute hidden)
+
+          + expiration {
+              + days                         = 7
+              + expired_object_delete_marker = false
+            }
+
+          + filter {
+                # (1 unchanged attribute hidden)
+            }
+        }
+    }
+
+  # module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["raw"] will be created
+  + resource "aws_s3_bucket_lifecycle_configuration" "camada" {
+      + bucket                                 = (known after apply)
+      + expected_bucket_owner                  = (known after apply)
+      + id                                     = (known after apply)
+      + transition_default_minimum_object_size = "all_storage_classes_128K"
+
+      + rule {
+          + id     = "expira-versoes-antigas"
+          + status = "Enabled"
+            # (1 unchanged attribute hidden)
+
+          + filter {
+                # (1 unchanged attribute hidden)
+            }
+
+          + noncurrent_version_expiration {
+              + noncurrent_days = 7
+            }
+        }
+    }
+
+  # module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["trusted"] will be created
+  + resource "aws_s3_bucket_lifecycle_configuration" "camada" {
+      + bucket                                 = (known after apply)
+      + expected_bucket_owner                  = (known after apply)
+      + id                                     = (known after apply)
+      + transition_default_minimum_object_size = "all_storage_classes_128K"
+
+      + rule {
+          + id     = "expira-versoes-antigas"
+          + status = "Enabled"
+            # (1 unchanged attribute hidden)
+
+          + filter {
+                # (1 unchanged attribute hidden)
+            }
+
+          + noncurrent_version_expiration {
+              + noncurrent_days = 7
+            }
+        }
+    }
+
+  # module.data_lake.aws_s3_bucket_public_access_block.athena_results will be created
+  + resource "aws_s3_bucket_public_access_block" "athena_results" {
+      + block_public_acls       = true
+      + block_public_policy     = true
+      + bucket                  = (known after apply)
+      + id                      = (known after apply)
+      + ignore_public_acls      = true
+      + restrict_public_buckets = true
+    }
+
+  # module.data_lake.aws_s3_bucket_public_access_block.camada["raw"] will be created
+  + resource "aws_s3_bucket_public_access_block" "camada" {
+      + block_public_acls       = true
+      + block_public_policy     = true
+      + bucket                  = (known after apply)
+      + id                      = (known after apply)
+      + ignore_public_acls      = true
+      + restrict_public_buckets = true
+    }
+
+  # module.data_lake.aws_s3_bucket_public_access_block.camada["refined"] will be created
+  + resource "aws_s3_bucket_public_access_block" "camada" {
+      + block_public_acls       = true
+      + block_public_policy     = true
+      + bucket                  = (known after apply)
+      + id                      = (known after apply)
+      + ignore_public_acls      = true
+      + restrict_public_buckets = true
+    }
+
+  # module.data_lake.aws_s3_bucket_public_access_block.camada["trusted"] will be created
+  + resource "aws_s3_bucket_public_access_block" "camada" {
+      + block_public_acls       = true
+      + block_public_policy     = true
+      + bucket                  = (known after apply)
+      + id                      = (known after apply)
+      + ignore_public_acls      = true
+      + restrict_public_buckets = true
+    }
+
+  # module.data_lake.aws_s3_bucket_versioning.camada["raw"] will be created
+  + resource "aws_s3_bucket_versioning" "camada" {
+      + bucket = (known after apply)
+      + id     = (known after apply)
+
+      + versioning_configuration {
+          + mfa_delete = (known after apply)
+          + status     = "Enabled"
+        }
+    }
+
+  # module.data_lake.aws_s3_bucket_versioning.camada["trusted"] will be created
+  + resource "aws_s3_bucket_versioning" "camada" {
+      + bucket = (known after apply)
+      + id     = (known after apply)
+
+      + versioning_configuration {
+          + mfa_delete = (known after apply)
+          + status     = "Enabled"
+        }
+    }
+
+Plan: 44 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + athena_results_bucket_name = "eda262-g03-athena-results"
+  + athena_workgroup_name      = "eda262-g03-athena"
+  + buckets                    = {
+      + raw     = "eda262-g03-lake-raw"
+      + refined = "eda262-g03-lake-refined"
+      + trusted = "eda262-g03-lake-trusted"
+    }
+  + glue_databases             = {
+      + raw     = "eda262_g03_raw"
+      + refined = "eda262_g03_refined"
+      + trusted = "eda262_g03_trusted"
+    }
+  + glue_tables                = {
+      + raw     = "eda262_g03_raw.flights"
+      + refined = "eda262_g03_refined.preco_por_periodo"
+      + trusted = "eda262_g03_trusted.flights"
+    }
+  + lakeformation_admin_arn    = "arn:aws:iam::325583868777:user/eda-grupo03"
+  + role_analista_arn          = (known after apply)
+  + role_cientista_arn         = (known after apply)
+
+Do you want to perform these actions in workspace "dev"?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: 
+module.data_lake.aws_lakeformation_data_lake_settings.this: Creating...
+module.data_lake.aws_iam_role.persona["analista"]: Creating...
+module.data_lake.aws_iam_role.lakeformation_acesso: Creating...
+module.data_lake.aws_iam_role.persona["cientista"]: Creating...
+module.data_lake.aws_s3_bucket.athena_results: Creating...
+module.data_lake.aws_s3_bucket.camada["trusted"]: Creating...
+module.data_lake.aws_s3_bucket.camada["raw"]: Creating...
+module.data_lake.aws_s3_bucket.camada["refined"]: Creating...
+module.data_lake.aws_lakeformation_data_lake_settings.this: Creation complete after 1s [id=3242948791]
+module.data_lake.aws_glue_catalog_database.camada["trusted"]: Creating...
+module.data_lake.aws_glue_catalog_database.camada["raw"]: Creating...
+module.data_lake.aws_glue_catalog_database.camada["refined"]: Creating...
+module.data_lake.aws_iam_role.persona["analista"]: Creation complete after 2s [id=eda262-g03-analista]
+module.data_lake.aws_iam_role.persona["cientista"]: Creation complete after 2s [id=eda262-g03-cientista]
+module.data_lake.aws_iam_role.lakeformation_acesso: Creation complete after 2s [id=eda262-g03-lakeformation-acesso]
+module.data_lake.aws_glue_catalog_database.camada["raw"]: Creation complete after 1s [id=325583868777:eda262_g03_raw]
+module.data_lake.aws_glue_catalog_database.camada["refined"]: Creation complete after 1s [id=325583868777:eda262_g03_refined]
+module.data_lake.aws_glue_catalog_database.camada["trusted"]: Creation complete after 1s [id=325583868777:eda262_g03_trusted]
+module.data_lake.aws_lakeformation_permissions.leitor_database["trusted-cientista"]: Creating...
+module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["refined"]: Creating...
+module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["raw"]: Creating...
+module.data_lake.aws_lakeformation_permissions.leitor_database["refined-analista"]: Creating...
+module.data_lake.aws_lakeformation_permissions.leitor_database["refined-cientista"]: Creating...
+module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["trusted"]: Creating...
+module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["refined"]: Creation complete after 1s [id=3915248737]
+module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["raw"]: Creation complete after 1s [id=4162109222]
+module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["trusted"]: Creation complete after 1s [id=3009206698]
+module.data_lake.aws_s3_bucket.athena_results: Creation complete after 4s [id=eda262-g03-athena-results]
+module.data_lake.aws_s3_bucket.camada["raw"]: Creation complete after 4s [id=eda262-g03-lake-raw]
+module.data_lake.aws_s3_bucket_public_access_block.athena_results: Creating...
+module.data_lake.aws_athena_workgroup.this: Creating...
+module.data_lake.aws_glue_catalog_table.raw_flights: Creating...
+module.data_lake.aws_s3_bucket.camada["refined"]: Creation complete after 4s [id=eda262-g03-lake-refined]
+module.data_lake.aws_glue_catalog_table.refined_preco_por_periodo: Creating...
+module.data_lake.aws_s3_bucket.camada["trusted"]: Creation complete after 4s [id=eda262-g03-lake-trusted]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.athena_results: Creating...
+module.data_lake.aws_iam_role_policy.lakeformation_acesso: Creating...
+module.data_lake.aws_glue_catalog_table.trusted_flights: Creating...
+module.data_lake.aws_iam_role_policy.lakeformation_acesso: Creation complete after 0s [id=eda262-g03-lakeformation-acesso:s3-camadas]
+module.data_lake.aws_s3_bucket_public_access_block.camada["trusted"]: Creating...
+module.data_lake.aws_s3_bucket_public_access_block.athena_results: Creation complete after 0s [id=eda262-g03-athena-results]
+module.data_lake.aws_s3_bucket_public_access_block.camada["refined"]: Creating...
+module.data_lake.aws_glue_catalog_table.refined_preco_por_periodo: Creation complete after 0s [id=325583868777:eda262_g03_refined:preco_por_periodo]
+module.data_lake.aws_s3_bucket_versioning.camada["trusted"]: Creating...
+module.data_lake.aws_glue_catalog_table.trusted_flights: Creation complete after 0s [id=325583868777:eda262_g03_trusted:flights]
+module.data_lake.aws_glue_catalog_table.raw_flights: Creation complete after 0s [id=325583868777:eda262_g03_raw:flights]
+module.data_lake.aws_s3_bucket_public_access_block.camada["raw"]: Creating...
+module.data_lake.aws_s3_bucket_versioning.camada["raw"]: Creating...
+module.data_lake.aws_athena_workgroup.this: Creation complete after 1s [id=eda262-g03-athena]
+module.data_lake.aws_lakeformation_resource.camada["raw"]: Creating...
+module.data_lake.aws_s3_bucket_public_access_block.camada["refined"]: Creation complete after 1s [id=eda262-g03-lake-refined]
+module.data_lake.aws_lakeformation_resource.camada["refined"]: Creating...
+module.data_lake.aws_lakeformation_resource.camada["raw"]: Creation complete after 0s [id=arn:aws:s3:::eda262-g03-lake-raw]
+module.data_lake.aws_lakeformation_resource.camada["trusted"]: Creating...
+module.data_lake.aws_s3_bucket_public_access_block.camada["trusted"]: Creation complete after 1s [id=eda262-g03-lake-trusted]
+module.data_lake.aws_athena_named_query.negocio_trusted: Creating...
+module.data_lake.aws_s3_bucket_public_access_block.camada["raw"]: Creation complete after 1s [id=eda262-g03-lake-raw]
+module.data_lake.aws_athena_named_query.negocio_refined: Creating...
+module.data_lake.aws_lakeformation_resource.camada["refined"]: Creation complete after 0s [id=arn:aws:s3:::eda262-g03-lake-refined]
+module.data_lake.aws_iam_role_policy.persona_consulta["cientista"]: Creating...
+module.data_lake.aws_athena_named_query.negocio_trusted: Creation complete after 0s [id=6d861fb3-5983-4cf7-a543-a59d5d6bdf4e]
+module.data_lake.aws_iam_role_policy.persona_consulta["analista"]: Creating...
+module.data_lake.aws_lakeformation_resource.camada["trusted"]: Creation complete after 0s [id=arn:aws:s3:::eda262-g03-lake-trusted]
+module.data_lake.aws_lakeformation_permissions.engenheiro_local["trusted"]: Creating...
+module.data_lake.aws_athena_named_query.negocio_refined: Creation complete after 1s [id=23a6fc9a-dd36-4dda-8224-7fc5ed434bd2]
+module.data_lake.aws_lakeformation_permissions.engenheiro_local["raw"]: Creating...
+module.data_lake.aws_iam_role_policy.persona_consulta["analista"]: Creation complete after 1s [id=eda262-g03-analista:consulta-athena]
+module.data_lake.aws_lakeformation_permissions.leitor_tabelas["refined-analista"]: Creating...
+module.data_lake.aws_lakeformation_permissions.engenheiro_local["trusted"]: Creation complete after 1s [id=926254234]
+module.data_lake.aws_lakeformation_permissions.leitor_tabelas["trusted-cientista"]: Creating...
+module.data_lake.aws_iam_role_policy.persona_consulta["cientista"]: Creation complete after 1s [id=eda262-g03-cientista:consulta-athena]
+module.data_lake.aws_lakeformation_permissions.engenheiro_local["refined"]: Creating...
+module.data_lake.aws_lakeformation_permissions.engenheiro_local["raw"]: Creation complete after 0s [id=3631058638]
+module.data_lake.aws_lakeformation_permissions.leitor_tabelas["refined-cientista"]: Creating...
+module.data_lake.aws_lakeformation_permissions.engenheiro_local["refined"]: Creation complete after 0s [id=430369506]
+module.data_lake.aws_s3_bucket_versioning.camada["raw"]: Creation complete after 2s [id=eda262-g03-lake-raw]
+module.data_lake.aws_s3_bucket_versioning.camada["trusted"]: Creation complete after 2s [id=eda262-g03-lake-trusted]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["raw"]: Creating...
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["trusted"]: Creating...
+module.data_lake.aws_lakeformation_permissions.leitor_tabelas["trusted-cientista"]: Creation complete after 5s [id=3159258225]
+module.data_lake.aws_lakeformation_permissions.leitor_tabelas["refined-analista"]: Creation complete after 5s [id=3454303457]
+module.data_lake.aws_lakeformation_permissions.leitor_database["trusted-cientista"]: Creation complete after 9s [id=1429406740]
+module.data_lake.aws_lakeformation_permissions.leitor_database["refined-cientista"]: Creation complete after 9s [id=2074110572]
+module.data_lake.aws_lakeformation_permissions.leitor_database["refined-analista"]: Creation complete after 9s [id=1625165637]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.athena_results: Still creating... [00m10s elapsed]
+module.data_lake.aws_lakeformation_permissions.leitor_tabelas["refined-cientista"]: Creation complete after 9s [id=3863959994]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["raw"]: Still creating... [00m10s elapsed]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["trusted"]: Still creating... [00m10s elapsed]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.athena_results: Still creating... [00m20s elapsed]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["raw"]: Still creating... [00m20s elapsed]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["trusted"]: Still creating... [00m20s elapsed]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.athena_results: Still creating... [00m30s elapsed]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["trusted"]: Still creating... [00m30s elapsed]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["raw"]: Still creating... [00m30s elapsed]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.athena_results: Still creating... [00m40s elapsed]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["trusted"]: Still creating... [00m40s elapsed]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["raw"]: Still creating... [00m40s elapsed]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.athena_results: Still creating... [00m50s elapsed]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["raw"]: Still creating... [00m50s elapsed]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["trusted"]: Still creating... [00m50s elapsed]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.athena_results: Creation complete after 57s [id=eda262-g03-athena-results]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["raw"]: Creation complete after 57s [id=eda262-g03-lake-raw]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["trusted"]: Creation complete after 58s [id=eda262-g03-lake-trusted]
+
+Apply complete! Resources: 44 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+athena_results_bucket_name = "eda262-g03-athena-results"
+athena_workgroup_name = "eda262-g03-athena"
+buckets = {
+  "raw" = "eda262-g03-lake-raw"
+  "refined" = "eda262-g03-lake-refined"
+  "trusted" = "eda262-g03-lake-trusted"
+}
+glue_databases = {
+  "raw" = "eda262_g03_raw"
+  "refined" = "eda262_g03_refined"
+  "trusted" = "eda262_g03_trusted"
+}
+glue_tables = {
+  "raw" = "eda262_g03_raw.flights"
+  "refined" = "eda262_g03_refined.preco_por_periodo"
+  "trusted" = "eda262_g03_trusted.flights"
+}
+lakeformation_admin_arn = "arn:aws:iam::325583868777:user/eda-grupo03"
+role_analista_arn = "arn:aws:iam::325583868777:role/eda262-g03-analista"
+role_cientista_arn = "arn:aws:iam::325583868777:role/eda262-g03-cientista"
+# ------------------------------------------------------------
+# fim (UTC):    2026-11-27 20:16:25   duração: 73s   código de saída: 0

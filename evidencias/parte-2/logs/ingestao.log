@@ -1,0 +1,38 @@
+# evidência: ingestao
+# início (UTC): 2026-11-27 20:16:35
+# conta AWS:    325583868777   região: us-east-1
+# commit:       211e3afddcc4bcbee9e9bf48727ed693498b0bc6
+# comando:      bash parte-2/scripts/ingestao.sh
+# ------------------------------------------------------------
+Ingestão do Data Lake — grupo g03  (região us-east-1)
+
+== 1/4 raw — envio do arquivo bruto
+  ok  s3://eda262-g03-lake-raw/flights/airlines_flights_data.csv.gz
+
+== 2/4 partições encontradas na raw
+  ok  6 partições: Bangalore Chennai Delhi Hyderabad Kolkata Mumbai
+
+== 3/4 trusted — Parquet particionado por source_city
+  ok  trusted source_city=Bangalore  (1,87 MB escaneados na raw)
+  ok  trusted source_city=Chennai  (1,87 MB escaneados na raw)
+  ok  trusted source_city=Delhi  (1,87 MB escaneados na raw)
+  ok  trusted source_city=Hyderabad  (1,87 MB escaneados na raw)
+  ok  trusted source_city=Kolkata  (1,87 MB escaneados na raw)
+  ok  trusted source_city=Mumbai  (1,87 MB escaneados na raw)
+
+== 4/4 refined — agregado por class x períodos
+  ok  refined preco_por_periodo  (607,81 KB escaneados na trusted)
+
+== Resumo
+        raw:     300153 linhas
+        trusted: 300153 linhas, 300153 id_oferta distintos  (descartadas na limpeza: 0)
+        refined: soma de qtd_passagens = 300153
+          source_city=Bangalore    52061 linhas  ingerido_em=2026-11-27 20:16:45.345
+          source_city=Chennai      38700 linhas  ingerido_em=2026-11-27 20:16:52.912
+          source_city=Delhi        61343 linhas  ingerido_em=2026-11-27 20:17:00.438
+          source_city=Hyderabad    40806 linhas  ingerido_em=2026-11-27 20:17:08.047
+          source_city=Kolkata      46347 linhas  ingerido_em=2026-11-27 20:17:15.512
+          source_city=Mumbai       60896 linhas  ingerido_em=2026-11-27 20:17:22.971
+  ok  ingestão concluída — total escaneado nesta execução: 16,79 MB
+# ------------------------------------------------------------
+# fim (UTC):    2026-11-27 20:17:49   duração: 74s   código de saída: 0

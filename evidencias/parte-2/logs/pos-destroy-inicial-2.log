@@ -1,0 +1,13 @@
+# evidência: pos-destroy-inicial-2
+# início (UTC): 2026-11-27 20:10:53
+# conta AWS:    325583868777   região: us-east-1
+# commit:       7c3fcfd80ab4bf700374617bd7bae8a191027c0b (com alterações não commitadas)
+# comando:      bash verificacao/verifica.sh --pos-destroy
+# ------------------------------------------------------------
+Pós-destroy — nada do grupo g03 pode sobrar (conta 325583868777)
+----------------------------------------------------------------
+FALHA  [D]  (100%)  recursos órfãos: glue:eda262_g03_raw glue:eda262_g03_trusted glue:eda262_g03_refined
+----------------------------------------------------------------
+Resultado pós-destroy: 0 / 100
+# ------------------------------------------------------------
+# fim (UTC):    2026-11-27 20:11:04   duração: 11s   código de saída: 0
