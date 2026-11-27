@@ -61,8 +61,21 @@ if [ "$MODO" = "pos-destroy" ]; then
 
   sobras=""
 
+  # A exclusão de bucket no S3 leva alguns segundos para propagar: logo após
+  # o destroy, o head-bucket ainda pode responder que o bucket existe
+  # (visto em evidencias/parte-2/logs/pos-destroy-rodada2.log, 9 s depois do
+  # destroy). Só conta como órfão se continuar existindo após ~60 s.
+  bucket_persiste() {
+    local tentativa
+    for tentativa in 1 2 3 4 5 6 7; do
+      aws_ s3api head-bucket --bucket "$1" >/dev/null 2>&1 || return 1
+      [ "$tentativa" -lt 7 ] && { info "$1 ainda responde; aguardando a propagação da exclusão ($tentativa/6)"; sleep 10; }
+    done
+    return 0
+  }
+
   for b in "$BUCKET_RAW" "$BUCKET_TRUSTED" "$BUCKET_REFINED" "$BUCKET_RESULTADOS"; do
-    aws_ s3api head-bucket --bucket "$b" >/dev/null 2>&1 && sobras="$sobras bucket:$b"
+    bucket_persiste "$b" && sobras="$sobras bucket:$b"
   done
 
   for d in "$DB_RAW" "$DB_TRUSTED" "$DB_REFINED"; do

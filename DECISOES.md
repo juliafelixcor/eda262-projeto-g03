@@ -30,6 +30,7 @@ Para reproduzir: `bash parte-2/scripts/coletar-evidencias.sh --parte1-csv`.
 | Custo | meta ≤ 1 MiB escaneado na consulta de negócio | medido: **1.435 bytes** (0,14% da meta) | `10`, `logs/verifica.log` |
 | Idempotência | sobrescrita por partição (DROP + rm + INSERT) | 2 cargas completas seguidas: 300.153 → 300.153; backfill de Delhi: 61.343 → 61.343 | `logs/ingestao*.log`, `logs/backfill.log` |
 | Acesso | 1 database por camada + Lake Formation | analista negado na trusted/raw ("Insufficient Lake Formation permission(s)") e liberado na refined | `logs/verifica.log` |
+| Limpeza | 13 regras na passagem raw → trusted | dataset real: 0 rejeições; lote sujo de teste: 12 de 14 linhas barradas, 2 aprovadas e normalizadas | `03`, `logs/verifica-rodada2.log` (5b) |
 | Destroy | sem recurso órfão | 1º destroy deixou 3 databases órfãs; causa corrigida; destroy final: 44/44 recursos, pós-destroy 100/100 | `logs/destroy-inicial*.log`, `logs/destroy.log`, `logs/pos-destroy.log` |
 
 Os números da coluna "Prova" são os prefixos dos arquivos em
@@ -320,9 +321,14 @@ trusted sobre um lote de 14 linhas sujas, versionado em
 O lote tem duplicata exata, id não numérico, preço negativo e em texto,
 duração zero e de 60 h, `days_left` = 0, classe, período e `stops` fora do
 domínio, origem igual ao destino, companhia vazia e espaços/caixa trocada. O
-esperado é que só as 2 linhas válidas passem, já normalizadas. As regras ficam
-como contrato da camada:
-qualquer carga futura com sujeira é barrada na trusted, e a diferença
+esperado é que só as 2 linhas válidas passem, já normalizadas.
+
+**Resultado medido** ([`logs/verifica-rodada2.log`](evidencias/parte-2/logs/verifica-rodada2.log),
+critério 5b, QueryExecutionId `e2d60127-580e-49e1-82a4-9b953a6d1993`):
+14 linhas → **2 aprovadas** (ids 1 e 2), ambas normalizadas; as outras 12
+foram barradas.
+
+As regras ficam como contrato da camada: qualquer carga futura com sujeira é barrada na trusted, e a diferença
 raw − trusted aparece no resumo da ingestão.
 
 ---
@@ -386,6 +392,16 @@ O primeiro destroy da Parte 2 **falhou** e deixou as 3 databases do Glue
   única execução, sem erro
   ([`logs/destroy.log`](evidencias/parte-2/logs/destroy.log)); pós-destroy
   100/100 ([`logs/pos-destroy.log`](evidencias/parte-2/logs/pos-destroy.log)).
+- **Segunda rodada completa** (apply → ingestão → `verifica.sh` → destroy):
+  44/44 recursos de novo
+  ([`logs/apply-rodada2.log`](evidencias/parte-2/logs/apply-rodada2.log),
+  [`logs/destroy-rodada2.log`](evidencias/parte-2/logs/destroy-rodada2.log)).
+  O pós-destroy, rodado 9 s depois, ainda viu o bucket refined
+  ([`logs/pos-destroy-rodada2.log`](evidencias/parte-2/logs/pos-destroy-rodada2.log)),
+  embora o Terraform tivesse confirmado a exclusão (`Destruction complete`).
+  É a propagação da exclusão no S3. O `verifica.sh --pos-destroy` passou a
+  esperar até ~60 s antes de acusar um bucket; um órfão de verdade continua
+  sendo reprovado.
 
 ---
 

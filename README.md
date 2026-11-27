@@ -52,13 +52,13 @@ Atualizado em 27/11/2026. Entrega da Parte 2: **30/11/2026 (Aula 30)**.
 - [x] Bug do destroy encontrado (3 databases órfãs), corrigido e provado — `DECISOES.md`, seção 9
 - [x] Evidências em texto no lugar de prints: logs + medições com QueryExecutionId (`evidencias/parte-2/`)
 - [x] Fonte do dataset citada (Kaggle, versão 1, licença ODbL/DbCL)
-- [x] Scripts compatíveis com macOS, Linux e Windows (Git Bash); bootstrap do backend em Terraform
+- [x] Scripts compatíveis com macOS, Linux e Windows (Git Bash)
+- [x] Bootstrap do backend em Terraform, testado: apply e destroy de 5 recursos (`bootstrap-apply.log`, `bootstrap-destroy.log`)
+- [x] Regras de limpeza testadas com lote sujo: 12 de 14 linhas barradas (`verifica-rodada2.log`, critério 5b)
 - [x] Dataset versionado em `dados/` (CSV gzip) para subir em conta limpa
 
 ### Falta fazer
 
-- [ ] Testar o bootstrap do backend (apply + destroy com nomes de teste, logs em `evidencias/parte-2/logs/`)
-- [ ] Rodar o `verifica.sh` com o critério 5b (teste de sujeira) e registrar o log
 - [ ] Apresentação `apresentacao-parte-2-g03.pdf` (5 min, diretriz de design da CESAR School)
 - [ ] Ensaiar a defesa individual: cada integrante precisa saber explicar qualquer decisão do `DECISOES.md`
 - [ ] Merge na `main`, tags `av1-entrega` (commit `b54260b`) e `av2-entrega`
@@ -172,6 +172,11 @@ terraform -chdir=parte-2 init -backend-config="bucket=<seu-bucket>"
 ```
 
 O output `proximo_passo` do bootstrap já mostra o comando de init certo.
+
+Testado em 27/11 com nomes de teste (`-var="tabela_lock=..."` também é
+aceito): 5 recursos criados e destruídos —
+[`bootstrap-apply.log`](evidencias/parte-2/logs/bootstrap-apply.log) e
+[`bootstrap-destroy.log`](evidencias/parte-2/logs/bootstrap-destroy.log).
 
 > Os buckets das camadas (`eda262-g03-lake-*`) também têm nome global. A
 > infraestrutura do grupo precisa estar destruída antes de subir em outra conta.

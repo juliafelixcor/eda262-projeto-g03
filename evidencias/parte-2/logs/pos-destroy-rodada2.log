@@ -1,0 +1,13 @@
+# evidência: pos-destroy-rodada2
+# início (UTC): 2026-11-27 21:49:25
+# conta AWS:    325583868777   região: us-east-1
+# commit:       73289c2a66a104ebbfed5e44e948d0f2a28b8abd
+# comando:      bash verificacao/verifica.sh --pos-destroy
+# ------------------------------------------------------------
+Pós-destroy — nada do grupo g03 pode sobrar (conta 325583868777)
+----------------------------------------------------------------
+FALHA  [D]  (100%)  recursos órfãos: bucket:eda262-g03-lake-refined
+----------------------------------------------------------------
+Resultado pós-destroy: 0 / 100
+# ------------------------------------------------------------
+# fim (UTC):    2026-11-27 21:49:35   duração: 10s   código de saída: 0
