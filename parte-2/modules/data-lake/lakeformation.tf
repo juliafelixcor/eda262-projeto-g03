@@ -41,21 +41,15 @@ resource "aws_lakeformation_resource" "camada" {
 # Engenheiro (quem roda Terraform + ingestão): acesso total às 3 camadas
 # ------------------------------------------------------------
 
-# O Lake Formation concede ao criador da database ALL com grant option e
-# devolve isso na leitura; declarar o mesmo conjunto mantém o plan limpo.
-resource "aws_lakeformation_permissions" "engenheiro_database" {
-  for_each = local.camadas
-
-  principal                     = local.engenheiro_arn
-  permissions                   = ["ALL", "ALTER", "CREATE_TABLE", "DESCRIBE", "DROP"]
-  permissions_with_grant_option = ["ALL", "ALTER", "CREATE_TABLE", "DESCRIBE", "DROP"]
-
-  database {
-    name = aws_glue_catalog_database.camada[each.key].name
-  }
-
-  depends_on = [aws_lakeformation_data_lake_settings.this]
-}
+# Permissão do engenheiro nas DATABASES: NÃO é declarada aqui, de propósito.
+#
+# Quem cria a database (o Terraform, com as credenciais do engenheiro)
+# recebe do Lake Formation ALL com grant option automaticamente. Uma versão
+# anterior declarava esse mesmo grant como recurso; no destroy, o Terraform
+# revogava o grant ANTES de apagar as databases (o grant depende delas) e o
+# DeleteDatabase falhava com "Insufficient Lake Formation permission(s):
+# Required Drop" — as 3 databases ficavam órfãs.
+# Evidência: evidencias/parte-2/logs/destroy-inicial.log
 
 resource "aws_lakeformation_permissions" "engenheiro_tabelas" {
   for_each = local.camadas

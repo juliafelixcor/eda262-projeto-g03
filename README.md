@@ -273,15 +273,14 @@ Roteiro de coleta, na raiz do repositório. O `registrar.sh` roda o comando e
 grava a saída em `evidencias/parte-2/logs/<nome>.log`:
 
 ```bash
-R="bash parte-2/scripts/registrar.sh"
-$R apply              terraform -chdir=parte-2 apply -no-color
-$R ingestao           bash parte-2/scripts/ingestao.sh
-$R ingestao-de-novo   bash parte-2/scripts/ingestao.sh          # idempotência
-$R backfill           bash parte-2/scripts/ingestao.sh --particao Delhi
-$R coleta             bash parte-2/scripts/coletar-evidencias.sh --parte1-csv
-$R verifica           bash verificacao/verifica.sh
-$R destroy            terraform -chdir=parte-2 destroy -no-color
-$R pos-destroy        bash verificacao/verifica.sh --pos-destroy
+bash parte-2/scripts/registrar.sh apply            terraform -chdir=parte-2 apply -no-color
+bash parte-2/scripts/registrar.sh ingestao         bash parte-2/scripts/ingestao.sh
+bash parte-2/scripts/registrar.sh ingestao-de-novo bash parte-2/scripts/ingestao.sh   # idempotência
+bash parte-2/scripts/registrar.sh backfill         bash parte-2/scripts/ingestao.sh --particao Delhi
+bash parte-2/scripts/registrar.sh coleta           bash parte-2/scripts/coletar-evidencias.sh --parte1-csv
+bash parte-2/scripts/registrar.sh verifica         bash verificacao/verifica.sh
+bash parte-2/scripts/registrar.sh destroy          terraform -chdir=parte-2 destroy -no-color
+bash parte-2/scripts/registrar.sh pos-destroy      bash verificacao/verifica.sh --pos-destroy
 ```
 
 O SQL de cada medição está em [`parte-2/sql/medicoes/`](parte-2/sql/medicoes/),
