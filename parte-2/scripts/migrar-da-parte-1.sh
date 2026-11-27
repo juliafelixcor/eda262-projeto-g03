@@ -28,10 +28,13 @@ P2="$RAIZ/parte-2"
 WORKSPACE="${WORKSPACE:-dev}"
 CONTA_ID="$(aws sts get-caller-identity --query Account --output text | tr -d '\r')"
 
-declare -A MAPA=(
-  ["module.data_lake.aws_s3_bucket.trusted"]='module.data_lake.aws_s3_bucket.camada["trusted"]|eda262-g03-lake-trusted'
-  ["module.data_lake.aws_s3_bucket_versioning.trusted"]='module.data_lake.aws_s3_bucket_versioning.camada["trusted"]|eda262-g03-lake-trusted'
-  ["module.data_lake.aws_athena_workgroup.flights"]='module.data_lake.aws_athena_workgroup.this|eda262-g03-athena'
+# origem (Parte 1) | destino (Parte 2) | id para o import
+# Lista simples em vez de "declare -A": array associativo não existe no
+# bash 3.2 (padrão do macOS).
+MAPA=(
+  'module.data_lake.aws_s3_bucket.trusted|module.data_lake.aws_s3_bucket.camada["trusted"]|eda262-g03-lake-trusted'
+  'module.data_lake.aws_s3_bucket_versioning.trusted|module.data_lake.aws_s3_bucket_versioning.camada["trusted"]|eda262-g03-lake-trusted'
+  'module.data_lake.aws_athena_workgroup.flights|module.data_lake.aws_athena_workgroup.this|eda262-g03-athena'
 )
 
 workspace() {
@@ -51,9 +54,8 @@ ESTADO_P1="$(terraform -chdir="$P1" state list)"
 ESTADO_P2="$(terraform -chdir="$P2" state list)"
 
 echo "== 2/4 import na Parte 2"
-for origem in "${!MAPA[@]}"; do
-  destino="${MAPA[$origem]%%|*}"
-  id="${MAPA[$origem]##*|}"
+for item in "${MAPA[@]}"; do
+  IFS='|' read -r origem destino id <<<"$item"
   if grep -qxF "$destino" <<<"$ESTADO_P2"; then
     echo "   já está na Parte 2: $destino"
   else
@@ -62,7 +64,8 @@ for origem in "${!MAPA[@]}"; do
 done
 
 echo "== 3/4 remove do state da Parte 1 (sem destruir na AWS)"
-for origem in "${!MAPA[@]}"; do
+for item in "${MAPA[@]}"; do
+  origem="${item%%|*}"
   if grep -qxF "$origem" <<<"$ESTADO_P1"; then
     terraform -chdir="$P1" state rm "$origem"
   else
