@@ -131,9 +131,10 @@ eda262-projeto-g03/
 
 ## 3. Pré-requisitos
 
-- Terraform ≥ 1.5 (testado com 1.9.8)
+- Terraform ≥ 1.5 (testado com 1.9.8 e 1.16.0)
 - AWS CLI configurada (`aws configure`), com permissão de administrador na conta
-- Bash (Linux/macOS, ou Git Bash no Windows) para os scripts
+- **Bash** para os scripts: nativo no macOS e no Linux; no Windows, use o
+  **Git Bash** (vem com o Git for Windows)
 - Quem roda o Terraform vira **administrador do Lake Formation** da conta (é
   necessário para conceder as permissões por camada)
 
