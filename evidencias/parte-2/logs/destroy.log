@@ -1,0 +1,1740 @@
+# evidência: destroy
+# início (UTC): 2026-11-27 21:32:14
+# conta AWS:    325583868777   região: us-east-1
+# commit:       737604c871d762e590281a97603d4d16e0e92b24
+# comando:      terraform -chdir=parte-2 destroy -no-color
+# ------------------------------------------------------------
+
+Warning: Deprecated Parameter
+
+The parameter "dynamodb_table" is deprecated. Use parameter "use_lockfile"
+instead.
+Acquiring state lock. This may take a few moments...
+module.data_lake.data.aws_caller_identity.atual: Reading...
+module.data_lake.data.aws_lakeformation_data_lake_settings.atual: Reading...
+module.data_lake.aws_iam_role.lakeformation_acesso: Refreshing state... [id=eda262-g03-lakeformation-acesso]
+module.data_lake.aws_s3_bucket.camada["refined"]: Refreshing state... [id=eda262-g03-lake-refined]
+module.data_lake.aws_s3_bucket.camada["trusted"]: Refreshing state... [id=eda262-g03-lake-trusted]
+module.data_lake.aws_s3_bucket.camada["raw"]: Refreshing state... [id=eda262-g03-lake-raw]
+module.data_lake.aws_s3_bucket.athena_results: Refreshing state... [id=eda262-g03-athena-results]
+module.data_lake.data.aws_caller_identity.atual: Read complete after 0s [id=325583868777]
+module.data_lake.data.aws_iam_session_context.atual: Reading...
+module.data_lake.aws_iam_role.persona["analista"]: Refreshing state... [id=eda262-g03-analista]
+module.data_lake.aws_iam_role.persona["cientista"]: Refreshing state... [id=eda262-g03-cientista]
+module.data_lake.data.aws_iam_session_context.atual: Read complete after 0s [id=arn:aws:iam::325583868777:user/eda-grupo03]
+module.data_lake.data.aws_lakeformation_data_lake_settings.atual: Read complete after 1s [id=1152817244]
+module.data_lake.aws_lakeformation_data_lake_settings.this: Refreshing state... [id=3242948791]
+module.data_lake.aws_glue_catalog_database.camada["refined"]: Refreshing state... [id=325583868777:eda262_g03_refined]
+module.data_lake.aws_glue_catalog_database.camada["raw"]: Refreshing state... [id=325583868777:eda262_g03_raw]
+module.data_lake.aws_glue_catalog_database.camada["trusted"]: Refreshing state... [id=325583868777:eda262_g03_trusted]
+module.data_lake.aws_lakeformation_permissions.leitor_database["refined-cientista"]: Refreshing state... [id=2074110572]
+module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["raw"]: Refreshing state... [id=4162109222]
+module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["trusted"]: Refreshing state... [id=3009206698]
+module.data_lake.aws_lakeformation_permissions.leitor_database["trusted-cientista"]: Refreshing state... [id=1429406740]
+module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["refined"]: Refreshing state... [id=3915248737]
+module.data_lake.aws_lakeformation_permissions.leitor_database["refined-analista"]: Refreshing state... [id=1625165637]
+module.data_lake.aws_iam_role_policy.lakeformation_acesso: Refreshing state... [id=eda262-g03-lakeformation-acesso:s3-camadas]
+module.data_lake.aws_s3_bucket_public_access_block.camada["trusted"]: Refreshing state... [id=eda262-g03-lake-trusted]
+module.data_lake.aws_s3_bucket_public_access_block.camada["raw"]: Refreshing state... [id=eda262-g03-lake-raw]
+module.data_lake.aws_s3_bucket_versioning.camada["trusted"]: Refreshing state... [id=eda262-g03-lake-trusted]
+module.data_lake.aws_s3_bucket_versioning.camada["raw"]: Refreshing state... [id=eda262-g03-lake-raw]
+module.data_lake.aws_s3_bucket_public_access_block.camada["refined"]: Refreshing state... [id=eda262-g03-lake-refined]
+module.data_lake.aws_glue_catalog_table.refined_preco_por_periodo: Refreshing state... [id=325583868777:eda262_g03_refined:preco_por_periodo]
+module.data_lake.aws_glue_catalog_table.trusted_flights: Refreshing state... [id=325583868777:eda262_g03_trusted:flights]
+module.data_lake.aws_glue_catalog_table.raw_flights: Refreshing state... [id=325583868777:eda262_g03_raw:flights]
+module.data_lake.aws_s3_bucket_public_access_block.athena_results: Refreshing state... [id=eda262-g03-athena-results]
+module.data_lake.aws_athena_workgroup.this: Refreshing state... [id=eda262-g03-athena]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.athena_results: Refreshing state... [id=eda262-g03-athena-results]
+module.data_lake.aws_lakeformation_resource.camada["refined"]: Refreshing state... [id=arn:aws:s3:::eda262-g03-lake-refined]
+module.data_lake.aws_lakeformation_resource.camada["raw"]: Refreshing state... [id=arn:aws:s3:::eda262-g03-lake-raw]
+module.data_lake.aws_lakeformation_resource.camada["trusted"]: Refreshing state... [id=arn:aws:s3:::eda262-g03-lake-trusted]
+module.data_lake.aws_lakeformation_permissions.engenheiro_local["refined"]: Refreshing state... [id=430369506]
+module.data_lake.aws_lakeformation_permissions.leitor_tabelas["refined-analista"]: Refreshing state... [id=3454303457]
+module.data_lake.aws_lakeformation_permissions.engenheiro_local["trusted"]: Refreshing state... [id=926254234]
+module.data_lake.aws_lakeformation_permissions.engenheiro_local["raw"]: Refreshing state... [id=3631058638]
+module.data_lake.aws_lakeformation_permissions.leitor_tabelas["trusted-cientista"]: Refreshing state... [id=3159258225]
+module.data_lake.aws_lakeformation_permissions.leitor_tabelas["refined-cientista"]: Refreshing state... [id=3863959994]
+module.data_lake.aws_athena_named_query.negocio_trusted: Refreshing state... [id=6d861fb3-5983-4cf7-a543-a59d5d6bdf4e]
+module.data_lake.aws_athena_named_query.negocio_refined: Refreshing state... [id=23a6fc9a-dd36-4dda-8224-7fc5ed434bd2]
+module.data_lake.aws_iam_role_policy.persona_consulta["cientista"]: Refreshing state... [id=eda262-g03-cientista:consulta-athena]
+module.data_lake.aws_iam_role_policy.persona_consulta["analista"]: Refreshing state... [id=eda262-g03-analista:consulta-athena]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["trusted"]: Refreshing state... [id=eda262-g03-lake-trusted]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["raw"]: Refreshing state... [id=eda262-g03-lake-raw]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # module.data_lake.aws_athena_named_query.negocio_refined will be destroyed
+  - resource "aws_athena_named_query" "negocio_refined" {
+      - database    = "eda262_g03_refined" -> null
+      - description = "Preco medio por periodo de partida/chegada (camada refined)" -> null
+      - id          = "23a6fc9a-dd36-4dda-8224-7fc5ed434bd2" -> null
+      - name        = "eda262-g03-negocio-refined" -> null
+      - query       = <<-EOT
+            -- Pergunta de negócio: o valor das passagens é influenciado pelo
+            -- horário de embarque e desembarque?
+            -- Média ponderada recomposta a partir da refined (soma_preco / qtd),
+            -- portanto o resultado é idêntico ao AVG(price) da Parte 1.
+            SELECT
+                departure_time,
+                arrival_time,
+                SUM(qtd_passagens)                                        AS quantidade_passagens,
+                ROUND(CAST(SUM(soma_preco) AS DOUBLE) / SUM(qtd_passagens), 2) AS preco_medio
+            FROM eda262_g03_refined.preco_por_periodo
+            GROUP BY departure_time, arrival_time
+            ORDER BY preco_medio DESC
+        EOT -> null
+      - workgroup   = "eda262-g03-athena" -> null
+    }
+
+  # module.data_lake.aws_athena_named_query.negocio_trusted will be destroyed
+  - resource "aws_athena_named_query" "negocio_trusted" {
+      - database    = "eda262_g03_trusted" -> null
+      - description = "Mesma pergunta calculada direto na trusted (comparacao de custo)" -> null
+      - id          = "6d861fb3-5983-4cf7-a543-a59d5d6bdf4e" -> null
+      - name        = "eda262-g03-negocio-trusted" -> null
+      - query       = <<-EOT
+            -- Mesma pergunta calculada direto na trusted (Parquet), para comparar o
+            -- volume escaneado com a refined e com o CSV da Parte 1.
+            SELECT
+                departure_time,
+                arrival_time,
+                COUNT(*)             AS quantidade_passagens,
+                ROUND(AVG(price), 2) AS preco_medio
+            FROM eda262_g03_trusted.flights
+            GROUP BY departure_time, arrival_time
+            ORDER BY preco_medio DESC
+        EOT -> null
+      - workgroup   = "eda262-g03-athena" -> null
+    }
+
+  # module.data_lake.aws_athena_workgroup.this will be destroyed
+  - resource "aws_athena_workgroup" "this" {
+      - arn           = "arn:aws:athena:us-east-1:325583868777:workgroup/eda262-g03-athena" -> null
+      - force_destroy = true -> null
+      - id            = "eda262-g03-athena" -> null
+      - name          = "eda262-g03-athena" -> null
+      - state         = "ENABLED" -> null
+      - tags          = {} -> null
+      - tags_all      = {
+          - "grupo"   = "g03"
+          - "projeto" = "engenharia-de-dados"
+          - "turma"   = "eda262"
+        } -> null
+        # (1 unchanged attribute hidden)
+
+      - configuration {
+          - bytes_scanned_cutoff_per_query     = 104857600 -> null
+          - enforce_workgroup_configuration    = true -> null
+          - publish_cloudwatch_metrics_enabled = true -> null
+          - requester_pays_enabled             = false -> null
+            # (1 unchanged attribute hidden)
+
+          - engine_version {
+              - effective_engine_version = "Athena engine version 3" -> null
+              - selected_engine_version  = "AUTO" -> null
+            }
+
+          - result_configuration {
+              - output_location       = "s3://eda262-g03-athena-results/" -> null
+                # (1 unchanged attribute hidden)
+
+              - encryption_configuration {
+                  - encryption_option = "SSE_S3" -> null
+                    # (1 unchanged attribute hidden)
+                }
+            }
+        }
+    }
+
+  # module.data_lake.aws_glue_catalog_database.camada["raw"] will be destroyed
+  - resource "aws_glue_catalog_database" "camada" {
+      - arn          = "arn:aws:glue:us-east-1:325583868777:database/eda262_g03_raw" -> null
+      - catalog_id   = "325583868777" -> null
+      - description  = "Camada raw do Data Lake de passagens aereas (g03)" -> null
+      - id           = "325583868777:eda262_g03_raw" -> null
+      - name         = "eda262_g03_raw" -> null
+      - parameters   = {} -> null
+      - tags         = {} -> null
+      - tags_all     = {
+          - "grupo"   = "g03"
+          - "projeto" = "engenharia-de-dados"
+          - "turma"   = "eda262"
+        } -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.data_lake.aws_glue_catalog_database.camada["refined"] will be destroyed
+  - resource "aws_glue_catalog_database" "camada" {
+      - arn          = "arn:aws:glue:us-east-1:325583868777:database/eda262_g03_refined" -> null
+      - catalog_id   = "325583868777" -> null
+      - description  = "Camada refined do Data Lake de passagens aereas (g03)" -> null
+      - id           = "325583868777:eda262_g03_refined" -> null
+      - name         = "eda262_g03_refined" -> null
+      - parameters   = {} -> null
+      - tags         = {} -> null
+      - tags_all     = {
+          - "grupo"   = "g03"
+          - "projeto" = "engenharia-de-dados"
+          - "turma"   = "eda262"
+        } -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.data_lake.aws_glue_catalog_database.camada["trusted"] will be destroyed
+  - resource "aws_glue_catalog_database" "camada" {
+      - arn          = "arn:aws:glue:us-east-1:325583868777:database/eda262_g03_trusted" -> null
+      - catalog_id   = "325583868777" -> null
+      - description  = "Camada trusted do Data Lake de passagens aereas (g03)" -> null
+      - id           = "325583868777:eda262_g03_trusted" -> null
+      - name         = "eda262_g03_trusted" -> null
+      - parameters   = {} -> null
+      - tags         = {} -> null
+      - tags_all     = {
+          - "grupo"   = "g03"
+          - "projeto" = "engenharia-de-dados"
+          - "turma"   = "eda262"
+        } -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.data_lake.aws_glue_catalog_table.raw_flights will be destroyed
+  - resource "aws_glue_catalog_table" "raw_flights" {
+      - arn                = "arn:aws:glue:us-east-1:325583868777:table/eda262_g03_raw/flights" -> null
+      - catalog_id         = "325583868777" -> null
+      - database_name      = "eda262_g03_raw" -> null
+      - description        = "Arquivo bruto (CSV gzip) como recebido da fonte" -> null
+      - id                 = "325583868777:eda262_g03_raw:flights" -> null
+      - name               = "flights" -> null
+      - parameters         = {
+          - "EXTERNAL"               = "TRUE"
+          - "classification"         = "csv"
+          - "compressionType"        = "gzip"
+          - "skip.header.line.count" = "1"
+        } -> null
+      - retention          = 0 -> null
+      - table_type         = "EXTERNAL_TABLE" -> null
+        # (3 unchanged attributes hidden)
+
+      - storage_descriptor {
+          - additional_locations      = [] -> null
+          - bucket_columns            = [] -> null
+          - compressed                = false -> null
+          - input_format              = "org.apache.hadoop.mapred.TextInputFormat" -> null
+          - location                  = "s3://eda262-g03-lake-raw/flights/" -> null
+          - number_of_buckets         = 0 -> null
+          - output_format             = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat" -> null
+          - parameters                = {} -> null
+          - stored_as_sub_directories = false -> null
+
+          - columns {
+              - name       = "index" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "airline" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "flight" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "source_city" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "departure_time" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "stops" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "arrival_time" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "destination_city" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "class" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "duration" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "days_left" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "price" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+
+          - ser_de_info {
+                name                  = null
+              - parameters            = {
+                  - "escapeChar"    = "\\"
+                  - "quoteChar"     = "\""
+                  - "separatorChar" = ","
+                } -> null
+              - serialization_library = "org.apache.hadoop.hive.serde2.OpenCSVSerde" -> null
+            }
+        }
+    }
+
+  # module.data_lake.aws_glue_catalog_table.refined_preco_por_periodo will be destroyed
+  - resource "aws_glue_catalog_table" "refined_preco_por_periodo" {
+      - arn                = "arn:aws:glue:us-east-1:325583868777:table/eda262_g03_refined/preco_por_periodo" -> null
+      - catalog_id         = "325583868777" -> null
+      - database_name      = "eda262_g03_refined" -> null
+      - description        = "Preco por combinacao de periodos; grao = class x departure_time x arrival_time" -> null
+      - id                 = "325583868777:eda262_g03_refined:preco_por_periodo" -> null
+      - name               = "preco_por_periodo" -> null
+      - parameters         = {
+          - "EXTERNAL"            = "TRUE"
+          - "classification"      = "parquet"
+          - "parquet.compression" = "SNAPPY"
+        } -> null
+      - retention          = 0 -> null
+      - table_type         = "EXTERNAL_TABLE" -> null
+        # (3 unchanged attributes hidden)
+
+      - partition_keys {
+          - name    = "class" -> null
+          - type    = "string" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - storage_descriptor {
+          - additional_locations      = [] -> null
+          - bucket_columns            = [] -> null
+          - compressed                = false -> null
+          - input_format              = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat" -> null
+          - location                  = "s3://eda262-g03-lake-refined/preco_por_periodo/" -> null
+          - number_of_buckets         = 0 -> null
+          - output_format             = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat" -> null
+          - parameters                = {} -> null
+          - stored_as_sub_directories = false -> null
+
+          - columns {
+              - name       = "departure_time" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "arrival_time" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "qtd_passagens" -> null
+              - parameters = {} -> null
+              - type       = "bigint" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - comment    = "permite recompor a media ponderada entre classes" -> null
+              - name       = "soma_preco" -> null
+              - parameters = {} -> null
+              - type       = "bigint" -> null
+            }
+          - columns {
+              - name       = "preco_medio" -> null
+              - parameters = {} -> null
+              - type       = "double" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - comment    = "approx_percentile 0.5" -> null
+              - name       = "preco_mediano" -> null
+              - parameters = {} -> null
+              - type       = "int" -> null
+            }
+          - columns {
+              - name       = "preco_min" -> null
+              - parameters = {} -> null
+              - type       = "int" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "preco_max" -> null
+              - parameters = {} -> null
+              - type       = "int" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "atualizado_em" -> null
+              - parameters = {} -> null
+              - type       = "timestamp" -> null
+                # (1 unchanged attribute hidden)
+            }
+
+          - ser_de_info {
+                name                  = null
+              - parameters            = {} -> null
+              - serialization_library = "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe" -> null
+            }
+        }
+    }
+
+  # module.data_lake.aws_glue_catalog_table.trusted_flights will be destroyed
+  - resource "aws_glue_catalog_table" "trusted_flights" {
+      - arn                = "arn:aws:glue:us-east-1:325583868777:table/eda262_g03_trusted/flights" -> null
+      - catalog_id         = "325583868777" -> null
+      - database_name      = "eda262_g03_trusted" -> null
+      - description        = "Ofertas de passagem limpas e tipadas; grao = 1 oferta (id_oferta)" -> null
+      - id                 = "325583868777:eda262_g03_trusted:flights" -> null
+      - name               = "flights" -> null
+      - parameters         = {
+          - "EXTERNAL"            = "TRUE"
+          - "classification"      = "parquet"
+          - "parquet.compression" = "SNAPPY"
+        } -> null
+      - retention          = 0 -> null
+      - table_type         = "EXTERNAL_TABLE" -> null
+        # (3 unchanged attributes hidden)
+
+      - partition_keys {
+          - comment = "cidade de origem; unidade de ingestao e de backfill" -> null
+          - name    = "source_city" -> null
+          - type    = "string" -> null
+        }
+
+      - storage_descriptor {
+          - additional_locations      = [] -> null
+          - bucket_columns            = [] -> null
+          - compressed                = false -> null
+          - input_format              = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat" -> null
+          - location                  = "s3://eda262-g03-lake-trusted/flights/" -> null
+          - number_of_buckets         = 0 -> null
+          - output_format             = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat" -> null
+          - parameters                = {} -> null
+          - stored_as_sub_directories = false -> null
+
+          - columns {
+              - comment    = "index do CSV original (unico por oferta)" -> null
+              - name       = "id_oferta" -> null
+              - parameters = {} -> null
+              - type       = "bigint" -> null
+            }
+          - columns {
+              - name       = "airline" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "flight" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - comment    = "periodo de partida" -> null
+              - name       = "departure_time" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+            }
+          - columns {
+              - comment    = "zero / one / two_or_more" -> null
+              - name       = "stops" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+            }
+          - columns {
+              - comment    = "0, 1 ou 2 (2 = duas ou mais)" -> null
+              - name       = "qtd_escalas" -> null
+              - parameters = {} -> null
+              - type       = "int" -> null
+            }
+          - columns {
+              - comment    = "periodo de chegada" -> null
+              - name       = "arrival_time" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+            }
+          - columns {
+              - name       = "destination_city" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - comment    = "Economy / Business" -> null
+              - name       = "class" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+            }
+          - columns {
+              - comment    = "duracao em horas" -> null
+              - name       = "duration" -> null
+              - parameters = {} -> null
+              - type       = "double" -> null
+            }
+          - columns {
+              - comment    = "dias de antecedencia da compra" -> null
+              - name       = "days_left" -> null
+              - parameters = {} -> null
+              - type       = "int" -> null
+            }
+          - columns {
+              - comment    = "preco da passagem" -> null
+              - name       = "price" -> null
+              - parameters = {} -> null
+              - type       = "int" -> null
+            }
+          - columns {
+              - comment    = "momento da (re)carga da particao" -> null
+              - name       = "ingerido_em" -> null
+              - parameters = {} -> null
+              - type       = "timestamp" -> null
+            }
+
+          - ser_de_info {
+                name                  = null
+              - parameters            = {} -> null
+              - serialization_library = "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe" -> null
+            }
+        }
+    }
+
+  # module.data_lake.aws_iam_role.lakeformation_acesso will be destroyed
+  - resource "aws_iam_role" "lakeformation_acesso" {
+      - arn                   = "arn:aws:iam::325583868777:role/eda262-g03-lakeformation-acesso" -> null
+      - assume_role_policy    = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = "sts:AssumeRole"
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "lakeformation.amazonaws.com"
+                        }
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - create_date           = "2026-11-27T20:15:22Z" -> null
+      - description           = "Acesso do Lake Formation aos buckets raw/trusted/refined" -> null
+      - force_detach_policies = false -> null
+      - id                    = "eda262-g03-lakeformation-acesso" -> null
+      - managed_policy_arns   = [] -> null
+      - max_session_duration  = 3600 -> null
+      - name                  = "eda262-g03-lakeformation-acesso" -> null
+      - path                  = "/" -> null
+      - tags                  = {} -> null
+      - tags_all              = {
+          - "grupo"   = "g03"
+          - "projeto" = "engenharia-de-dados"
+          - "turma"   = "eda262"
+        } -> null
+      - unique_id             = "AROAUXTSPSNUY6GISUBWU" -> null
+        # (2 unchanged attributes hidden)
+
+      - inline_policy {
+          - name   = "s3-camadas" -> null
+          - policy = jsonencode(
+                {
+                  - Statement = [
+                      - {
+                          - Action   = [
+                              - "s3:GetObject",
+                              - "s3:PutObject",
+                              - "s3:DeleteObject",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = [
+                              - "arn:aws:s3:::eda262-g03-lake-raw/*",
+                              - "arn:aws:s3:::eda262-g03-lake-refined/*",
+                              - "arn:aws:s3:::eda262-g03-lake-trusted/*",
+                            ]
+                        },
+                      - {
+                          - Action   = [
+                              - "s3:ListBucket",
+                              - "s3:GetBucketLocation",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = [
+                              - "arn:aws:s3:::eda262-g03-lake-raw",
+                              - "arn:aws:s3:::eda262-g03-lake-refined",
+                              - "arn:aws:s3:::eda262-g03-lake-trusted",
+                            ]
+                        },
+                    ]
+                  - Version   = "2012-10-17"
+                }
+            ) -> null
+        }
+    }
+
+  # module.data_lake.aws_iam_role.persona["analista"] will be destroyed
+  - resource "aws_iam_role" "persona" {
+      - arn                   = "arn:aws:iam::325583868777:role/eda262-g03-analista" -> null
+      - assume_role_policy    = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = "sts:AssumeRole"
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - AWS = "arn:aws:iam::325583868777:root"
+                        }
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - create_date           = "2026-11-27T20:15:22Z" -> null
+      - description           = "Consome apenas a camada refined (agregados de negocio)" -> null
+      - force_detach_policies = false -> null
+      - id                    = "eda262-g03-analista" -> null
+      - managed_policy_arns   = [] -> null
+      - max_session_duration  = 3600 -> null
+      - name                  = "eda262-g03-analista" -> null
+      - path                  = "/" -> null
+      - tags                  = {} -> null
+      - tags_all              = {
+          - "grupo"   = "g03"
+          - "projeto" = "engenharia-de-dados"
+          - "turma"   = "eda262"
+        } -> null
+      - unique_id             = "AROAUXTSPSNU4VCMISBKL" -> null
+        # (2 unchanged attributes hidden)
+
+      - inline_policy {
+          - name   = "consulta-athena" -> null
+          - policy = jsonencode(
+                {
+                  - Statement = [
+                      - {
+                          - Action   = [
+                              - "athena:StartQueryExecution",
+                              - "athena:GetQueryExecution",
+                              - "athena:GetQueryResults",
+                              - "athena:StopQueryExecution",
+                              - "athena:GetWorkGroup",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = "arn:aws:athena:us-east-1:325583868777:workgroup/eda262-g03-athena"
+                          - Sid      = "Athena"
+                        },
+                      - {
+                          - Action   = [
+                              - "glue:GetDatabase",
+                              - "glue:GetDatabases",
+                              - "glue:GetTable",
+                              - "glue:GetTables",
+                              - "glue:GetPartition",
+                              - "glue:GetPartitions",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = "*"
+                          - Sid      = "CatalogoGlue"
+                        },
+                      - {
+                          - Action   = [
+                              - "lakeformation:GetDataAccess",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = "*"
+                          - Sid      = "LakeFormation"
+                        },
+                      - {
+                          - Action   = [
+                              - "s3:GetObject",
+                              - "s3:PutObject",
+                              - "s3:AbortMultipartUpload",
+                              - "s3:ListBucket",
+                              - "s3:GetBucketLocation",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = [
+                              - "arn:aws:s3:::eda262-g03-athena-results",
+                              - "arn:aws:s3:::eda262-g03-athena-results/*",
+                            ]
+                          - Sid      = "ResultadosAthena"
+                        },
+                    ]
+                  - Version   = "2012-10-17"
+                }
+            ) -> null
+        }
+    }
+
+  # module.data_lake.aws_iam_role.persona["cientista"] will be destroyed
+  - resource "aws_iam_role" "persona" {
+      - arn                   = "arn:aws:iam::325583868777:role/eda262-g03-cientista" -> null
+      - assume_role_policy    = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = "sts:AssumeRole"
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - AWS = "arn:aws:iam::325583868777:root"
+                        }
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - create_date           = "2026-11-27T20:15:22Z" -> null
+      - description           = "Consome as camadas trusted e refined" -> null
+      - force_detach_policies = false -> null
+      - id                    = "eda262-g03-cientista" -> null
+      - managed_policy_arns   = [] -> null
+      - max_session_duration  = 3600 -> null
+      - name                  = "eda262-g03-cientista" -> null
+      - path                  = "/" -> null
+      - tags                  = {} -> null
+      - tags_all              = {
+          - "grupo"   = "g03"
+          - "projeto" = "engenharia-de-dados"
+          - "turma"   = "eda262"
+        } -> null
+      - unique_id             = "AROAUXTSPSNUQDIYCWDJO" -> null
+        # (2 unchanged attributes hidden)
+
+      - inline_policy {
+          - name   = "consulta-athena" -> null
+          - policy = jsonencode(
+                {
+                  - Statement = [
+                      - {
+                          - Action   = [
+                              - "athena:StartQueryExecution",
+                              - "athena:GetQueryExecution",
+                              - "athena:GetQueryResults",
+                              - "athena:StopQueryExecution",
+                              - "athena:GetWorkGroup",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = "arn:aws:athena:us-east-1:325583868777:workgroup/eda262-g03-athena"
+                          - Sid      = "Athena"
+                        },
+                      - {
+                          - Action   = [
+                              - "glue:GetDatabase",
+                              - "glue:GetDatabases",
+                              - "glue:GetTable",
+                              - "glue:GetTables",
+                              - "glue:GetPartition",
+                              - "glue:GetPartitions",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = "*"
+                          - Sid      = "CatalogoGlue"
+                        },
+                      - {
+                          - Action   = [
+                              - "lakeformation:GetDataAccess",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = "*"
+                          - Sid      = "LakeFormation"
+                        },
+                      - {
+                          - Action   = [
+                              - "s3:GetObject",
+                              - "s3:PutObject",
+                              - "s3:AbortMultipartUpload",
+                              - "s3:ListBucket",
+                              - "s3:GetBucketLocation",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = [
+                              - "arn:aws:s3:::eda262-g03-athena-results",
+                              - "arn:aws:s3:::eda262-g03-athena-results/*",
+                            ]
+                          - Sid      = "ResultadosAthena"
+                        },
+                    ]
+                  - Version   = "2012-10-17"
+                }
+            ) -> null
+        }
+    }
+
+  # module.data_lake.aws_iam_role_policy.lakeformation_acesso will be destroyed
+  - resource "aws_iam_role_policy" "lakeformation_acesso" {
+      - id          = "eda262-g03-lakeformation-acesso:s3-camadas" -> null
+      - name        = "s3-camadas" -> null
+      - policy      = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = [
+                          - "s3:GetObject",
+                          - "s3:PutObject",
+                          - "s3:DeleteObject",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = [
+                          - "arn:aws:s3:::eda262-g03-lake-raw/*",
+                          - "arn:aws:s3:::eda262-g03-lake-refined/*",
+                          - "arn:aws:s3:::eda262-g03-lake-trusted/*",
+                        ]
+                    },
+                  - {
+                      - Action   = [
+                          - "s3:ListBucket",
+                          - "s3:GetBucketLocation",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = [
+                          - "arn:aws:s3:::eda262-g03-lake-raw",
+                          - "arn:aws:s3:::eda262-g03-lake-refined",
+                          - "arn:aws:s3:::eda262-g03-lake-trusted",
+                        ]
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - role        = "eda262-g03-lakeformation-acesso" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.data_lake.aws_iam_role_policy.persona_consulta["analista"] will be destroyed
+  - resource "aws_iam_role_policy" "persona_consulta" {
+      - id          = "eda262-g03-analista:consulta-athena" -> null
+      - name        = "consulta-athena" -> null
+      - policy      = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = [
+                          - "athena:StartQueryExecution",
+                          - "athena:GetQueryExecution",
+                          - "athena:GetQueryResults",
+                          - "athena:StopQueryExecution",
+                          - "athena:GetWorkGroup",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "arn:aws:athena:us-east-1:325583868777:workgroup/eda262-g03-athena"
+                      - Sid      = "Athena"
+                    },
+                  - {
+                      - Action   = [
+                          - "glue:GetDatabase",
+                          - "glue:GetDatabases",
+                          - "glue:GetTable",
+                          - "glue:GetTables",
+                          - "glue:GetPartition",
+                          - "glue:GetPartitions",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "*"
+                      - Sid      = "CatalogoGlue"
+                    },
+                  - {
+                      - Action   = [
+                          - "lakeformation:GetDataAccess",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "*"
+                      - Sid      = "LakeFormation"
+                    },
+                  - {
+                      - Action   = [
+                          - "s3:GetObject",
+                          - "s3:PutObject",
+                          - "s3:AbortMultipartUpload",
+                          - "s3:ListBucket",
+                          - "s3:GetBucketLocation",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = [
+                          - "arn:aws:s3:::eda262-g03-athena-results",
+                          - "arn:aws:s3:::eda262-g03-athena-results/*",
+                        ]
+                      - Sid      = "ResultadosAthena"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - role        = "eda262-g03-analista" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.data_lake.aws_iam_role_policy.persona_consulta["cientista"] will be destroyed
+  - resource "aws_iam_role_policy" "persona_consulta" {
+      - id          = "eda262-g03-cientista:consulta-athena" -> null
+      - name        = "consulta-athena" -> null
+      - policy      = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = [
+                          - "athena:StartQueryExecution",
+                          - "athena:GetQueryExecution",
+                          - "athena:GetQueryResults",
+                          - "athena:StopQueryExecution",
+                          - "athena:GetWorkGroup",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "arn:aws:athena:us-east-1:325583868777:workgroup/eda262-g03-athena"
+                      - Sid      = "Athena"
+                    },
+                  - {
+                      - Action   = [
+                          - "glue:GetDatabase",
+                          - "glue:GetDatabases",
+                          - "glue:GetTable",
+                          - "glue:GetTables",
+                          - "glue:GetPartition",
+                          - "glue:GetPartitions",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "*"
+                      - Sid      = "CatalogoGlue"
+                    },
+                  - {
+                      - Action   = [
+                          - "lakeformation:GetDataAccess",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "*"
+                      - Sid      = "LakeFormation"
+                    },
+                  - {
+                      - Action   = [
+                          - "s3:GetObject",
+                          - "s3:PutObject",
+                          - "s3:AbortMultipartUpload",
+                          - "s3:ListBucket",
+                          - "s3:GetBucketLocation",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = [
+                          - "arn:aws:s3:::eda262-g03-athena-results",
+                          - "arn:aws:s3:::eda262-g03-athena-results/*",
+                        ]
+                      - Sid      = "ResultadosAthena"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - role        = "eda262-g03-cientista" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.data_lake.aws_lakeformation_data_lake_settings.this will be destroyed
+  - resource "aws_lakeformation_data_lake_settings" "this" {
+      - admins                                = [
+          - "arn:aws:iam::325583868777:user/eda-grupo03",
+        ] -> null
+      - allow_external_data_filtering         = false -> null
+      - allow_full_table_external_data_access = false -> null
+      - authorized_session_tag_value_list     = [] -> null
+      - external_data_filtering_allow_list    = [] -> null
+      - id                                    = "3242948791" -> null
+      - parameters                            = {
+          - "CROSS_ACCOUNT_VERSION" = "1"
+          - "SET_CONTEXT"           = "TRUE"
+        } -> null
+      - read_only_admins                      = [] -> null
+      - trusted_resource_owners               = [] -> null
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.engenheiro_local["raw"] will be destroyed
+  - resource "aws_lakeformation_permissions" "engenheiro_local" {
+      - catalog_resource              = false -> null
+      - id                            = "3631058638" -> null
+      - permissions                   = [
+          - "DATA_LOCATION_ACCESS",
+        ] -> null
+      - permissions_with_grant_option = [
+          - "DATA_LOCATION_ACCESS",
+        ] -> null
+      - principal                     = "arn:aws:iam::325583868777:user/eda-grupo03" -> null
+
+      - data_location {
+          - arn        = "arn:aws:s3:::eda262-g03-lake-raw" -> null
+          - catalog_id = "325583868777" -> null
+        }
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.engenheiro_local["refined"] will be destroyed
+  - resource "aws_lakeformation_permissions" "engenheiro_local" {
+      - catalog_resource              = false -> null
+      - id                            = "430369506" -> null
+      - permissions                   = [
+          - "DATA_LOCATION_ACCESS",
+        ] -> null
+      - permissions_with_grant_option = [
+          - "DATA_LOCATION_ACCESS",
+        ] -> null
+      - principal                     = "arn:aws:iam::325583868777:user/eda-grupo03" -> null
+
+      - data_location {
+          - arn        = "arn:aws:s3:::eda262-g03-lake-refined" -> null
+          - catalog_id = "325583868777" -> null
+        }
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.engenheiro_local["trusted"] will be destroyed
+  - resource "aws_lakeformation_permissions" "engenheiro_local" {
+      - catalog_resource              = false -> null
+      - id                            = "926254234" -> null
+      - permissions                   = [
+          - "DATA_LOCATION_ACCESS",
+        ] -> null
+      - permissions_with_grant_option = [
+          - "DATA_LOCATION_ACCESS",
+        ] -> null
+      - principal                     = "arn:aws:iam::325583868777:user/eda-grupo03" -> null
+
+      - data_location {
+          - arn        = "arn:aws:s3:::eda262-g03-lake-trusted" -> null
+          - catalog_id = "325583868777" -> null
+        }
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["raw"] will be destroyed
+  - resource "aws_lakeformation_permissions" "engenheiro_tabelas" {
+      - catalog_resource              = false -> null
+      - id                            = "4162109222" -> null
+      - permissions                   = [
+          - "ALTER",
+          - "DELETE",
+          - "DESCRIBE",
+          - "DROP",
+          - "INSERT",
+          - "SELECT",
+        ] -> null
+      - permissions_with_grant_option = [
+          - "ALL",
+          - "ALTER",
+          - "DELETE",
+          - "DESCRIBE",
+          - "DROP",
+          - "INSERT",
+          - "SELECT",
+        ] -> null
+      - principal                     = "arn:aws:iam::325583868777:user/eda-grupo03" -> null
+
+      - table {
+          - catalog_id    = "325583868777" -> null
+          - database_name = "eda262_g03_raw" -> null
+            name          = null
+          - wildcard      = true -> null
+        }
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["refined"] will be destroyed
+  - resource "aws_lakeformation_permissions" "engenheiro_tabelas" {
+      - catalog_resource              = false -> null
+      - id                            = "3915248737" -> null
+      - permissions                   = [
+          - "ALTER",
+          - "DELETE",
+          - "DESCRIBE",
+          - "DROP",
+          - "INSERT",
+          - "SELECT",
+        ] -> null
+      - permissions_with_grant_option = [
+          - "ALL",
+          - "ALTER",
+          - "DELETE",
+          - "DESCRIBE",
+          - "DROP",
+          - "INSERT",
+          - "SELECT",
+        ] -> null
+      - principal                     = "arn:aws:iam::325583868777:user/eda-grupo03" -> null
+
+      - table {
+          - catalog_id    = "325583868777" -> null
+          - database_name = "eda262_g03_refined" -> null
+            name          = null
+          - wildcard      = true -> null
+        }
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["trusted"] will be destroyed
+  - resource "aws_lakeformation_permissions" "engenheiro_tabelas" {
+      - catalog_resource              = false -> null
+      - id                            = "3009206698" -> null
+      - permissions                   = [
+          - "ALTER",
+          - "DELETE",
+          - "DESCRIBE",
+          - "DROP",
+          - "INSERT",
+          - "SELECT",
+        ] -> null
+      - permissions_with_grant_option = [
+          - "ALL",
+          - "ALTER",
+          - "DELETE",
+          - "DESCRIBE",
+          - "DROP",
+          - "INSERT",
+          - "SELECT",
+        ] -> null
+      - principal                     = "arn:aws:iam::325583868777:user/eda-grupo03" -> null
+
+      - table {
+          - catalog_id    = "325583868777" -> null
+          - database_name = "eda262_g03_trusted" -> null
+            name          = null
+          - wildcard      = true -> null
+        }
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.leitor_database["refined-analista"] will be destroyed
+  - resource "aws_lakeformation_permissions" "leitor_database" {
+      - catalog_resource              = false -> null
+      - id                            = "1625165637" -> null
+      - permissions                   = [
+          - "DESCRIBE",
+        ] -> null
+      - permissions_with_grant_option = [] -> null
+      - principal                     = "arn:aws:iam::325583868777:role/eda262-g03-analista" -> null
+
+      - database {
+          - catalog_id = "325583868777" -> null
+          - name       = "eda262_g03_refined" -> null
+        }
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.leitor_database["refined-cientista"] will be destroyed
+  - resource "aws_lakeformation_permissions" "leitor_database" {
+      - catalog_resource              = false -> null
+      - id                            = "2074110572" -> null
+      - permissions                   = [
+          - "DESCRIBE",
+        ] -> null
+      - permissions_with_grant_option = [] -> null
+      - principal                     = "arn:aws:iam::325583868777:role/eda262-g03-cientista" -> null
+
+      - database {
+          - catalog_id = "325583868777" -> null
+          - name       = "eda262_g03_refined" -> null
+        }
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.leitor_database["trusted-cientista"] will be destroyed
+  - resource "aws_lakeformation_permissions" "leitor_database" {
+      - catalog_resource              = false -> null
+      - id                            = "1429406740" -> null
+      - permissions                   = [
+          - "DESCRIBE",
+        ] -> null
+      - permissions_with_grant_option = [] -> null
+      - principal                     = "arn:aws:iam::325583868777:role/eda262-g03-cientista" -> null
+
+      - database {
+          - catalog_id = "325583868777" -> null
+          - name       = "eda262_g03_trusted" -> null
+        }
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.leitor_tabelas["refined-analista"] will be destroyed
+  - resource "aws_lakeformation_permissions" "leitor_tabelas" {
+      - catalog_resource              = false -> null
+      - id                            = "3454303457" -> null
+      - permissions                   = [
+          - "DESCRIBE",
+          - "SELECT",
+        ] -> null
+      - permissions_with_grant_option = [] -> null
+      - principal                     = "arn:aws:iam::325583868777:role/eda262-g03-analista" -> null
+
+      - table {
+          - catalog_id    = "325583868777" -> null
+          - database_name = "eda262_g03_refined" -> null
+            name          = null
+          - wildcard      = true -> null
+        }
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.leitor_tabelas["refined-cientista"] will be destroyed
+  - resource "aws_lakeformation_permissions" "leitor_tabelas" {
+      - catalog_resource              = false -> null
+      - id                            = "3863959994" -> null
+      - permissions                   = [
+          - "DESCRIBE",
+          - "SELECT",
+        ] -> null
+      - permissions_with_grant_option = [] -> null
+      - principal                     = "arn:aws:iam::325583868777:role/eda262-g03-cientista" -> null
+
+      - table {
+          - catalog_id    = "325583868777" -> null
+          - database_name = "eda262_g03_refined" -> null
+            name          = null
+          - wildcard      = true -> null
+        }
+    }
+
+  # module.data_lake.aws_lakeformation_permissions.leitor_tabelas["trusted-cientista"] will be destroyed
+  - resource "aws_lakeformation_permissions" "leitor_tabelas" {
+      - catalog_resource              = false -> null
+      - id                            = "3159258225" -> null
+      - permissions                   = [
+          - "DESCRIBE",
+          - "SELECT",
+        ] -> null
+      - permissions_with_grant_option = [] -> null
+      - principal                     = "arn:aws:iam::325583868777:role/eda262-g03-cientista" -> null
+
+      - table {
+          - catalog_id    = "325583868777" -> null
+          - database_name = "eda262_g03_trusted" -> null
+            name          = null
+          - wildcard      = true -> null
+        }
+    }
+
+  # module.data_lake.aws_lakeformation_resource.camada["raw"] will be destroyed
+  - resource "aws_lakeformation_resource" "camada" {
+      - arn                   = "arn:aws:s3:::eda262-g03-lake-raw" -> null
+      - hybrid_access_enabled = false -> null
+      - id                    = "arn:aws:s3:::eda262-g03-lake-raw" -> null
+      - role_arn              = "arn:aws:iam::325583868777:role/eda262-g03-lakeformation-acesso" -> null
+      - with_federation       = false -> null
+    }
+
+  # module.data_lake.aws_lakeformation_resource.camada["refined"] will be destroyed
+  - resource "aws_lakeformation_resource" "camada" {
+      - arn                   = "arn:aws:s3:::eda262-g03-lake-refined" -> null
+      - hybrid_access_enabled = false -> null
+      - id                    = "arn:aws:s3:::eda262-g03-lake-refined" -> null
+      - role_arn              = "arn:aws:iam::325583868777:role/eda262-g03-lakeformation-acesso" -> null
+      - with_federation       = false -> null
+    }
+
+  # module.data_lake.aws_lakeformation_resource.camada["trusted"] will be destroyed
+  - resource "aws_lakeformation_resource" "camada" {
+      - arn                   = "arn:aws:s3:::eda262-g03-lake-trusted" -> null
+      - hybrid_access_enabled = false -> null
+      - id                    = "arn:aws:s3:::eda262-g03-lake-trusted" -> null
+      - role_arn              = "arn:aws:iam::325583868777:role/eda262-g03-lakeformation-acesso" -> null
+      - with_federation       = false -> null
+    }
+
+  # module.data_lake.aws_s3_bucket.athena_results will be destroyed
+  - resource "aws_s3_bucket" "athena_results" {
+      - arn                         = "arn:aws:s3:::eda262-g03-athena-results" -> null
+      - bucket                      = "eda262-g03-athena-results" -> null
+      - bucket_domain_name          = "eda262-g03-athena-results.s3.amazonaws.com" -> null
+      - bucket_regional_domain_name = "eda262-g03-athena-results.s3.us-east-1.amazonaws.com" -> null
+      - force_destroy               = true -> null
+      - hosted_zone_id              = "Z3AQBSTGFYJSTF" -> null
+      - id                          = "eda262-g03-athena-results" -> null
+      - object_lock_enabled         = false -> null
+      - region                      = "us-east-1" -> null
+      - request_payer               = "BucketOwner" -> null
+      - tags                        = {} -> null
+      - tags_all                    = {
+          - "grupo"   = "g03"
+          - "projeto" = "engenharia-de-dados"
+          - "turma"   = "eda262"
+        } -> null
+        # (3 unchanged attributes hidden)
+
+      - grant {
+          - id          = "8022b3bfe1e45d090335847dc77b594076fc7367a05e12aaab58998de2bef47e" -> null
+          - permissions = [
+              - "FULL_CONTROL",
+            ] -> null
+          - type        = "CanonicalUser" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - lifecycle_rule {
+          - abort_incomplete_multipart_upload_days = 0 -> null
+          - enabled                                = true -> null
+          - id                                     = "expira-resultados" -> null
+          - tags                                   = {} -> null
+            # (1 unchanged attribute hidden)
+
+          - expiration {
+              - days                         = 7 -> null
+              - expired_object_delete_marker = false -> null
+                # (1 unchanged attribute hidden)
+            }
+        }
+
+      - server_side_encryption_configuration {
+          - rule {
+              - bucket_key_enabled = false -> null
+
+              - apply_server_side_encryption_by_default {
+                  - sse_algorithm     = "AES256" -> null
+                    # (1 unchanged attribute hidden)
+                }
+            }
+        }
+
+      - versioning {
+          - enabled    = false -> null
+          - mfa_delete = false -> null
+        }
+    }
+
+  # module.data_lake.aws_s3_bucket.camada["raw"] will be destroyed
+  - resource "aws_s3_bucket" "camada" {
+      - arn                         = "arn:aws:s3:::eda262-g03-lake-raw" -> null
+      - bucket                      = "eda262-g03-lake-raw" -> null
+      - bucket_domain_name          = "eda262-g03-lake-raw.s3.amazonaws.com" -> null
+      - bucket_regional_domain_name = "eda262-g03-lake-raw.s3.us-east-1.amazonaws.com" -> null
+      - force_destroy               = true -> null
+      - hosted_zone_id              = "Z3AQBSTGFYJSTF" -> null
+      - id                          = "eda262-g03-lake-raw" -> null
+      - object_lock_enabled         = false -> null
+      - region                      = "us-east-1" -> null
+      - request_payer               = "BucketOwner" -> null
+      - tags                        = {
+          - "camada" = "raw"
+        } -> null
+      - tags_all                    = {
+          - "camada"  = "raw"
+          - "grupo"   = "g03"
+          - "projeto" = "engenharia-de-dados"
+          - "turma"   = "eda262"
+        } -> null
+        # (3 unchanged attributes hidden)
+
+      - grant {
+          - id          = "8022b3bfe1e45d090335847dc77b594076fc7367a05e12aaab58998de2bef47e" -> null
+          - permissions = [
+              - "FULL_CONTROL",
+            ] -> null
+          - type        = "CanonicalUser" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - lifecycle_rule {
+          - abort_incomplete_multipart_upload_days = 0 -> null
+          - enabled                                = true -> null
+          - id                                     = "expira-versoes-antigas" -> null
+          - tags                                   = {} -> null
+            # (1 unchanged attribute hidden)
+
+          - noncurrent_version_expiration {
+              - days = 7 -> null
+            }
+        }
+
+      - server_side_encryption_configuration {
+          - rule {
+              - bucket_key_enabled = false -> null
+
+              - apply_server_side_encryption_by_default {
+                  - sse_algorithm     = "AES256" -> null
+                    # (1 unchanged attribute hidden)
+                }
+            }
+        }
+
+      - versioning {
+          - enabled    = true -> null
+          - mfa_delete = false -> null
+        }
+    }
+
+  # module.data_lake.aws_s3_bucket.camada["refined"] will be destroyed
+  - resource "aws_s3_bucket" "camada" {
+      - arn                         = "arn:aws:s3:::eda262-g03-lake-refined" -> null
+      - bucket                      = "eda262-g03-lake-refined" -> null
+      - bucket_domain_name          = "eda262-g03-lake-refined.s3.amazonaws.com" -> null
+      - bucket_regional_domain_name = "eda262-g03-lake-refined.s3.us-east-1.amazonaws.com" -> null
+      - force_destroy               = true -> null
+      - hosted_zone_id              = "Z3AQBSTGFYJSTF" -> null
+      - id                          = "eda262-g03-lake-refined" -> null
+      - object_lock_enabled         = false -> null
+      - region                      = "us-east-1" -> null
+      - request_payer               = "BucketOwner" -> null
+      - tags                        = {
+          - "camada" = "refined"
+        } -> null
+      - tags_all                    = {
+          - "camada"  = "refined"
+          - "grupo"   = "g03"
+          - "projeto" = "engenharia-de-dados"
+          - "turma"   = "eda262"
+        } -> null
+        # (3 unchanged attributes hidden)
+
+      - grant {
+          - id          = "8022b3bfe1e45d090335847dc77b594076fc7367a05e12aaab58998de2bef47e" -> null
+          - permissions = [
+              - "FULL_CONTROL",
+            ] -> null
+          - type        = "CanonicalUser" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - server_side_encryption_configuration {
+          - rule {
+              - bucket_key_enabled = false -> null
+
+              - apply_server_side_encryption_by_default {
+                  - sse_algorithm     = "AES256" -> null
+                    # (1 unchanged attribute hidden)
+                }
+            }
+        }
+
+      - versioning {
+          - enabled    = false -> null
+          - mfa_delete = false -> null
+        }
+    }
+
+  # module.data_lake.aws_s3_bucket.camada["trusted"] will be destroyed
+  - resource "aws_s3_bucket" "camada" {
+      - arn                         = "arn:aws:s3:::eda262-g03-lake-trusted" -> null
+      - bucket                      = "eda262-g03-lake-trusted" -> null
+      - bucket_domain_name          = "eda262-g03-lake-trusted.s3.amazonaws.com" -> null
+      - bucket_regional_domain_name = "eda262-g03-lake-trusted.s3.us-east-1.amazonaws.com" -> null
+      - force_destroy               = true -> null
+      - hosted_zone_id              = "Z3AQBSTGFYJSTF" -> null
+      - id                          = "eda262-g03-lake-trusted" -> null
+      - object_lock_enabled         = false -> null
+      - region                      = "us-east-1" -> null
+      - request_payer               = "BucketOwner" -> null
+      - tags                        = {
+          - "camada" = "trusted"
+        } -> null
+      - tags_all                    = {
+          - "camada"  = "trusted"
+          - "grupo"   = "g03"
+          - "projeto" = "engenharia-de-dados"
+          - "turma"   = "eda262"
+        } -> null
+        # (3 unchanged attributes hidden)
+
+      - grant {
+          - id          = "8022b3bfe1e45d090335847dc77b594076fc7367a05e12aaab58998de2bef47e" -> null
+          - permissions = [
+              - "FULL_CONTROL",
+            ] -> null
+          - type        = "CanonicalUser" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - lifecycle_rule {
+          - abort_incomplete_multipart_upload_days = 0 -> null
+          - enabled                                = true -> null
+          - id                                     = "expira-versoes-antigas" -> null
+          - tags                                   = {} -> null
+            # (1 unchanged attribute hidden)
+
+          - noncurrent_version_expiration {
+              - days = 7 -> null
+            }
+        }
+
+      - server_side_encryption_configuration {
+          - rule {
+              - bucket_key_enabled = false -> null
+
+              - apply_server_side_encryption_by_default {
+                  - sse_algorithm     = "AES256" -> null
+                    # (1 unchanged attribute hidden)
+                }
+            }
+        }
+
+      - versioning {
+          - enabled    = true -> null
+          - mfa_delete = false -> null
+        }
+    }
+
+  # module.data_lake.aws_s3_bucket_lifecycle_configuration.athena_results will be destroyed
+  - resource "aws_s3_bucket_lifecycle_configuration" "athena_results" {
+      - bucket                                 = "eda262-g03-athena-results" -> null
+      - id                                     = "eda262-g03-athena-results" -> null
+      - transition_default_minimum_object_size = "all_storage_classes_128K" -> null
+        # (1 unchanged attribute hidden)
+
+      - rule {
+          - id     = "expira-resultados" -> null
+          - status = "Enabled" -> null
+            # (1 unchanged attribute hidden)
+
+          - expiration {
+              - days                         = 7 -> null
+              - expired_object_delete_marker = false -> null
+            }
+
+          - filter {
+                # (1 unchanged attribute hidden)
+            }
+        }
+    }
+
+  # module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["raw"] will be destroyed
+  - resource "aws_s3_bucket_lifecycle_configuration" "camada" {
+      - bucket                                 = "eda262-g03-lake-raw" -> null
+      - id                                     = "eda262-g03-lake-raw" -> null
+      - transition_default_minimum_object_size = "all_storage_classes_128K" -> null
+        # (1 unchanged attribute hidden)
+
+      - rule {
+          - id     = "expira-versoes-antigas" -> null
+          - status = "Enabled" -> null
+            # (1 unchanged attribute hidden)
+
+          - filter {
+                # (1 unchanged attribute hidden)
+            }
+
+          - noncurrent_version_expiration {
+              - noncurrent_days = 7 -> null
+            }
+        }
+    }
+
+  # module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["trusted"] will be destroyed
+  - resource "aws_s3_bucket_lifecycle_configuration" "camada" {
+      - bucket                                 = "eda262-g03-lake-trusted" -> null
+      - id                                     = "eda262-g03-lake-trusted" -> null
+      - transition_default_minimum_object_size = "all_storage_classes_128K" -> null
+        # (1 unchanged attribute hidden)
+
+      - rule {
+          - id     = "expira-versoes-antigas" -> null
+          - status = "Enabled" -> null
+            # (1 unchanged attribute hidden)
+
+          - filter {
+                # (1 unchanged attribute hidden)
+            }
+
+          - noncurrent_version_expiration {
+              - noncurrent_days = 7 -> null
+            }
+        }
+    }
+
+  # module.data_lake.aws_s3_bucket_public_access_block.athena_results will be destroyed
+  - resource "aws_s3_bucket_public_access_block" "athena_results" {
+      - block_public_acls       = true -> null
+      - block_public_policy     = true -> null
+      - bucket                  = "eda262-g03-athena-results" -> null
+      - id                      = "eda262-g03-athena-results" -> null
+      - ignore_public_acls      = true -> null
+      - restrict_public_buckets = true -> null
+    }
+
+  # module.data_lake.aws_s3_bucket_public_access_block.camada["raw"] will be destroyed
+  - resource "aws_s3_bucket_public_access_block" "camada" {
+      - block_public_acls       = true -> null
+      - block_public_policy     = true -> null
+      - bucket                  = "eda262-g03-lake-raw" -> null
+      - id                      = "eda262-g03-lake-raw" -> null
+      - ignore_public_acls      = true -> null
+      - restrict_public_buckets = true -> null
+    }
+
+  # module.data_lake.aws_s3_bucket_public_access_block.camada["refined"] will be destroyed
+  - resource "aws_s3_bucket_public_access_block" "camada" {
+      - block_public_acls       = true -> null
+      - block_public_policy     = true -> null
+      - bucket                  = "eda262-g03-lake-refined" -> null
+      - id                      = "eda262-g03-lake-refined" -> null
+      - ignore_public_acls      = true -> null
+      - restrict_public_buckets = true -> null
+    }
+
+  # module.data_lake.aws_s3_bucket_public_access_block.camada["trusted"] will be destroyed
+  - resource "aws_s3_bucket_public_access_block" "camada" {
+      - block_public_acls       = true -> null
+      - block_public_policy     = true -> null
+      - bucket                  = "eda262-g03-lake-trusted" -> null
+      - id                      = "eda262-g03-lake-trusted" -> null
+      - ignore_public_acls      = true -> null
+      - restrict_public_buckets = true -> null
+    }
+
+  # module.data_lake.aws_s3_bucket_versioning.camada["raw"] will be destroyed
+  - resource "aws_s3_bucket_versioning" "camada" {
+      - bucket                = "eda262-g03-lake-raw" -> null
+      - id                    = "eda262-g03-lake-raw" -> null
+        # (1 unchanged attribute hidden)
+
+      - versioning_configuration {
+          - status     = "Enabled" -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # module.data_lake.aws_s3_bucket_versioning.camada["trusted"] will be destroyed
+  - resource "aws_s3_bucket_versioning" "camada" {
+      - bucket                = "eda262-g03-lake-trusted" -> null
+      - id                    = "eda262-g03-lake-trusted" -> null
+        # (1 unchanged attribute hidden)
+
+      - versioning_configuration {
+          - status     = "Enabled" -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+Plan: 0 to add, 0 to change, 44 to destroy.
+
+Changes to Outputs:
+  - athena_results_bucket_name = "eda262-g03-athena-results" -> null
+  - athena_workgroup_name      = "eda262-g03-athena" -> null
+  - buckets                    = {
+      - raw     = "eda262-g03-lake-raw"
+      - refined = "eda262-g03-lake-refined"
+      - trusted = "eda262-g03-lake-trusted"
+    } -> null
+  - glue_databases             = {
+      - raw     = "eda262_g03_raw"
+      - refined = "eda262_g03_refined"
+      - trusted = "eda262_g03_trusted"
+    } -> null
+  - glue_tables                = {
+      - raw     = "eda262_g03_raw.flights"
+      - refined = "eda262_g03_refined.preco_por_periodo"
+      - trusted = "eda262_g03_trusted.flights"
+    } -> null
+  - lakeformation_admin_arn    = "arn:aws:iam::325583868777:user/eda-grupo03" -> null
+  - role_analista_arn          = "arn:aws:iam::325583868777:role/eda262-g03-analista" -> null
+  - role_cientista_arn         = "arn:aws:iam::325583868777:role/eda262-g03-cientista" -> null
+
+Do you really want to destroy all resources in workspace "dev"?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value: 
+module.data_lake.aws_iam_role_policy.persona_consulta["cientista"]: Destroying... [id=eda262-g03-cientista:consulta-athena]
+module.data_lake.aws_lakeformation_permissions.leitor_tabelas["refined-analista"]: Destroying... [id=3454303457]
+module.data_lake.aws_s3_bucket_public_access_block.camada["raw"]: Destroying... [id=eda262-g03-lake-raw]
+module.data_lake.aws_lakeformation_permissions.engenheiro_local["trusted"]: Destroying... [id=926254234]
+module.data_lake.aws_lakeformation_permissions.leitor_tabelas["refined-cientista"]: Destroying... [id=3863959994]
+module.data_lake.aws_athena_named_query.negocio_trusted: Destroying... [id=6d861fb3-5983-4cf7-a543-a59d5d6bdf4e]
+module.data_lake.aws_lakeformation_permissions.leitor_database["trusted-cientista"]: Destroying... [id=1429406740]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["trusted"]: Destroying... [id=eda262-g03-lake-trusted]
+module.data_lake.aws_lakeformation_permissions.leitor_database["refined-cientista"]: Destroying... [id=2074110572]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.athena_results: Destroying... [id=eda262-g03-athena-results]
+module.data_lake.aws_athena_named_query.negocio_trusted: Destruction complete after 1s
+module.data_lake.aws_lakeformation_permissions.engenheiro_local["refined"]: Destroying... [id=430369506]
+module.data_lake.aws_lakeformation_permissions.engenheiro_local["trusted"]: Destruction complete after 1s
+module.data_lake.aws_athena_named_query.negocio_refined: Destroying... [id=23a6fc9a-dd36-4dda-8224-7fc5ed434bd2]
+module.data_lake.aws_lakeformation_permissions.engenheiro_local["refined"]: Destruction complete after 0s
+module.data_lake.aws_lakeformation_permissions.leitor_database["refined-analista"]: Destroying... [id=1625165637]
+module.data_lake.aws_iam_role_policy.persona_consulta["cientista"]: Destruction complete after 1s
+module.data_lake.aws_lakeformation_permissions.engenheiro_local["raw"]: Destroying... [id=3631058638]
+module.data_lake.aws_athena_named_query.negocio_refined: Destruction complete after 0s
+module.data_lake.aws_iam_role_policy.persona_consulta["analista"]: Destroying... [id=eda262-g03-analista:consulta-athena]
+module.data_lake.aws_s3_bucket_public_access_block.camada["raw"]: Destruction complete after 1s
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["raw"]: Destroying... [id=eda262-g03-lake-raw]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.athena_results: Destruction complete after 1s
+module.data_lake.aws_s3_bucket_public_access_block.athena_results: Destroying... [id=eda262-g03-athena-results]
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["trusted"]: Destruction complete after 1s
+module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["refined"]: Destroying... [id=3915248737]
+module.data_lake.aws_lakeformation_permissions.leitor_tabelas["refined-analista"]: Destruction complete after 1s
+module.data_lake.aws_s3_bucket_public_access_block.camada["trusted"]: Destroying... [id=eda262-g03-lake-trusted]
+module.data_lake.aws_lakeformation_permissions.leitor_database["trusted-cientista"]: Destruction complete after 1s
+module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["trusted"]: Destroying... [id=3009206698]
+module.data_lake.aws_lakeformation_permissions.leitor_tabelas["refined-cientista"]: Destruction complete after 1s
+module.data_lake.aws_s3_bucket_public_access_block.camada["refined"]: Destroying... [id=eda262-g03-lake-refined]
+module.data_lake.aws_lakeformation_permissions.engenheiro_local["raw"]: Destruction complete after 0s
+module.data_lake.aws_lakeformation_permissions.leitor_tabelas["trusted-cientista"]: Destroying... [id=3159258225]
+module.data_lake.aws_lakeformation_permissions.leitor_database["refined-cientista"]: Destruction complete after 1s
+module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["raw"]: Destroying... [id=4162109222]
+module.data_lake.aws_iam_role_policy.persona_consulta["analista"]: Destruction complete after 0s
+module.data_lake.aws_athena_workgroup.this: Destroying... [id=eda262-g03-athena]
+module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["refined"]: Destruction complete after 0s
+module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["trusted"]: Destruction complete after 0s
+module.data_lake.aws_s3_bucket_public_access_block.athena_results: Destruction complete after 0s
+module.data_lake.aws_s3_bucket_lifecycle_configuration.camada["raw"]: Destruction complete after 0s
+module.data_lake.aws_s3_bucket_versioning.camada["trusted"]: Destroying... [id=eda262-g03-lake-trusted]
+module.data_lake.aws_s3_bucket_versioning.camada["raw"]: Destroying... [id=eda262-g03-lake-raw]
+module.data_lake.aws_lakeformation_permissions.engenheiro_tabelas["raw"]: Destruction complete after 0s
+module.data_lake.aws_s3_bucket_public_access_block.camada["trusted"]: Destruction complete after 0s
+module.data_lake.aws_athena_workgroup.this: Destruction complete after 0s
+module.data_lake.aws_s3_bucket.athena_results: Destroying... [id=eda262-g03-athena-results]
+module.data_lake.aws_lakeformation_permissions.leitor_database["refined-analista"]: Destruction complete after 0s
+module.data_lake.aws_s3_bucket_versioning.camada["raw"]: Destruction complete after 0s
+module.data_lake.aws_s3_bucket_versioning.camada["trusted"]: Destruction complete after 0s
+module.data_lake.aws_lakeformation_permissions.leitor_tabelas["trusted-cientista"]: Destruction complete after 0s
+module.data_lake.aws_lakeformation_resource.camada["refined"]: Destroying... [id=arn:aws:s3:::eda262-g03-lake-refined]
+module.data_lake.aws_lakeformation_resource.camada["trusted"]: Destroying... [id=arn:aws:s3:::eda262-g03-lake-trusted]
+module.data_lake.aws_lakeformation_resource.camada["raw"]: Destroying... [id=arn:aws:s3:::eda262-g03-lake-raw]
+module.data_lake.aws_iam_role.persona["analista"]: Destroying... [id=eda262-g03-analista]
+module.data_lake.aws_iam_role.persona["cientista"]: Destroying... [id=eda262-g03-cientista]
+module.data_lake.aws_s3_bucket_public_access_block.camada["refined"]: Destruction complete after 1s
+module.data_lake.aws_lakeformation_resource.camada["refined"]: Destruction complete after 1s
+module.data_lake.aws_lakeformation_resource.camada["raw"]: Destruction complete after 1s
+module.data_lake.aws_lakeformation_resource.camada["trusted"]: Destruction complete after 1s
+module.data_lake.aws_iam_role_policy.lakeformation_acesso: Destroying... [id=eda262-g03-lakeformation-acesso:s3-camadas]
+module.data_lake.aws_glue_catalog_table.refined_preco_por_periodo: Destroying... [id=325583868777:eda262_g03_refined:preco_por_periodo]
+module.data_lake.aws_glue_catalog_table.raw_flights: Destroying... [id=325583868777:eda262_g03_raw:flights]
+module.data_lake.aws_glue_catalog_table.trusted_flights: Destroying... [id=325583868777:eda262_g03_trusted:flights]
+module.data_lake.aws_iam_role_policy.lakeformation_acesso: Destruction complete after 0s
+module.data_lake.aws_iam_role.lakeformation_acesso: Destroying... [id=eda262-g03-lakeformation-acesso]
+module.data_lake.aws_glue_catalog_table.trusted_flights: Destruction complete after 0s
+module.data_lake.aws_iam_role.persona["cientista"]: Destruction complete after 1s
+module.data_lake.aws_glue_catalog_table.raw_flights: Destruction complete after 0s
+module.data_lake.aws_iam_role.persona["analista"]: Destruction complete after 1s
+module.data_lake.aws_glue_catalog_table.refined_preco_por_periodo: Destruction complete after 0s
+module.data_lake.aws_glue_catalog_database.camada["trusted"]: Destroying... [id=325583868777:eda262_g03_trusted]
+module.data_lake.aws_glue_catalog_database.camada["refined"]: Destroying... [id=325583868777:eda262_g03_refined]
+module.data_lake.aws_glue_catalog_database.camada["raw"]: Destroying... [id=325583868777:eda262_g03_raw]
+module.data_lake.aws_s3_bucket.camada["refined"]: Destroying... [id=eda262-g03-lake-refined]
+module.data_lake.aws_s3_bucket.camada["raw"]: Destroying... [id=eda262-g03-lake-raw]
+module.data_lake.aws_s3_bucket.camada["trusted"]: Destroying... [id=eda262-g03-lake-trusted]
+module.data_lake.aws_iam_role.lakeformation_acesso: Destruction complete after 1s
+module.data_lake.aws_glue_catalog_database.camada["raw"]: Destruction complete after 1s
+module.data_lake.aws_glue_catalog_database.camada["refined"]: Destruction complete after 1s
+module.data_lake.aws_glue_catalog_database.camada["trusted"]: Destruction complete after 1s
+module.data_lake.aws_lakeformation_data_lake_settings.this: Destroying... [id=3242948791]
+module.data_lake.aws_lakeformation_data_lake_settings.this: Destruction complete after 0s
+module.data_lake.aws_s3_bucket.athena_results: Destruction complete after 3s
+module.data_lake.aws_s3_bucket.camada["refined"]: Destruction complete after 2s
+module.data_lake.aws_s3_bucket.camada["trusted"]: Destruction complete after 2s
+module.data_lake.aws_s3_bucket.camada["raw"]: Destruction complete after 2s
+
+Destroy complete! Resources: 44 destroyed.
+# ------------------------------------------------------------
+# fim (UTC):    2026-11-27 21:32:34   duração: 20s   código de saída: 0
